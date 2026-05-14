@@ -288,9 +288,9 @@ function initTaiwanModule() {
       <p class="mt-8">To most of the world, baseball is a sport. To Taiwan, it has been something much more: a stage for national existence, a source of collective pride, and a way to tell the world "we are here." To understand the passion, you have to walk through history.</p>
 
       <div class="info-box mt-16" style="border-left:3px solid #ce1126">
-        <h3>The Core Idea: 國際孤兒 (International Orphan)</h3>
-        <p class="mt-8">After 1971, Taiwan was expelled from the United Nations. It couldn't compete at the Olympics under its own name. Most countries refused to officially recognize it. But baseball? Baseball asked only one thing: play. And Taiwan could play better than almost anyone.</p>
-        <p class="mt-8">For decades, international baseball competitions were one of the very few arenas where Taiwan could stand on a world stage. Winning wasn't just about sport — it was proof of existence.</p>
+        <h3>The "International Orphan" Problem</h3>
+        <p class="mt-8">After 1971, Taiwan was expelled from the United Nations and could no longer compete internationally under its own name. Most countries refused to officially recognize it. International baseball competitions became one of the few remaining stages where Taiwan could appear as itself — and win.</p>
+        <p class="mt-8">This is the context behind the obsession. The wins weren't just athletic achievements. They were moments of national visibility in a world that had largely decided to look away.</p>
       </div>
 
       <!-- Time Corridor -->
@@ -393,12 +393,12 @@ function initTaiwanModule() {
     }
   }
 
+  const slider = document.getElementById('playerSlider');
+
   window.goToSlide = function(idx) {
     currentSlide = (idx + total) % total;
-    const slider = document.getElementById('playerSlider');
     if (!slider) return;
-    const slide = slider.children[currentSlide];
-    if (slide) slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    slider.scrollTo({ left: currentSlide * slider.clientWidth, behavior: 'smooth' });
     updateDots(currentSlide);
   };
 
@@ -407,13 +407,21 @@ function initTaiwanModule() {
     resetAuto();
   };
 
+  // Only auto-advance when the slider is visible in the viewport
+  let sliderVisible = false;
+  const observer = new IntersectionObserver(entries => {
+    sliderVisible = entries[0].isIntersecting;
+  }, { threshold: 0.1 });
+  if (slider) observer.observe(slider);
+
   function resetAuto() {
     clearInterval(autoTimer);
-    autoTimer = setInterval(() => goToSlide(currentSlide + 1), 4000);
+    autoTimer = setInterval(() => {
+      if (sliderVisible) goToSlide(currentSlide + 1);
+    }, 4000);
   }
 
   // Track scroll position to sync dots
-  const slider = document.getElementById('playerSlider');
   if (slider) {
     slider.addEventListener('scroll', () => {
       const idx = Math.round(slider.scrollLeft / slider.clientWidth);

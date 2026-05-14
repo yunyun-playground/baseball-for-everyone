@@ -161,8 +161,8 @@ function buildTeamTile(t) {
 const LEAGUE_LOGOS = {
   'MLB':  'https://commons.wikimedia.org/wiki/Special:FilePath/Major_League_Baseball_logo.svg',
   'NPB':  'https://commons.wikimedia.org/wiki/Special:FilePath/NPB_logo.svg',
-  'KBO':  'https://upload.wikimedia.org/wikipedia/en/thumb/5/5d/Korea_Baseball_Organization_-_2022_logo_with_wordmark_horizontal_full.svg/200px-Korea_Baseball_Organization_-_2022_logo_with_wordmark_horizontal_full.svg.png',
-  'CPBL': 'https://upload.wikimedia.org/wikipedia/en/thumb/f/fd/Chinese_Professional_Baseball_League.svg/200px-Chinese_Professional_Baseball_League.svg.png',
+  'KBO':  'https://upload.wikimedia.org/wikipedia/en/thumb/5/5d/Korea_Baseball_Organization_-_2022_logo_with_wordmark_horizontal_full.svg/250px-Korea_Baseball_Organization_-_2022_logo_with_wordmark_horizontal_full.svg.png',
+  'CPBL': 'https://upload.wikimedia.org/wikipedia/en/thumb/f/fd/Chinese_Professional_Baseball_League.svg/330px-Chinese_Professional_Baseball_League.svg.png',
 };
 
 function buildLeagueLogoSVG(abbr, color, size = 48) {
@@ -170,8 +170,8 @@ function buildLeagueLogoSVG(abbr, color, size = 48) {
   if (url) {
     const fallback = buildLogoFallback(abbr, color, size)
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-    return `<img src="${url}" alt="${abbr} logo" width="${size}" height="${size}"
-      style="object-fit:contain;display:block"
+    return `<img src="${url}" alt="${abbr} logo" height="${size}"
+      style="width:auto;max-width:${size * 4}px;object-fit:contain;display:block"
       onerror="this.outerHTML='${fallback}'">`;
   }
   return buildLogoFallback(abbr, color, size);
@@ -345,7 +345,7 @@ function initLeaguesModule() {
       <!-- KBO Teams -->
       <div style="margin-top:28px">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-          ${buildLeagueLogoSVG('KBO', '#a371f7', 36)}
+          ${buildLeagueLogoSVG('KBO', '#a371f7', 48)}
           <h3 style="margin:0">KBO — 10 Teams</h3>
         </div>
         <div class="team-grid">
@@ -356,12 +356,46 @@ function initLeaguesModule() {
       <!-- CPBL Teams -->
       <div style="margin-top:28px">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-          ${buildLeagueLogoSVG('CPBL', '#ce1126', 36)}
+          ${buildLeagueLogoSVG('CPBL', '#ce1126', 48)}
           <h3 style="margin:0">CPBL — 6 Teams 🇹🇼</h3>
         </div>
         <div class="team-grid">
           ${CPBL_TEAMS.map(t => buildTeamTile(t)).join('')}
         </div>
+      </div>
+
+      <!-- Other Professional Leagues -->
+      <div class="divider"></div>
+      <div class="section-label">Beyond the Pacific</div>
+      <h2>Other Professional Baseball Leagues</h2>
+      <p class="mt-8">These four leagues are our focus — but professional baseball reaches much further. Here are the other leagues worth knowing.</p>
+
+      <div style="display:grid;gap:10px;margin-top:20px">
+        ${[
+          { flag:'🇲🇽', name:'LMB', full:'Liga Mexicana de Béisbol', meta:'Est. 1925 · 16 teams · Summer (Apr–Aug)', color:'#ce1126',
+            notes:['Oldest active professional baseball league in the Americas','16 teams; champion advances to the Caribbean Series','A professional destination for MLB-fringe and Latin American development players'] },
+          { flag:'🇩🇴', name:'LIDOM', full:'Dominican Winter League', meta:'Est. 1951 · 6 teams · Winter (Oct–Jan)', color:'#1B4F9C',
+            notes:['Dominican Republic produces roughly 30% of all active MLB players','Winter season keeps prospects game-ready year-round','Champion advances to the Caribbean Series alongside LMB, LVBP, and Puerto Rico'] },
+          { flag:'🇻🇪', name:'LVBP', full:'Venezuelan Professional Baseball League', meta:'Est. 1945 · 8 teams · Winter (Nov–Jan)', color:'#CF142B',
+            notes:['Produced Cabrera, Altuve, Machado, and dozens of MLB All-Stars','Many players split their year between MLB/MiLB and their home league','Political instability since ~2015 has slowed the talent pipeline, but the league continues'] },
+          { flag:'🇨🇺', name:'Serie Nacional', full:'Cuban National Baseball League', meta:'Est. 1962 · 16 teams', color:'#0032A0',
+            notes:['Historically state-run and non-commercial; Cuba began permitting MLB contracts via third-country agreements in 2018','Major talent source — Yordan Alvarez, José Abreu, Aroldis Chapman all came through this system','Players historically left Cuba via defection before agreements were formalized'] },
+          { flag:'🇦🇺', name:'ABL', full:'Australian Baseball League', meta:'Est. 2010 · 8 teams · Summer (Nov–Feb)', color:'#00843D',
+            notes:['Southern Hemisphere schedule; commonly used by MLB organizations as a winter development destination','Baseball is a minor sport in Australia, but the league has stable infrastructure','Part of the broader Pacific baseball ecosystem, connected to WBSC Asia-Pacific competitions'] },
+        ].map(l => `
+          <div style="background:var(--surface2);border-radius:10px;border-left:3px solid ${l.color};padding:14px 18px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+              <span style="font-size:1.1rem">${l.flag}</span>
+              <span style="font-weight:700;color:${l.color};font-family:'Oswald',sans-serif">${l.name}</span>
+              <span style="font-size:0.8rem;color:var(--text-muted)">${l.full}</span>
+              <span style="font-size:0.72rem;color:var(--text-muted);padding:2px 7px;border-radius:4px;background:rgba(255,255,255,0.06)">${l.meta}</span>
+            </div>
+            <ul style="margin:0;padding-left:16px">
+              ${l.notes.map(n => `<li style="font-size:0.83rem;color:var(--text-muted);line-height:1.6;margin-bottom:2px">${n}</li>`).join('')}
+            </ul>
+          </div>
+        `).join('')}
+        <p style="font-size:0.82rem;color:var(--text-muted);padding:12px 16px;background:var(--surface2);border-radius:8px;line-height:1.65;margin-top:2px"><strong style="color:var(--text)">Also notable:</strong> Semi-professional leagues operate in the Netherlands (Hoofdklasse), Italy, and Spain. China's CBL (中国棒球联赛) is developing. Puerto Rico, Panama, and Colombia each operate winter leagues connected to the Caribbean Series.</p>
       </div>
 
       <!-- Playoff Formats -->

@@ -130,49 +130,10 @@ function initFieldModule() {
 
       <div class="divider"></div>
 
-      <div class="section-label">The Language of Baseball</div>
-      <h2>Key Terms — Organized by When They Matter</h2>
-      <p class="mt-8">Baseball has built up 150 years of vocabulary. These are the terms you'll actually need — organized by the moment in the game they describe.</p>
-
-      <div class="section-label mt-28" style="font-size:0.7rem;color:var(--orange)">WHAT HAPPENS IN A PLATE APPEARANCE</div>
-      <p class="glossary-section-intro mt-8">When a batter steps to the plate, one of these outcomes gets recorded in the box score. Understanding these tells you what's happening at any moment of the game.</p>
-      <div class="two-col mt-8">
-        ${glossaryCard('Home Run (HR)', 'Ball clears the outfield fence in fair territory. The batter — and everyone currently on base — automatically scores. A "Grand Slam" is a HR with the bases loaded: 4 runs on one swing.', buildHRIcon())}
-        ${glossaryCard('Walk (BB — Base on Balls)', 'The pitcher throws 4 balls (outside the zone). The batter gets a free pass to 1st base. From a pitcher\'s side, walks are often called the worst outcome — giving something for free.', buildBBIcon())}
-        ${glossaryCard('Double Play (DP)', 'Two outs recorded on one play. Classic version: ground ball to short → throw to 2nd (force out) → throw to 1st (force out). Two outs, one pitch. Every pitcher\'s best friend.', buildDPIcon())}
-        ${glossaryCard('Sacrifice Fly (SF)', 'Batter hits a fly ball that\'s caught. But a runner on 3rd "tags up" (touches the base) after the catch and races home to score. The batter is out, but the run counts — and the batter isn\'t penalized statistically.', buildSFIcon())}
-        ${glossaryCard('Bunt', 'The batter deliberately lets the ball hit the bat lightly, rolling it slowly near home plate. Usually a sacrifice move to advance a runner at the cost of an out. Rare in modern MLB — analytics show it\'s often a bad trade.', buildBuntIcon())}
-        ${glossaryCard('Hit by Pitch (HBP)', 'Pitcher hits the batter with the ball. The batter automatically walks to 1st base. If it happens intentionally (retaliation), both managers get warned. Batters who crowd the plate get hit more often.', buildBBIcon())}
-      </div>
-
-      <div class="section-label mt-28" style="font-size:0.7rem;color:var(--green-light)">BATTER STATISTICS — HOW HITTERS ARE MEASURED</div>
-      <p class="glossary-section-intro mt-8" style="border-left-color:var(--green)">After hundreds of plate appearances, these numbers summarize how effective a batter is. One single game tells you nothing — the stats only become meaningful over a season.</p>
-      <div class="two-col mt-8">
-        ${glossaryCard('Batting Average (BA)', 'Hits ÷ At-Bats. A batter who gets 3 hits out of 10 at-bats is batting .300 — very good. Under .230 is weak. Ted Williams hit .406 in 1941. Nobody has come close since.', buildBAIcon())}
-        ${glossaryCard('On-Base Percentage (OBP)', 'How often a batter reaches base — counting hits, walks, and hit-by-pitches. Modern analysts consider OBP more important than batting average, because reaching base any way is valuable. .380+ is excellent.', buildOBPIcon())}
-        ${glossaryCard('Slugging Percentage (SLG)', 'Power measurement: total bases earned ÷ at-bats. Singles = 1, Doubles = 2, Triples = 3, Home Runs = 4. A .500 SLG means you average half a base per at-bat. Power hitters often lead this category.', buildSLGIcon())}
-        ${glossaryCard('RBI (Runs Batted In)', 'When a batter gets a hit and a teammate scores as a result, that\'s an RBI (pronounced "ribby"). 100 RBIs in a season is a benchmark for top hitters. It\'s a counting stat — opportunities matter as much as skill.', buildRBIIcon())}
-      </div>
-
-      <div class="section-label mt-28" style="font-size:0.7rem;color:#388bfd">PITCHER TERMS — THE BULLPEN SYSTEM</div>
-      <p class="glossary-section-intro mt-8" style="border-left-color:#388bfd">Starting pitchers don't finish games anymore. Understanding the bullpen system explains why managers are constantly making pitching changes.</p>
-      <div class="two-col mt-8">
-        ${glossaryCard('ERA (Earned Run Average)', 'How many runs a pitcher allows per 9 innings pitched. Under 3.00 is excellent. Around 4.00 is average. Think of it like a golfer\'s score — lower wins. ERA doesn\'t count runs scored due to fielding errors.', buildERAIcon())}
-        ${glossaryCard('Pitch Count', 'How many pitches a starting pitcher has thrown. Around 100 pitches, a starter\'s velocity and sharpness typically drop. Managers usually pull starters before they reach their limit. "Pitch count limits" protect pitchers from injury.', buildStatIcon('~100 pitches', 'typical starter limit', '#388bfd'))}
-        ${glossaryCard('Bullpen', 'The area beyond the outfield fence where relief pitchers warm up before entering the game. Also refers to the collection of relief pitchers on a team\'s roster. "Going to the bullpen" means pulling the starter.', buildStatIcon('SP → RP → CL', 'starter → reliever → closer', '#94a3b8'))}
-        ${glossaryCard('Closer', 'The highest-leverage reliever — the specialist who enters in the 9th inning to preserve a lead. A "save" is recorded when the closer holds a lead of 3 runs or less. Most teams have one dominant closer they protect carefully.', buildCloserIcon())}
-        ${glossaryCard('Wild Pitch', 'A pitch so far from the target that the catcher can\'t stop it, allowing baserunners to advance. Different from a "passed ball" (catcher\'s error). Either way, it\'s embarrassing and can change a game — an unexpected bonus for the offense.', buildWPIcon())}
-        ${glossaryCard('Walk (BB) — Pitcher\'s Perspective', '4 balls means the pitcher loses the duel. Pitchers with high "BB/9" (walks per 9 innings) have control problems. Elite pitchers can throw 7 innings and walk only 1–2 batters. Control is as important as velocity.', buildBBIcon())}
-      </div>
-
-      <div class="section-label mt-28" style="font-size:0.7rem;color:var(--text-muted)">FIELD & GAME SITUATIONS</div>
-      <p class="glossary-section-intro mt-8" style="border-left-color:var(--border)">These terms describe things that happen on the basepaths or in specific game situations — situations that create tension, controversy, and the most memorable moments.</p>
-      <div class="two-col mt-8">
-        ${glossaryCard('Stolen Base (SB)', 'A runner attempts to advance a base while the pitcher is delivering. Requires a good "jump" (reading the pitcher\'s motion), speed, and courage. A catcher\'s throw to 2nd takes ~1.9 seconds. Success rates below 70% actually hurt the team statistically.', buildSBIcon())}
-        ${glossaryCard('Designated Hitter (DH)', 'A player who bats in place of the pitcher, but doesn\'t take a defensive position. Used in all of MLB since 2022, and in Taiwan\'s CPBL. Purists argue it ruins the "chess" of managing; analytics people say it creates better offense.', buildDHIcon())}
-        ${glossaryCard('Infield Fly Rule', 'An automatic out called when a batter pops up in the infield with runners on base and fewer than 2 outs. Prevents fielders from deliberately dropping the ball to start a double play. The rule exists because without it, the defense could trap runners in an unfair way.', buildStatIcon('POP UP', 'runners on base, < 2 outs', '#e3b341'))}
-        ${glossaryCard('Double Switch', 'A two-position substitution where a manager replaces both a pitcher and a position player simultaneously. Used to control which spot in the batting order the new pitcher occupies — avoiding the pitcher batting next inning. Common late-game tactic.', buildStatIcon('P + POS', '2 players, 1 move', '#a371f7'))}
-      </div>
+      <div class="section-label">Try It Out</div>
+      <h2>Baseball Situation Simulator</h2>
+      <p class="mt-8">Step up to the plate. Press any play to see what happens on the field — and learn the rule behind it.</p>
+      <div id="baseballSim" style="margin-top:20px"></div>
 
       <div class="divider"></div>
       <div class="section-label">Ready?</div>
@@ -183,6 +144,7 @@ function initFieldModule() {
       </div>
     </div>
   `;
+  initSimulator();
 }
 
 // ── 5 OUT TYPE SVGs ──
@@ -337,164 +299,6 @@ function buildOutSVG_tagout() {
     <!-- "open field" lines -->
     <line x1="27" y1="55" x2="81" y2="62" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
     <line x1="99" y1="62" x2="153" y2="52" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-  </svg>`;
-}
-
-// ── GLOSSARY MINI ICONS ──
-
-function buildHRIcon() {
-  return `
-  <svg viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:6px">
-    <rect width="70" height="40" fill="#060c18" rx="4"/>
-    <line x1="5" y1="35" x2="65" y2="35" stroke="rgba(100,150,80,0.3)" stroke-width="1"/>
-    <!-- Fence -->
-    <line x1="50" y1="35" x2="50" y2="20" stroke="#475569" stroke-width="1.5"/>
-    <line x1="50" y1="22" x2="65" y2="22" stroke="#475569" stroke-width="1.5"/>
-    <!-- Ball arc -->
-    <path d="M8,33 Q35,2 62,18" stroke="#e3b341" stroke-width="1.5" fill="none"/>
-    <circle cx="62" cy="18" r="3" fill="#e3b341"/>
-    <text x="35" y="39" text-anchor="middle" fill="#e3b341" font-size="7" font-family="Oswald">HOME RUN</text>
-  </svg>`;
-}
-
-function buildBBIcon() {
-  return `
-  <svg viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:6px">
-    <rect width="70" height="40" fill="#060c18" rx="4"/>
-    <text x="35" y="15" text-anchor="middle" fill="#388bfd" font-size="11" font-family="Oswald,sans-serif" font-weight="700">B B B B</text>
-    <line x1="10" y1="20" x2="60" y2="20" stroke="#238636" stroke-width="1.5"/>
-    <circle cx="10" cy="30" r="5" fill="none" stroke="#94a3b8" stroke-width="1"/>
-    <circle cx="22" cy="30" r="5" fill="none" stroke="#94a3b8" stroke-width="1"/>
-    <circle cx="34" cy="30" r="5" fill="none" stroke="#94a3b8" stroke-width="1"/>
-    <circle cx="46" cy="30" r="5" fill="#388bfd" stroke="#388bfd" stroke-width="1"/>
-    <text x="35" y="39" text-anchor="middle" fill="#388bfd" font-size="6" font-family="Inter">4 balls = walk</text>
-  </svg>`;
-}
-
-function buildDPIcon() {
-  return `
-  <svg viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:6px">
-    <rect width="70" height="40" fill="#060c18" rx="4"/>
-    <text x="35" y="16" text-anchor="middle" fill="#f0883e" font-size="12" font-family="Oswald,sans-serif" font-weight="700">6 – 4 – 3</text>
-    <text x="35" y="26" text-anchor="middle" fill="#64748b" font-size="7" font-family="Inter">SS → 2B → 1B</text>
-    <text x="35" y="37" text-anchor="middle" fill="#ff6b7a" font-size="8" font-family="Oswald">2 OUTS, 1 PITCH</text>
-  </svg>`;
-}
-
-function buildSFIcon() {
-  return `
-  <svg viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:6px">
-    <defs>
-      <marker id="sf-arr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
-        <path d="M0,0 L4,2.5 L0,5 Z" fill="#7ee787"/>
-      </marker>
-    </defs>
-    <rect width="70" height="40" fill="#060c18" rx="4"/>
-    <!-- Ball arc -->
-    <path d="M10,30 Q35,5 55,15" stroke="#f0883e" stroke-width="1.5" fill="none"/>
-    <circle cx="55" cy="15" r="4" fill="rgba(100,116,139,0.5)" stroke="#94a3b8" stroke-width="1"/>
-    <!-- Runner scoring from 3rd -->
-    <circle cx="12" cy="30" r="4" fill="#7ee787"/>
-    <path d="M12,26 L12,8" stroke="#7ee787" stroke-width="1.5" marker-end="url(#sf-arr)"/>
-    <circle cx="12" cy="7" r="4" fill="rgba(35,134,54,0.3)" stroke="#7ee787" stroke-width="1"/>
-    <text x="35" y="38" text-anchor="middle" fill="#7ee787" font-size="7" font-family="Oswald">runner scores, batter out</text>
-  </svg>`;
-}
-
-function buildBAIcon() {
-  return `
-  <svg viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:6px">
-    <rect width="70" height="40" fill="#060c18" rx="4"/>
-    <text x="35" y="17" text-anchor="middle" fill="#7ee787" font-size="14" font-family="Oswald,sans-serif" font-weight="700">.300</text>
-    <text x="35" y="27" text-anchor="middle" fill="#64748b" font-size="7.5" font-family="Inter">3 hits per 10 at-bats</text>
-    <text x="35" y="37" text-anchor="middle" fill="#238636" font-size="7" font-family="Inter">H ÷ AB</text>
-  </svg>`;
-}
-
-function buildStatIcon(formula, example, color) {
-  return `<svg viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:6px">
-    <rect width="70" height="40" fill="#060c18" rx="4"/>
-    <text x="35" y="16" text-anchor="middle" fill="${color}" font-size="9.5" font-family="Oswald,sans-serif" font-weight="700">${formula}</text>
-    <line x1="10" y1="20" x2="60" y2="20" stroke="${color}" stroke-width="0.5" opacity="0.4"/>
-    <text x="35" y="32" text-anchor="middle" fill="#64748b" font-size="7.5" font-family="Inter,sans-serif">${example}</text>
-  </svg>`;
-}
-
-function buildBuntIcon() {
-  return `<svg viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:6px">
-    <rect width="70" height="40" fill="#060c18" rx="4"/>
-    <line x1="10" y1="28" x2="55" y2="18" stroke="#e6edf3" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="10" cy="30" r="4" fill="white"/>
-    <path d="M10,26 L28,12" stroke="#f0883e" stroke-width="1.5" fill="none" stroke-dasharray="2,2"/>
-    <circle cx="28" cy="10" r="3" fill="#f0883e" opacity="0.7"/>
-    <text x="55" y="38" text-anchor="middle" fill="#94a3b8" font-size="6.5" font-family="Inter">tap, not swing</text>
-  </svg>`;
-}
-
-function buildSBIcon() {
-  return `<svg viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:6px">
-    <rect width="70" height="40" fill="#060c18" rx="4"/>
-    <rect x="8" y="20" width="10" height="10" fill="white" rx="1" transform="rotate(45,13,25)"/>
-    <rect x="52" y="20" width="10" height="10" fill="#7ee787" rx="1" transform="rotate(45,57,25)"/>
-    <circle cx="20" cy="22" r="5" fill="#f0883e" stroke="white" stroke-width="1"/>
-    <path d="M25,22 L50,22" stroke="#f0883e" stroke-width="1.5" fill="none" stroke-dasharray="3,2"/>
-    <text x="35" y="8" text-anchor="middle" fill="#f0883e" font-size="7" font-family="Oswald">1B → 2B</text>
-    <text x="35" y="38" text-anchor="middle" fill="#7ee787" font-size="6.5" font-family="Inter">stolen!</text>
-  </svg>`;
-}
-
-function buildERAIcon() {
-  return buildStatIcon('ER × 9 ÷ IP', 'e.g. 27 ÷ 9 = 3.00 ERA', '#a371f7');
-}
-
-function buildOBPIcon() {
-  return buildStatIcon('(H + BB + HBP) ÷ PA', '.380+ = excellent', '#7ee787');
-}
-
-function buildSLGIcon() {
-  return buildStatIcon('Total Bases ÷ AB', 'HR=4, 3B=3, 2B=2, 1H=1', '#f0883e');
-}
-
-function buildRBIIcon() {
-  return `<svg viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:6px">
-    <rect width="70" height="40" fill="#060c18" rx="4"/>
-    <circle cx="18" cy="20" r="6" fill="#388bfd" stroke="white" stroke-width="1"/>
-    <text x="18" y="24" text-anchor="middle" fill="white" font-size="7" font-family="Oswald">R</text>
-    <path d="M18,14 L18,6" stroke="#7ee787" stroke-width="1.5" fill="none"/>
-    <circle cx="18" cy="5" r="3" fill="#7ee787" opacity="0.5"/>
-    <text x="45" y="16" text-anchor="middle" fill="#7ee787" font-size="11" font-family="Oswald,sans-serif" font-weight="700">RBI</text>
-    <text x="45" y="30" text-anchor="middle" fill="#64748b" font-size="6.5" font-family="Inter">runner scores</text>
-  </svg>`;
-}
-
-function buildCloserIcon() {
-  return `<svg viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:6px">
-    <rect width="70" height="40" fill="#060c18" rx="4"/>
-    <text x="35" y="15" text-anchor="middle" fill="#e3b341" font-size="11" font-family="Oswald,sans-serif" font-weight="700">SAVE</text>
-    <text x="35" y="25" text-anchor="middle" fill="#64748b" font-size="7" font-family="Inter">lead ≤ 3 runs</text>
-    <text x="35" y="36" text-anchor="middle" fill="#475569" font-size="7" font-family="Inter">9th inning closer</text>
-  </svg>`;
-}
-
-function buildWPIcon() {
-  return `<svg viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:6px">
-    <rect width="70" height="40" fill="#060c18" rx="4"/>
-    <path d="M15,18 Q28,8 30,22 Q32,32 50,30" stroke="#ff6b7a" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <circle cx="50" cy="30" r="4" fill="white"/>
-    <text x="35" y="10" text-anchor="middle" fill="#ff6b7a" font-size="8" font-family="Oswald">WILD PITCH</text>
-  </svg>`;
-}
-
-function buildDHIcon() {
-  return `<svg viewBox="0 0 70 40" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:6px">
-    <rect width="70" height="40" fill="#060c18" rx="4"/>
-    <circle cx="22" cy="18" r="7" fill="rgba(56,139,253,0.2)" stroke="#388bfd" stroke-width="1.5"/>
-    <text x="22" y="22" text-anchor="middle" fill="#388bfd" font-size="7" font-family="Oswald">DH</text>
-    <text x="22" y="35" text-anchor="middle" fill="#64748b" font-size="6" font-family="Inter">bats only</text>
-    <line x1="34" y1="15" x2="38" y2="15" stroke="#475569" stroke-width="1"/>
-    <circle cx="46" cy="18" r="7" fill="rgba(100,116,139,0.2)" stroke="#475569" stroke-width="1.5" stroke-dasharray="2,2"/>
-    <text x="46" y="22" text-anchor="middle" fill="#475569" font-size="7" font-family="Oswald">P</text>
-    <text x="46" y="35" text-anchor="middle" fill="#475569" font-size="6" font-family="Inter">no bat</text>
   </svg>`;
 }
 
@@ -677,15 +481,6 @@ function buildScoreboardSVG() {
       </marker>
     </defs>
   </svg>
-  </div>`;
-}
-
-function glossaryCard(term, def, iconSVG) {
-  return `
-  <div class="info-box" style="padding:14px 16px">
-    ${iconSVG || ''}
-    <h3 style="font-size:0.92rem;margin-bottom:6px">${term}</h3>
-    <p style="font-size:0.84rem;color:#b1bac4;line-height:1.55">${def}</p>
   </div>`;
 }
 

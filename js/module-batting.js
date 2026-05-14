@@ -175,196 +175,96 @@ function initBattingModule() {
 
 function buildBatterHandednessSVG() {
   return `
-  <svg viewBox="0 0 520 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:580px;display:block;margin-top:20px">
-    <rect width="520" height="210" fill="#0d1117" rx="10"/>
+  <svg viewBox="0 0 420 348" xmlns="http://www.w3.org/2000/svg"
+    style="width:100%;max-width:520px;display:block;margin-top:20px;background:#0d1117;border-radius:10px">
 
-    <!-- Title -->
-    <text x="260" y="18" text-anchor="middle" fill="#64748b" font-size="9" font-family="Oswald,sans-serif" letter-spacing="1">CATCHER'S VIEW — looking toward the pitcher mound</text>
+    <text x="210" y="18" text-anchor="middle" fill="#94a3b8" font-size="10"
+      font-family="Oswald,sans-serif" font-weight="600" letter-spacing="1.5">OVERHEAD VIEW — BATTER'S BOX LAYOUT</text>
 
-    <!-- Center divider -->
-    <line x1="260" y1="24" x2="260" y2="200" stroke="#1e293b" stroke-width="1.5"/>
+    <!-- Foul lines from home plate (top = pitcher direction) -->
+    <line x1="210" y1="163" x2="72" y2="38" stroke="#334155" stroke-width="1.5"/>
+    <line x1="210" y1="163" x2="348" y2="38" stroke="#334155" stroke-width="1.5"/>
+    <!-- 90° angle arc near home plate -->
+    <path d="M 188,141 A 27,27 0 0,1 232,141" stroke="#64748b" stroke-width="1" fill="none"/>
+    <text x="210" y="135" text-anchor="middle" fill="#64748b" font-size="8" font-family="Inter,sans-serif">90°</text>
+    <text x="210" y="50" text-anchor="middle" fill="#475569" font-size="8" font-family="Inter,sans-serif">↑ toward pitcher</text>
 
-    <!-- ── LEFT PANEL: RHB ── -->
-    <text x="130" y="40" text-anchor="middle" fill="#388bfd" font-size="12" font-family="Oswald,sans-serif" font-weight="700">RIGHT-HANDED BATTER</text>
-    <text x="130" y="54" text-anchor="middle" fill="#64748b" font-size="9" font-family="Inter,sans-serif">stands in the LEFT batter's box</text>
+    <!-- Home plate pentagon (17" wide, top point toward pitcher) -->
+    <polygon points="210,163 233,183 233,218 187,218 187,183" fill="white" opacity="0.9"/>
+    <text x="210" y="197" text-anchor="middle" fill="#0d1117" font-size="7" font-family="Oswald,sans-serif" font-weight="700">HOME</text>
+    <text x="210" y="209" text-anchor="middle" fill="#0d1117" font-size="7" font-family="Oswald,sans-serif" font-weight="700">PLATE</text>
 
-    <!-- Home plate -->
-    <polygon points="130,195 116,184 116,172 144,172 144,184" fill="white" opacity="0.8"/>
+    <!-- Left batter's box  (right-handed batters) -->
+    <!-- right edge = 187 − 12 (6" gap) = 175 ; width = 108 ; left edge = 67 -->
+    <rect x="67" y="143" width="108" height="170" fill="#388bfd" fill-opacity="0.06"
+      stroke="#388bfd" stroke-width="1.5" stroke-dasharray="6,4" rx="2"/>
+    <text x="121" y="137" text-anchor="middle" fill="#388bfd" font-size="9"
+      font-family="Oswald,sans-serif" font-weight="600">BATTER'S BOX</text>
+    <text x="121" y="236" text-anchor="middle" fill="#388bfd" font-size="8.5"
+      font-family="Inter,sans-serif">RHB stands here</text>
 
-    <!-- Left batter's box (highlighted = RHB's box) -->
-    <rect x="62" y="95" width="42" height="75" fill="#388bfd" opacity="0.1" stroke="#388bfd" stroke-width="1.5" stroke-dasharray="5,3" rx="3"/>
-    <!-- Right batter's box (empty) -->
-    <rect x="156" y="95" width="42" height="75" fill="none" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3" rx="3"/>
+    <!-- Right batter's box (left-handed batters) -->
+    <!-- left edge = 233 + 12 (6" gap) = 245 ; width = 108 ; right edge = 353 -->
+    <rect x="245" y="143" width="108" height="170" fill="#f0883e" fill-opacity="0.06"
+      stroke="#f0883e" stroke-width="1.5" stroke-dasharray="6,4" rx="2"/>
+    <text x="299" y="137" text-anchor="middle" fill="#f0883e" font-size="9"
+      font-family="Oswald,sans-serif" font-weight="600">BATTER'S BOX</text>
+    <text x="299" y="236" text-anchor="middle" fill="#f0883e" font-size="8.5"
+      font-family="Inter,sans-serif">LHB stands here</text>
 
-    <!-- RHB stick figure (in left box, facing RIGHT toward pitcher which is ahead/center) -->
-    <!-- Head -->
-    <circle cx="83" cy="112" r="11" fill="none" stroke="#388bfd" stroke-width="2.5"/>
-    <!-- Body -->
-    <line x1="83" y1="123" x2="83" y2="152" stroke="#388bfd" stroke-width="3" stroke-linecap="round"/>
-    <!-- Arms + bat (bat held to the right = right side for RHB) -->
-    <line x1="83" y1="133" x2="103" y2="138" stroke="#388bfd" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- Bat -->
-    <line x1="103" y1="138" x2="138" y2="128" stroke="#e6edf3" stroke-width="4" stroke-linecap="round"/>
-    <!-- Legs -->
-    <line x1="83" y1="152" x2="71" y2="175" stroke="#388bfd" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="83" y1="152" x2="95" y2="175" stroke="#388bfd" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Catcher's box (43" wide, centered under plate) -->
+    <rect x="151" y="218" width="118" height="72" fill="none"
+      stroke="#475569" stroke-width="1" stroke-dasharray="4,3" rx="2"/>
+    <text x="210" y="261" text-anchor="middle" fill="#64748b" font-size="8"
+      font-family="Oswald,sans-serif">CATCHER'S BOX</text>
 
-    <!-- Annotation -->
-    <text x="83" y="87" text-anchor="middle" fill="#388bfd" font-size="8.5" font-family="Inter,sans-serif">← stands in this box</text>
+    <!-- Dimension: 17" home plate width -->
+    <line x1="187" y1="225" x2="233" y2="225" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="187" y1="222" x2="187" y2="228" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="233" y1="222" x2="233" y2="228" stroke="#64748b" stroke-width="0.8"/>
+    <text x="210" y="237" text-anchor="middle" fill="#64748b" font-size="7.5"
+      font-family="Inter,sans-serif">17" [0.43m]</text>
 
-    <!-- ── RIGHT PANEL: LHB ── -->
-    <text x="390" y="40" text-anchor="middle" fill="#f0883e" font-size="12" font-family="Oswald,sans-serif" font-weight="700">LEFT-HANDED BATTER</text>
-    <text x="390" y="54" text-anchor="middle" fill="#64748b" font-size="9" font-family="Inter,sans-serif">stands in the RIGHT batter's box</text>
+    <!-- Dimension: 6" gap between left box and plate -->
+    <line x1="175" y1="178" x2="187" y2="178" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="175" y1="175" x2="175" y2="181" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="187" y1="175" x2="187" y2="181" stroke="#64748b" stroke-width="0.8"/>
+    <text x="181" y="172" text-anchor="middle" fill="#64748b" font-size="7"
+      font-family="Inter,sans-serif">6"</text>
 
-    <!-- Home plate -->
-    <polygon points="390,195 376,184 376,172 404,172 404,184" fill="white" opacity="0.8"/>
+    <!-- Dimension: 4' box width (below left box) -->
+    <line x1="67" y1="320" x2="175" y2="320" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="67" y1="317" x2="67" y2="323" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="175" y1="317" x2="175" y2="323" stroke="#64748b" stroke-width="0.8"/>
+    <text x="121" y="332" text-anchor="middle" fill="#64748b" font-size="7.5"
+      font-family="Inter,sans-serif">4' [1.22m]</text>
 
-    <!-- Left batter's box (empty) -->
-    <rect x="322" y="95" width="42" height="75" fill="none" stroke="#1e293b" stroke-width="1" stroke-dasharray="3,3" rx="3"/>
-    <!-- Right batter's box (highlighted = LHB's box) -->
-    <rect x="416" y="95" width="42" height="75" fill="#f0883e" opacity="0.1" stroke="#f0883e" stroke-width="1.5" stroke-dasharray="5,3" rx="3"/>
+    <!-- Dimension: 6' box height (left side) -->
+    <line x1="53" y1="143" x2="53" y2="313" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="50" y1="143" x2="56" y2="143" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="50" y1="313" x2="56" y2="313" stroke="#64748b" stroke-width="0.8"/>
+    <text x="40" y="228" text-anchor="middle" fill="#64748b" font-size="7.5"
+      font-family="Inter,sans-serif" transform="rotate(-90,40,228)">6' [1.83m]</text>
 
-    <!-- LHB stick figure (in right box, mirror of RHB) -->
-    <circle cx="437" cy="112" r="11" fill="none" stroke="#f0883e" stroke-width="2.5"/>
-    <line x1="437" y1="123" x2="437" y2="152" stroke="#f0883e" stroke-width="3" stroke-linecap="round"/>
-    <!-- Arms + bat (bat held to the left = left side for LHB) -->
-    <line x1="437" y1="133" x2="417" y2="138" stroke="#f0883e" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="417" y1="138" x2="382" y2="128" stroke="#e6edf3" stroke-width="4" stroke-linecap="round"/>
-    <line x1="437" y1="152" x2="425" y2="175" stroke="#f0883e" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="437" y1="152" x2="449" y2="175" stroke="#f0883e" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Dimension: 43" catcher's box width -->
+    <line x1="151" y1="298" x2="269" y2="298" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="151" y1="295" x2="151" y2="301" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="269" y1="295" x2="269" y2="301" stroke="#64748b" stroke-width="0.8"/>
+    <text x="210" y="310" text-anchor="middle" fill="#64748b" font-size="7.5"
+      font-family="Inter,sans-serif">43" [1.09m]</text>
 
-    <text x="437" y="87" text-anchor="middle" fill="#f0883e" font-size="8.5" font-family="Inter,sans-serif">stands in this box →</text>
-
-    <!-- Bottom legend -->
-    <text x="260" y="207" text-anchor="middle" fill="#475569" font-size="8.5" font-family="Inter,sans-serif">Pitcher is ahead of both batters — this diagram shows which side of home plate each batter stands on</text>
+    <!-- Legend -->
+    <rect x="55" y="336" width="310" height="8" rx="3" fill="#1e293b"/>
+    <text x="68" y="344" fill="#388bfd" font-size="8.5" font-family="Oswald,sans-serif">■ RHB</text>
+    <text x="93" y="344" fill="#64748b" font-size="8" font-family="Inter,sans-serif">Right-handed batter (left box)</text>
+    <text x="233" y="344" fill="#f0883e" font-size="8.5" font-family="Oswald,sans-serif">■ LHB</text>
+    <text x="258" y="344" fill="#64748b" font-size="8" font-family="Inter,sans-serif">Left-handed (right box)</text>
   </svg>`;
 }
 
 function buildStrikeZoneSVG() {
-  const W = 340, H = 300;
-  const gnd = 272;
-  const bx  = 72;
-
-  const zx = 148, zy = 120, zw = 100, zh = 93;
-  const row = zh / 3;
-
-  const headCy = 50, headR = 17;
-  const shoulderY = 84, hipY = 156;
-  const kneeY = 205;
-  const feetY = gnd;
-
-  return `
-  <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg"
-    style="width:100%;max-width:420px;display:block;background:#0d1117;border-radius:10px">
-
-    <text x="${W/2}" y="14" text-anchor="middle" fill="#94a3b8" font-size="10"
-      font-family="Oswald,sans-serif" font-weight="600" letter-spacing="1.5">STRIKE ZONE · SIDE VIEW</text>
-
-    <!-- Ground line -->
-    <line x1="12" y1="${gnd}" x2="${W-12}" y2="${gnd}"
-      stroke="rgba(139,105,20,0.35)" stroke-width="1.5"/>
-
-    <!-- Home plate (pentagon, centered under zone) -->
-    <polygon points="${zx+zw/2},${gnd+5} ${zx+zw/2-13},${gnd} ${zx+zw/2-13},${gnd-10} ${zx+zw/2+13},${gnd-10} ${zx+zw/2+13},${gnd}"
-      fill="white" opacity="0.75"/>
-
-    <!-- ── BATTER (side view, faces right toward pitcher) ── -->
-
-    <!-- Head: filled solid circle -->
-    <circle cx="${bx}" cy="${headCy}" r="${headR}" fill="#f0883e" opacity="0.92"/>
-    <!-- Helmet brim (right side = pitcher direction) -->
-    <path d="M${bx+6},${headCy-headR+2} Q${bx+headR+9},${headCy-headR-2} ${bx+headR+6},${headCy+5}"
-      stroke="#c06020" stroke-width="3" fill="none" stroke-linecap="round"/>
-
-    <!-- Neck -->
-    <line x1="${bx}" y1="${headCy+headR}" x2="${bx}" y2="${shoulderY}"
-      stroke="#f0883e" stroke-width="3.5" stroke-linecap="round"/>
-
-    <!-- Torso (slight forward lean) -->
-    <line x1="${bx}" y1="${shoulderY}" x2="${bx+5}" y2="${hipY}"
-      stroke="#f0883e" stroke-width="5" stroke-linecap="round"/>
-
-    <!-- Back arm + hands (toward catcher side, gripping bat) -->
-    <line x1="${bx}" y1="${shoulderY+8}" x2="${bx-16}" y2="${shoulderY+22}"
-      stroke="#f0883e" stroke-width="3.5" stroke-linecap="round"/>
-    <line x1="${bx-16}" y1="${shoulderY+22}" x2="${bx-26}" y2="${shoulderY+8}"
-      stroke="#f0883e" stroke-width="3.5" stroke-linecap="round"/>
-
-    <!-- Bat (barrel up-back, load position) -->
-    <line x1="${bx-26}" y1="${shoulderY+8}" x2="${bx-46}" y2="${headCy-22}"
-      stroke="#e6edf3" stroke-width="5" stroke-linecap="round"/>
-    <circle cx="${bx-46}" cy="${headCy-22}" r="4" fill="#e6edf3"/>
-
-    <!-- Front shoulder -->
-    <line x1="${bx}" y1="${shoulderY}" x2="${bx+14}" y2="${shoulderY+8}"
-      stroke="#f0883e" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
-
-    <!-- Front leg (toward pitcher) -->
-    <line x1="${bx+5}" y1="${hipY}" x2="${bx+22}" y2="${kneeY}"
-      stroke="#f0883e" stroke-width="4" stroke-linecap="round"/>
-    <line x1="${bx+22}" y1="${kneeY}" x2="${bx+28}" y2="${feetY}"
-      stroke="#f0883e" stroke-width="4" stroke-linecap="round"/>
-    <line x1="${bx+28}" y1="${feetY}" x2="${bx+46}" y2="${feetY}"
-      stroke="#f0883e" stroke-width="4" stroke-linecap="round"/>
-
-    <!-- Back leg (toward catcher) -->
-    <line x1="${bx+5}" y1="${hipY}" x2="${bx-12}" y2="${kneeY}"
-      stroke="#f0883e" stroke-width="4" stroke-linecap="round"/>
-    <line x1="${bx-12}" y1="${kneeY}" x2="${bx-18}" y2="${feetY}"
-      stroke="#f0883e" stroke-width="4" stroke-linecap="round"/>
-    <line x1="${bx-18}" y1="${feetY}" x2="${bx-4}" y2="${feetY}"
-      stroke="#f0883e" stroke-width="4" stroke-linecap="round"/>
-
-    <!-- BATTER label -->
-    <text x="${bx}" y="28" text-anchor="middle" fill="#f0883e"
-      font-size="9" font-family="Oswald,sans-serif" font-weight="600" letter-spacing="0.5">BATTER</text>
-
-    <!-- Reference lines: mid-chest & below-knee -->
-    <line x1="${bx+8}" y1="${zy}" x2="${zx}" y2="${zy}"
-      stroke="#388bfd" stroke-width="1.2" stroke-dasharray="5,3" opacity="0.7"/>
-    <text x="${bx-2}" y="${zy-4}" fill="#64748b" font-size="8" font-family="Inter,sans-serif">mid-chest</text>
-
-    <line x1="${bx+30}" y1="${zy+zh}" x2="${zx}" y2="${zy+zh}"
-      stroke="#388bfd" stroke-width="1.2" stroke-dasharray="5,3" opacity="0.7"/>
-    <text x="${bx-2}" y="${zy+zh+13}" fill="#64748b" font-size="8" font-family="Inter,sans-serif">below knee</text>
-
-    <!-- STRIKE ZONE BOX -->
-    <rect x="${zx}" y="${zy}" width="${zw}" height="${zh}"
-      fill="#238636" fill-opacity="0.12" stroke="#3fb950" stroke-width="2.5" rx="3"/>
-
-    <line x1="${zx+1}" y1="${zy+row}" x2="${zx+zw-1}" y2="${zy+row}"
-      stroke="#7ee787" stroke-width="1" opacity="0.5"/>
-    <line x1="${zx+1}" y1="${zy+row*2}" x2="${zx+zw-1}" y2="${zy+row*2}"
-      stroke="#7ee787" stroke-width="1" opacity="0.5"/>
-
-    <text x="${zx+zw/2}" y="${zy+row/2+4}" text-anchor="middle"
-      fill="#475569" font-size="9" font-family="Oswald,sans-serif" letter-spacing="0.5">HIGH</text>
-    <text x="${zx+zw/2}" y="${zy+row+row/2+5}" text-anchor="middle"
-      fill="#7ee787" font-size="11" font-family="Oswald,sans-serif" font-weight="700">MID</text>
-    <text x="${zx+zw/2}" y="${zy+row*2+row/2+4}" text-anchor="middle"
-      fill="#475569" font-size="9" font-family="Oswald,sans-serif" letter-spacing="0.5">LOW</text>
-
-    <text x="${zx+zw/2}" y="${zy-6}" text-anchor="middle"
-      fill="#3fb950" font-size="10" font-family="Oswald,sans-serif" font-weight="700" letter-spacing="1">STRIKE ZONE</text>
-
-    <!-- Width dimension -->
-    <line x1="${zx}" y1="${zy+zh+18}" x2="${zx+zw}" y2="${zy+zh+18}" stroke="#475569" stroke-width="1"/>
-    <line x1="${zx}" y1="${zy+zh+14}" x2="${zx}" y2="${zy+zh+22}" stroke="#475569" stroke-width="1"/>
-    <line x1="${zx+zw}" y1="${zy+zh+14}" x2="${zx+zw}" y2="${zy+zh+22}" stroke="#475569" stroke-width="1"/>
-    <text x="${zx+zw/2}" y="${zy+zh+32}" text-anchor="middle"
-      fill="#64748b" font-size="8" font-family="Inter,sans-serif">17 inches wide (home plate width)</text>
-
-    <!-- Height bracket -->
-    <line x1="${zx+zw+8}" y1="${zy}" x2="${zx+zw+12}" y2="${zy}" stroke="#475569" stroke-width="1"/>
-    <line x1="${zx+zw+8}" y1="${zy+zh}" x2="${zx+zw+12}" y2="${zy+zh}" stroke="#475569" stroke-width="1"/>
-    <line x1="${zx+zw+10}" y1="${zy}" x2="${zx+zw+10}" y2="${zy+zh}" stroke="#475569" stroke-width="1"/>
-    <text x="${zx+zw+15}" y="${zy+zh/2+4}" text-anchor="start"
-      fill="#64748b" font-size="8" font-family="Inter,sans-serif">~22"</text>
-
-    <!-- Direction labels -->
-    <text x="14" y="${gnd+20}" fill="#475569" font-size="8" font-family="Inter,sans-serif">← catcher</text>
-    <text x="${W-14}" y="${gnd+20}" text-anchor="end" fill="#475569" font-size="8" font-family="Inter,sans-serif">pitcher →</text>
-  </svg>`;
+  return `<img src="img/strike-zone-diagram.png" alt="Strike zone diagram showing body reference points"
+    style="width:100%;max-width:420px;display:block;border-radius:10px;background:#fff">`;
 }
 
 function buildLaunchAngleSVG() {
