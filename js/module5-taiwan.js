@@ -209,7 +209,7 @@ function buildTimeStation(s, idx) {
         <img src="${s.photo}" alt="${s.photoCaption || ''}"
           onerror="this.parentElement.style.display='none'"
           style="width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top">
-        ${s.photoCaption ? `<div style="padding:8px 12px;font-size:0.78rem;color:var(--text-muted);background:var(--surface2)">${s.photoCaption}</div>` : ''}
+        ${s.photoCaption ? `<div style="padding:8px 12px;font-size:0.95rem;color:var(--text-muted);background:var(--surface2)">${s.photoCaption}</div>` : ''}
       </div>`
     : '';
 
@@ -217,22 +217,22 @@ function buildTimeStation(s, idx) {
     <div class="station-header" style="background:${s.color}18;border-bottom:1px solid ${s.color}33;padding:16px 20px;margin:-1px -1px 20px -1px;border-radius:10px 10px 0 0">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
         <div>
-          <div class="station-era" style="color:${s.color};font-size:0.78rem;letter-spacing:2px;font-weight:700;font-family:'Oswald',sans-serif;text-transform:uppercase">STATION ${s.stationNum} · ${s.era}</div>
+          <div class="station-era" style="color:${s.color};font-size:0.95rem;letter-spacing:2px;font-weight:700;font-family:'Oswald',sans-serif;text-transform:uppercase">STATION ${s.stationNum} · ${s.era}</div>
           <div class="station-title" style="font-size:1.5rem;font-weight:700;color:var(--text);margin-top:4px;font-family:'Oswald',sans-serif">${s.title}</div>
-          <div class="station-subtitle" style="font-size:0.9rem;color:var(--text-muted);margin-top:2px">${s.subtitle}</div>
+          <div class="station-subtitle" style="font-size:1.1rem;color:var(--text-muted);margin-top:2px">${s.subtitle}</div>
         </div>
         <div style="text-align:right">
           <div style="font-size:2rem;font-weight:800;color:${s.color};opacity:0.4;font-family:'Oswald',sans-serif;line-height:1">${s.keyYear}</div>
         </div>
       </div>
-      <div style="margin-top:10px;font-size:0.8rem;font-style:italic;color:${s.color};opacity:0.85">↳ ${s.theme}</div>
+      <div style="margin-top:10px;font-size:0.98rem;font-style:italic;color:${s.color};opacity:0.85">↳ ${s.theme}</div>
     </div>
     <div class="station-body" style="padding:0 20px 20px">
       ${photoBlock}
-      <div style="font-size:0.93rem;color:var(--text);line-height:1.75">${s.body}</div>
+      <div style="font-size:1.13rem;color:var(--text);line-height:1.75">${s.body}</div>
       <blockquote class="station-quote" style="margin:20px 0 0;padding:14px 18px;border-left:3px solid ${s.color};background:${s.color}12;border-radius:0 8px 8px 0">
         <div style="font-size:1rem;font-weight:600;color:${s.color};font-family:'Oswald',sans-serif">${s.quote}</div>
-        <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px">${s.quoteContext}</div>
+        <div style="font-size:0.98rem;color:var(--text-muted);margin-top:4px">${s.quoteContext}</div>
       </blockquote>
     </div>
   </div>`;
@@ -254,8 +254,8 @@ function buildPlayerShowcaseCard(p, idx) {
       <!-- Big stat banner -->
       <div style="background:${p.color}18;padding:20px 24px 16px;border-bottom:1px solid ${p.color}22;text-align:center">
         <div style="font-size:3rem;font-weight:800;color:${p.color};font-family:'Oswald',sans-serif;line-height:1">${p.statNum}</div>
-        <div style="font-size:0.72rem;font-weight:700;letter-spacing:3px;color:${p.color};opacity:0.85;margin-top:4px;font-family:'Oswald',sans-serif;text-transform:uppercase">${p.statLabel}</div>
-        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:6px;line-height:1.4">${p.statContext}</div>
+        <div style="font-size:0.88rem;font-weight:700;letter-spacing:3px;color:${p.color};opacity:0.85;margin-top:4px;font-family:'Oswald',sans-serif;text-transform:uppercase">${p.statLabel}</div>
+        <div style="font-size:0.92rem;color:var(--text-muted);margin-top:6px;line-height:1.4">${p.statContext}</div>
       </div>
 
       <!-- Bio section -->
@@ -264,14 +264,14 @@ function buildPlayerShowcaseCard(p, idx) {
           ${photoEl}
           <div style="min-width:0">
             <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
-              <span style="font-size:0.65rem;font-weight:700;letter-spacing:1.5px;padding:2px 8px;border-radius:4px;background:${tagColor}22;color:${tagColor};font-family:'Oswald',sans-serif">${p.tag}</span>
+              <span style="font-size:0.79rem;font-weight:700;letter-spacing:1.5px;padding:2px 8px;border-radius:4px;background:${tagColor}22;color:${tagColor};font-family:'Oswald',sans-serif">${p.tag}</span>
             </div>
             <div style="font-size:1.1rem;font-weight:700;color:${p.color};font-family:'Oswald',sans-serif;line-height:1.2">${p.name}</div>
-            <div style="font-size:0.85rem;color:var(--text-muted);margin-top:2px">${p.nameZh} · ${p.era}</div>
-            <div style="font-size:0.78rem;color:var(--text-muted);margin-top:2px;opacity:0.8">${p.role}</div>
+            <div style="font-size:1.04rem;color:var(--text-muted);margin-top:2px">${p.nameZh} · ${p.era}</div>
+            <div style="font-size:0.95rem;color:var(--text-muted);margin-top:2px;opacity:0.8">${p.role}</div>
           </div>
         </div>
-        <p style="font-size:0.87rem;color:var(--text-muted);line-height:1.65;margin:0">${p.description}</p>
+        <p style="font-size:1.06rem;color:var(--text-muted);line-height:1.65;margin:0">${p.description}</p>
       </div>
     </div>
   </div>`;
@@ -317,29 +317,29 @@ function initTaiwanModule() {
         <div style="background:var(--surface2);border-radius:12px;border-left:4px solid #f0883e;padding:20px">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
             <div style="font-size:1.3rem;font-weight:800;color:#f0883e;font-family:'Oswald',sans-serif">1996–1997</div>
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:1.5px;padding:2px 8px;border-radius:4px;background:#f0883e22;color:#f0883e;font-family:'Oswald',sans-serif">FIRST WAVE</div>
+            <div style="font-size:0.92rem;font-weight:700;letter-spacing:1.5px;padding:2px 8px;border-radius:4px;background:#f0883e22;color:#f0883e;font-family:'Oswald',sans-serif">FIRST WAVE</div>
           </div>
           <h3 style="font-size:1rem;color:var(--text);margin-bottom:8px">The First Cracks Appear</h3>
-          <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.65">Just a few years after the CPBL was founded in 1990, organized crime moved in. Players were approached with cash to intentionally lose games or manipulate scores — a practice known as <strong style="color:var(--text)">打假球</strong> (playing fake ball). In 1997, the first major arrests exposed players from multiple teams. The initial shock sent the league scrambling, but the problem wasn't gone — it went underground.</p>
+          <p style="font-size:1.07rem;color:var(--text-muted);line-height:1.65">Just a few years after the CPBL was founded in 1990, organized crime moved in. Players were approached with cash to intentionally lose games or manipulate scores — a practice known as <strong style="color:var(--text)">打假球</strong> (playing fake ball). In 1997, the first major arrests exposed players from multiple teams. The initial shock sent the league scrambling, but the problem wasn't gone — it went underground.</p>
         </div>
 
         <div style="background:var(--surface2);border-radius:12px;border-left:4px solid #ce1126;padding:20px">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
             <div style="font-size:1.3rem;font-weight:800;color:#ce1126;font-family:'Oswald',sans-serif">2008–2009</div>
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:1.5px;padding:2px 8px;border-radius:4px;background:#ce112622;color:#ce1126;font-family:'Oswald',sans-serif">WORST WAVE</div>
+            <div style="font-size:0.92rem;font-weight:700;letter-spacing:1.5px;padding:2px 8px;border-radius:4px;background:#ce112622;color:#ce1126;font-family:'Oswald',sans-serif">WORST WAVE</div>
           </div>
           <h3 style="font-size:1rem;color:var(--text);margin-bottom:8px">The Scandal That Nearly Killed the League</h3>
-          <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.65">The second and third waves hit harder. Between 2008 and 2009, investigators uncovered 102 illegal gambling cases involving 222 people — players, agents, and organized crime figures. Most devastating was the involvement of the <strong style="color:var(--text)">Brother Elephants (兄弟象)</strong>, Taiwan's most beloved team. Fans who had grown up watching these players wept in disbelief.</p>
-          <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.65;margin-top:10px">Attendance collapsed. Parents stopped signing their children up for baseball. Stadiums that once roared with noise fell quiet. The question wasn't whether CPBL could win — it was whether CPBL would survive.</p>
+          <p style="font-size:1.07rem;color:var(--text-muted);line-height:1.65">The second and third waves hit harder. Between 2008 and 2009, investigators uncovered 102 illegal gambling cases involving 222 people — players, agents, and organized crime figures. Most devastating was the involvement of the <strong style="color:var(--text)">Brother Elephants (兄弟象)</strong>, Taiwan's most beloved team. Fans who had grown up watching these players wept in disbelief.</p>
+          <p style="font-size:1.07rem;color:var(--text-muted);line-height:1.65;margin-top:10px">Attendance collapsed. Parents stopped signing their children up for baseball. Stadiums that once roared with noise fell quiet. The question wasn't whether CPBL could win — it was whether CPBL would survive.</p>
         </div>
 
         <div style="background:var(--surface2);border-radius:12px;border-left:4px solid #3fb950;padding:20px">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
             <div style="font-size:1.3rem;font-weight:800;color:#3fb950;font-family:'Oswald',sans-serif">2010–2024</div>
-            <div style="font-size:0.75rem;font-weight:700;letter-spacing:1.5px;padding:2px 8px;border-radius:4px;background:#3fb95022;color:#3fb950;font-family:'Oswald',sans-serif">REBUILDING</div>
+            <div style="font-size:0.92rem;font-weight:700;letter-spacing:1.5px;padding:2px 8px;border-radius:4px;background:#3fb95022;color:#3fb950;font-family:'Oswald',sans-serif">REBUILDING</div>
           </div>
           <h3 style="font-size:1rem;color:var(--text);margin-bottom:8px">Earning Trust Back, One Game at a Time</h3>
-          <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.65">Recovery was slow and hard. The CPBL implemented stricter oversight, player integrity programs, and transparent disciplinary processes. New ownership groups entered the league. New teams were formed. The cheerleader culture that defines modern CPBL was partly a deliberate effort to reimagine the fan experience and draw younger audiences who hadn't been burned by the scandal era. By 2024, when Taiwan won the Premier 12 championship, the tears in the stands weren't just for the gold medal — they were for everything the sport had survived to get there.</p>
+          <p style="font-size:1.07rem;color:var(--text-muted);line-height:1.65">Recovery was slow and hard. The CPBL implemented stricter oversight, player integrity programs, and transparent disciplinary processes. New ownership groups entered the league. New teams were formed. The cheerleader culture that defines modern CPBL was partly a deliberate effort to reimagine the fan experience and draw younger audiences who hadn't been burned by the scandal era. By 2024, when Taiwan won the Premier 12 championship, the tears in the stands weren't just for the gold medal — they were for everything the sport had survived to get there.</p>
         </div>
 
       </div>
@@ -361,8 +361,8 @@ function initTaiwanModule() {
         </div>
         <!-- Prev/Next -->
         <div style="display:flex;gap:10px;justify-content:center;margin-top:12px">
-          <button onclick="slideStep(-1)" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 18px;cursor:pointer;font-size:0.9rem">← Prev</button>
-          <button onclick="slideStep(1)"  style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 18px;cursor:pointer;font-size:0.9rem">Next →</button>
+          <button onclick="slideStep(-1)" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 18px;cursor:pointer;font-size:1.1rem">← Prev</button>
+          <button onclick="slideStep(1)"  style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 18px;cursor:pointer;font-size:1.1rem">Next →</button>
         </div>
       </div>
 

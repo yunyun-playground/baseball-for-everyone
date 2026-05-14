@@ -603,42 +603,42 @@ function renderScoreboard(s) {
     if (scores[idx] !== undefined) {
       const v = scores[idx];
       const color = v > 0 ? (side === 'away' ? '#f0883e' : '#7ee787') : '#64748b';
-      return `<div style="text-align:center;color:${color};font-size:0.85rem;font-weight:${v>0?'600':'400'}">${v}</div>`;
+      return `<div style="text-align:center;color:${color};font-size:1.04rem;font-weight:${v>0?'600':'400'}">${v}</div>`;
     }
     const isCurrent = inn === s.inning &&
       ((side === 'away' && s.halfInning === 'top') || (side === 'home' && s.halfInning === 'bottom'));
-    if (isCurrent) return `<div style="text-align:center;color:#388bfd;font-size:0.78rem;line-height:1">▶</div>`;
-    return `<div style="text-align:center;color:#1e293b;font-size:0.82rem">—</div>`;
+    if (isCurrent) return `<div style="text-align:center;color:#388bfd;font-size:0.95rem;line-height:1">▶</div>`;
+    return `<div style="text-align:center;color:var(--border);font-size:1.0rem">—</div>`;
   }
 
   const outDots = [0,1,2].map(i =>
-    `<div style="width:11px;height:11px;border-radius:50%;background:${i < s.outs ? '#ff6b7a' : '#1e293b'};border:1.5px solid ${i < s.outs ? '#ff6b7a' : '#2d3748'}"></div>`
+    `<div style="width:11px;height:11px;border-radius:50%;background:${i < s.outs ? '#ff6b7a' : 'var(--border)'};border:1.5px solid ${i < s.outs ? '#ff6b7a' : 'var(--border)'}"></div>`
   ).join('');
 
   return `
-    <div style="background:#0d1117;border-radius:10px;overflow:hidden;border:1px solid #1e293b;font-family:Oswald,sans-serif">
-      <div style="display:grid;grid-template-columns:${cols};padding:5px 14px;background:#161b22;border-bottom:1px solid #1e293b;align-items:center">
+    <div style="background:var(--surface);border-radius:10px;overflow:hidden;border:1px solid var(--border);font-family:Oswald,sans-serif">
+      <div style="display:grid;grid-template-columns:${cols};padding:5px 14px;background:var(--surface2);border-bottom:1px solid var(--border);align-items:center">
         <div></div>
-        ${innings.map(i => `<div style="text-align:center;font-size:0.62rem;color:#475569;letter-spacing:1px">${i}</div>`).join('')}
-        <div style="text-align:center;font-size:0.62rem;color:#64748b;letter-spacing:1px">R</div>
+        ${innings.map(i => `<div style="text-align:center;font-size:0.76rem;color:#475569;letter-spacing:1px">${i}</div>`).join('')}
+        <div style="text-align:center;font-size:0.76rem;color:#64748b;letter-spacing:1px">R</div>
       </div>
-      <div style="display:grid;grid-template-columns:${cols};padding:7px 14px;border-bottom:1px solid #0d1117;align-items:center">
-        <div style="font-size:0.7rem;color:#94a3b8;letter-spacing:1px">AWAY</div>
+      <div style="display:grid;grid-template-columns:${cols};padding:7px 14px;border-bottom:1px solid var(--surface);align-items:center">
+        <div style="font-size:0.85rem;color:var(--text-muted);letter-spacing:1px">AWAY</div>
         ${innings.map(i => cell(i, 'away')).join('')}
         <div id="simScoreAway" style="text-align:center;font-size:1.15rem;font-weight:700;color:#f0883e">${s.score.away}</div>
       </div>
-      <div style="display:grid;grid-template-columns:${cols};padding:7px 14px;border-bottom:1px solid #1e293b;align-items:center">
-        <div style="font-size:0.7rem;color:#94a3b8;letter-spacing:1px">HOME</div>
+      <div style="display:grid;grid-template-columns:${cols};padding:7px 14px;border-bottom:1px solid var(--border);align-items:center">
+        <div style="font-size:0.85rem;color:var(--text-muted);letter-spacing:1px">HOME</div>
         ${innings.map(i => cell(i, 'home')).join('')}
         <div id="simScoreHome" style="text-align:center;font-size:1.15rem;font-weight:700;color:#7ee787">${s.score.home}</div>
       </div>
-      <div style="display:flex;align-items:center;gap:14px;padding:7px 14px;background:#161b22;flex-wrap:wrap">
-        <div style="font-size:0.78rem;color:#7aa2d4;letter-spacing:1px">${s.halfInning === 'top' ? 'TOP' : 'BOT'} ${innLabel(s.inning)}</div>
+      <div style="display:flex;align-items:center;gap:14px;padding:7px 14px;background:var(--surface2);flex-wrap:wrap">
+        <div style="font-size:0.95rem;color:#7aa2d4;letter-spacing:1px">${s.halfInning === 'top' ? 'TOP' : 'BOT'} ${innLabel(s.inning)}</div>
         <div style="display:flex;gap:5px;align-items:center">
           ${outDots}
-          <span style="font-size:0.7rem;color:#64748b;margin-left:3px">${s.outs} out${s.outs !== 1 ? 's' : ''}</span>
+          <span style="font-size:0.85rem;color:#64748b;margin-left:3px">${s.outs} out${s.outs !== 1 ? 's' : ''}</span>
         </div>
-        <button onclick="simReset()" style="margin-left:auto;padding:3px 11px;background:transparent;border:1px solid #1e293b;border-radius:4px;color:#64748b;font-size:0.7rem;font-family:Inter,sans-serif;cursor:pointer" onmouseover="this.style.color='#94a3b8';this.style.borderColor='#334155'" onmouseout="this.style.color='#64748b';this.style.borderColor='#1e293b'">New Game</button>
+        <button onclick="simReset()" style="margin-left:auto;padding:3px 11px;background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--text-dim);font-size:0.85rem;font-family:Inter,sans-serif;cursor:pointer" onmouseover="this.style.color='var(--text-muted)';this.style.borderColor='var(--text-dim)'" onmouseout="this.style.color='var(--text-dim)';this.style.borderColor='var(--border)'">New Game</button>
       </div>
     </div>`;
 }
@@ -650,64 +650,66 @@ function renderDiamond(s) {
   const base = (cx, cy, key) => {
     const on = r[key];
     return `
-      <rect x="${cx-10}" y="${cy-10}" width="20" height="20" rx="2"
-        fill="${on ? '#f0883e' : 'rgba(255,255,255,0.82)'}"
-        stroke="${on ? '#f5a040' : 'rgba(255,255,255,0.25)'}"
+      <rect x="${cx-8}" y="${cy-8}" width="16" height="16" rx="2"
+        fill="${on ? '#f0883e' : 'rgba(255,255,255,0.85)'}"
+        stroke="${on ? '#f5a040' : 'rgba(255,255,255,0.3)'}"
         stroke-width="${on ? 2.5 : 1.5}"
         transform="rotate(45,${cx},${cy})"/>
       ${on ? `<text x="${cx}" y="${cy+4}" text-anchor="middle" dominant-baseline="middle"
-        fill="white" font-size="10" font-family="Oswald,sans-serif" font-weight="700">R</text>` : ''}`;
+        fill="white" font-size="9" font-family="Oswald,sans-serif" font-weight="700">R</text>` : ''}`;
   };
 
   return `
     <div style="position:relative;width:100%">
-      <svg viewBox="0 0 200 215" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <svg viewBox="0 0 240 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
         <defs>
-          <radialGradient id="gGrad" cx="50%" cy="70%" r="65%">
+          <radialGradient id="gGrad" cx="50%" cy="60%" r="65%">
             <stop offset="0%" stop-color="#122a18"/>
             <stop offset="100%" stop-color="#0b1c10"/>
           </radialGradient>
-          <radialGradient id="dGrad" cx="50%" cy="45%" r="55%">
-            <stop offset="0%" stop-color="#221508"/>
+          <radialGradient id="dGrad" cx="50%" cy="45%" r="58%">
+            <stop offset="0%" stop-color="#241606"/>
             <stop offset="100%" stop-color="#160d04"/>
           </radialGradient>
         </defs>
 
         <!-- Background -->
-        <rect width="200" height="215" fill="#0b1018" rx="12"/>
+        <rect width="240" height="260" fill="#0b1018" rx="12"/>
 
-        <!-- Outfield grass sector -->
-        <path d="M100,168 L16,62 A112,112 0 0,1 184,62 Z" fill="url(#gGrad)"/>
+        <!-- Outfield grass sector: home→left-foul-pole→fence-arc→right-foul-pole→home -->
+        <!-- Foul poles at (0,100) and (240,100); fence arc peaks near y=10 at center -->
+        <path d="M120,220 L0,100 A125,125 0 0,1 240,100 Z" fill="url(#gGrad)"/>
         <!-- Outfield fence arc -->
-        <path d="M16,62 A112,112 0 0,1 184,62" fill="none" stroke="#1e3d28" stroke-width="3" stroke-linecap="round"/>
+        <path d="M0,100 A125,125 0 0,1 240,100" fill="none" stroke="#1e3d28" stroke-width="3" stroke-linecap="round"/>
 
-        <!-- Infield dirt -->
-        <ellipse cx="100" cy="122" rx="63" ry="56" fill="url(#dGrad)"/>
+        <!-- Infield dirt ellipse -->
+        <ellipse cx="120" cy="150" rx="74" ry="70" fill="url(#dGrad)"/>
 
-        <!-- Infield grass (the square between bases) -->
-        <polygon points="100,52 158,110 100,168 42,110" fill="url(#gGrad)"/>
+        <!-- Infield grass diamond (between the four bases) -->
+        <!-- 2B(120,80) → 1B(190,150) → Home(120,220) → 3B(50,150) -->
+        <polygon points="120,80 190,150 120,220 50,150" fill="url(#gGrad)"/>
 
-        <!-- Foul lines -->
-        <line x1="100" y1="172" x2="16" y2="62" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/>
-        <line x1="100" y1="172" x2="184" y2="62" stroke="rgba(255,255,255,0.28)" stroke-width="1.2"/>
+        <!-- Foul lines (white markings on top of the fill) -->
+        <line x1="120" y1="220" x2="0" y2="100" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/>
+        <line x1="120" y1="220" x2="240" y2="100" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/>
 
-        <!-- Pitcher's mound -->
-        <circle cx="100" cy="110" r="11" fill="#1e1208" stroke="#2a1a08" stroke-width="1.5"/>
-        <rect x="94.5" y="108" width="11" height="4" rx="1" fill="#2e2010"/>
+        <!-- Pitcher's mound (60.5/127.3 ≈ 47.5% from home toward 2B) -->
+        <circle cx="120" cy="153" r="13" fill="#1e1208" stroke="#2a1a08" stroke-width="1.5"/>
+        <rect x="113" y="151" width="14" height="4" rx="1" fill="#2e2010"/>
 
         <!-- Bases -->
-        ${base(100, 52, 'second')}
-        ${base(42, 110, 'third')}
-        ${base(158, 110, 'first')}
+        ${base(120, 80, 'second')}
+        ${base(50, 150, 'third')}
+        ${base(190, 150, 'first')}
 
-        <!-- Home plate -->
-        <polygon points="100,180 90,171 90,161 110,161 110,171" fill="rgba(255,255,255,0.92)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+        <!-- Home plate pentagon (flat top toward pitcher, point toward catcher) -->
+        <polygon points="109,216 131,216 131,227 120,236 109,227" fill="rgba(255,255,255,0.92)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
 
         <!-- Base labels -->
-        <text x="100" y="34" text-anchor="middle" fill="#5a6880" font-size="9" font-family="Inter,sans-serif" letter-spacing="0.5">2B</text>
-        <text x="22"  y="113" text-anchor="middle" fill="#5a6880" font-size="9" font-family="Inter,sans-serif" letter-spacing="0.5">3B</text>
-        <text x="178" y="113" text-anchor="middle" fill="#5a6880" font-size="9" font-family="Inter,sans-serif" letter-spacing="0.5">1B</text>
-        <text x="100" y="200" text-anchor="middle" fill="#5a6880" font-size="9" font-family="Inter,sans-serif" letter-spacing="0.5">HOME</text>
+        <text x="120" y="63" text-anchor="middle" fill="#5a6880" font-size="10" font-family="Inter,sans-serif" letter-spacing="0.5">2B</text>
+        <text x="28"  y="154" text-anchor="middle" fill="#5a6880" font-size="10" font-family="Inter,sans-serif" letter-spacing="0.5">3B</text>
+        <text x="212" y="154" text-anchor="middle" fill="#5a6880" font-size="10" font-family="Inter,sans-serif" letter-spacing="0.5">1B</text>
+        <text x="120" y="252" text-anchor="middle" fill="#5a6880" font-size="10" font-family="Inter,sans-serif" letter-spacing="0.5">HOME</text>
       </svg>
 
       <!-- Celebration overlay -->
@@ -733,7 +735,7 @@ function renderDiamond(s) {
         text-align:center;letter-spacing:2px;
       "></div>
     </div>
-    <div style="text-align:center;font-size:0.78rem;color:#64748b;margin-top:8px;letter-spacing:0.5px">
+    <div style="text-align:center;font-size:0.95rem;color:#64748b;margin-top:8px;letter-spacing:0.5px">
       ${occupied === 0 ? 'Bases empty' : [r.third?'3rd':'',r.second?'2nd':'',r.first?'1st':''].filter(Boolean).join(' · ') + ' occupied'}
     </div>`;
 }
@@ -777,11 +779,11 @@ function renderSim() {
     .sort((a, b) => catMeta[a].order - catMeta[b].order)
     .map(cat => `
       <div style="margin-bottom:10px">
-        <div style="font-size:0.73rem;font-weight:600;color:#94a3b8;letter-spacing:1px;margin-bottom:6px;font-family:Oswald,sans-serif">${catMeta[cat].label}</div>
+        <div style="font-size:0.89rem;font-weight:600;color:var(--text-muted);letter-spacing:1px;margin-bottom:6px;font-family:Oswald,sans-serif">${catMeta[cat].label}</div>
         <div style="display:flex;flex-wrap:wrap;gap:5px">
           ${(grouped[cat]||[]).map(b => `
             <button onclick="simPlay('${b.key}')"
-              style="padding:6px 12px;border:1px solid ${b.color}33;border-radius:6px;background:${b.color}0f;color:${b.color};font-size:0.84rem;font-family:Inter,sans-serif;cursor:pointer;transition:background 0.12s,border-color 0.12s;line-height:1.2"
+              style="padding:6px 12px;border:1px solid ${b.color}33;border-radius:6px;background:${b.color}0f;color:${b.color};font-size:1.02rem;font-family:Inter,sans-serif;cursor:pointer;transition:background 0.12s,border-color 0.12s;line-height:1.2"
               onmouseover="this.style.background='${b.color}22';this.style.borderColor='${b.color}77'"
               onmouseout="this.style.background='${b.color}0f';this.style.borderColor='${b.color}33'"
             >${b.label}</button>
@@ -791,21 +793,21 @@ function renderSim() {
     `).join('');
 
   const lastPlayHTML = s.lastPlay ? `
-    <div style="background:#0d1117;border-radius:10px;padding:14px 16px;border:1px solid #1e293b;margin-top:14px">
+    <div style="background:var(--surface2);border-radius:10px;padding:14px 16px;border:1px solid var(--border);margin-top:14px">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap">
-        <span style="font-family:Oswald,sans-serif;font-size:1.05rem;font-weight:700;color:#e2e8f0">${s.lastPlay.title}</span>
-        <span style="background:${resultColor(s.lastPlay.result)};color:#0d1117;font-size:0.68rem;font-weight:700;padding:2px 9px;border-radius:4px;font-family:Oswald,sans-serif;flex-shrink:0">${s.lastPlay.result}</span>
+        <span style="font-family:Oswald,sans-serif;font-size:1.05rem;font-weight:700;color:var(--text)">${s.lastPlay.title}</span>
+        <span style="background:${resultColor(s.lastPlay.result)};color:#0d1117;font-size:0.83rem;font-weight:700;padding:2px 9px;border-radius:4px;font-family:Oswald,sans-serif;flex-shrink:0">${s.lastPlay.result}</span>
       </div>
-      <p style="font-size:0.86rem;color:#b1bac4;line-height:1.6;margin-bottom:8px">${s.lastPlay.explanation}</p>
+      <p style="font-size:1.05rem;color:var(--text-muted);line-height:1.6;margin-bottom:8px">${s.lastPlay.explanation}</p>
       ${s.lastPlay.rule ? `
-        <div style="background:#161b22;border-left:3px solid #388bfd44;border-radius:0 6px 6px 0;padding:9px 13px">
-          <p style="font-size:0.8rem;color:#94a3b8;line-height:1.55"><strong style="color:#7aa2d4">Rule:</strong> ${s.lastPlay.rule}</p>
-          ${s.lastPlay.term ? `<p style="font-size:0.72rem;color:#64748b;margin-top:5px;font-family:Oswald,sans-serif">📚 ${s.lastPlay.term}</p>` : ''}
+        <div style="background:var(--surface);border-left:3px solid #388bfd44;border-radius:0 6px 6px 0;padding:9px 13px">
+          <p style="font-size:0.98rem;color:var(--text-muted);line-height:1.55"><strong style="color:#7aa2d4">Rule:</strong> ${s.lastPlay.rule}</p>
+          ${s.lastPlay.term ? `<p style="font-size:0.88rem;color:var(--text-dim);margin-top:5px;font-family:Oswald,sans-serif">📚 ${s.lastPlay.term}</p>` : ''}
         </div>
       ` : ''}
     </div>
   ` : `
-    <div style="background:#0d1117;border-radius:10px;padding:18px 16px;border:1px solid #1e293b;margin-top:14px;text-align:center;color:#64748b;font-size:0.86rem">
+    <div style="background:var(--surface2);border-radius:10px;padding:18px 16px;border:1px solid var(--border);margin-top:14px;text-align:center;color:var(--text-dim);font-size:1.05rem">
       Press any play button — see what happens on the field and learn the rule behind it.
     </div>
   `;
@@ -814,20 +816,20 @@ function renderSim() {
     <div style="background:linear-gradient(135deg,#0f2318,#111827);border:1px solid #238636;border-radius:10px;padding:18px;margin-top:14px;text-align:center">
       <div style="font-family:Oswald,sans-serif;font-size:1.3rem;font-weight:700;color:#7ee787;margin-bottom:6px">FINAL</div>
       <div style="font-size:1.1rem;color:#e2e8f0;font-family:Oswald,sans-serif">AWAY ${s.score.away} &nbsp;·&nbsp; HOME ${s.score.home}</div>
-      <div style="margin-top:8px;color:#64748b;font-size:0.82rem">${s.score.away>s.score.home?'Away wins.':s.score.home>s.score.away?'Home wins.':'Tied — extra innings in real life.'}</div>
-      <button onclick="simReset()" style="margin-top:12px;padding:7px 20px;background:#238636;border:none;border-radius:6px;color:white;font-family:Oswald,sans-serif;font-size:0.88rem;cursor:pointer">New Game</button>
+      <div style="margin-top:8px;color:#64748b;font-size:1.0rem">${s.score.away>s.score.home?'Away wins.':s.score.home>s.score.away?'Home wins.':'Tied — extra innings in real life.'}</div>
+      <button onclick="simReset()" style="margin-top:12px;padding:7px 20px;background:#238636;border:none;border-radius:6px;color:white;font-family:Oswald,sans-serif;font-size:1.07rem;cursor:pointer">New Game</button>
     </div>
   ` : '';
 
   const logHTML = s.eventLog.length > 0 ? `
     <div style="margin-top:14px">
-      <div style="font-size:0.72rem;font-weight:600;color:#475569;letter-spacing:1px;margin-bottom:6px;font-family:Oswald,sans-serif">PLAY LOG</div>
+      <div style="font-size:0.88rem;font-weight:600;color:var(--text-dim);letter-spacing:1px;margin-bottom:6px;font-family:Oswald,sans-serif">PLAY LOG</div>
       <div style="max-height:160px;overflow-y:auto;display:flex;flex-direction:column;gap:3px">
         ${s.eventLog.map((e,i) => `
-          <div style="display:flex;align-items:center;gap:8px;padding:5px 9px;background:${i===0?'#161b22':'transparent'};border-radius:5px;border:1px solid ${i===0?'#1e293b':'transparent'}">
-            <span style="font-size:0.7rem;color:#64748b;font-family:Oswald,sans-serif;min-width:60px;flex-shrink:0">${e.half==='top'?'TOP':'BOT'} ${e.inning} · ${e.outs}out</span>
+          <div style="display:flex;align-items:center;gap:8px;padding:5px 9px;background:${i===0?'var(--surface2)':'transparent'};border-radius:5px;border:1px solid ${i===0?'var(--border)':'transparent'}">
+            <span style="font-size:0.85rem;color:var(--text-dim);font-family:Oswald,sans-serif;min-width:60px;flex-shrink:0">${e.half==='top'?'TOP':'BOT'} ${e.inning} · ${e.outs}out</span>
             <span style="width:7px;height:7px;border-radius:2px;background:${resultColor(e.result)};flex-shrink:0"></span>
-            <span style="font-size:0.78rem;color:#94a3b8">${e.title}</span>
+            <span style="font-size:0.95rem;color:var(--text-muted)">${e.title}</span>
           </div>
         `).join('')}
       </div>
@@ -835,7 +837,7 @@ function renderSim() {
   ` : '';
 
   el.innerHTML = `
-    <div style="background:#111827;border-radius:12px;border:1px solid #1e293b;overflow:hidden">
+    <div style="background:var(--surface);border-radius:12px;border:1px solid var(--border);overflow:hidden">
       <!-- Scoreboard full width -->
       <div style="padding:14px 14px 0">${renderScoreboard(s)}</div>
 
@@ -848,7 +850,7 @@ function renderSim() {
         <!-- Buttons column -->
         <div style="flex:1;min-width:0;overflow:hidden">
           ${s.gameOver
-            ? '<div style="color:#475569;font-size:0.88rem;padding:8px 0">Game over — press New Game to play again.</div>'
+            ? '<div style="color:#475569;font-size:1.07rem;padding:8px 0">Game over — press New Game to play again.</div>'
             : btnHTML}
         </div>
       </div>

@@ -53,7 +53,7 @@ function initTacticsModule() {
       <p class="mt-8">Baseball managers make dozens of strategic decisions every game. Unlike other sports, they have precious seconds to think through complex probability. Work through these three classic situations — there's rarely one "correct" answer, but some choices are better than others.</p>
 
       <div class="info-box orange mt-16">
-        <p style="font-size:0.9rem"><strong>Note:</strong> Baseball strategy has evolved significantly with modern data analytics. Where traditional and modern thinking differ, we'll show you both perspectives.</p>
+        <p style="font-size:1.1rem"><strong>Note:</strong> Baseball strategy has evolved significantly with modern data analytics. Where traditional and modern thinking differ, we'll show you both perspectives.</p>
       </div>
 
       <div id="tacticScenarioArea" class="mt-24"></div>
@@ -100,11 +100,11 @@ function renderTacticScenario() {
       <div style="display:flex;gap:20px;align-items:flex-start;margin-bottom:20px">
         <div style="flex-shrink:0;text-align:center">
           ${diamondSVG}
-          <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px;letter-spacing:0.5px">FIELD SITUATION</div>
+          <div style="font-size:0.88rem;color:var(--text-muted);margin-top:4px;letter-spacing:0.5px">FIELD SITUATION</div>
         </div>
         <p style="color:var(--text);font-size:1rem;line-height:1.7;margin:0">${sc.situation}</p>
       </div>
-      <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;font-style:italic">As the manager, what do you call?</div>
+      <div style="font-size:1.04rem;color:var(--text-muted);margin-bottom:12px;font-style:italic">As the manager, what do you call?</div>
       <div class="tactic-choices">
         ${sc.choices.map(c => `
           <button class="tactic-btn" data-type="${c.type}" onclick="handleTacticChoice('${c.type}')">
@@ -137,14 +137,14 @@ function handleTacticChoice(type) {
     <p class="mt-8">${outcome.body}</p>
 
     <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px">
-      <div style="font-size:0.75rem;font-weight:600;color:var(--text-muted);letter-spacing:1px;margin-bottom:10px">WHAT WOULD THE OTHER CHOICES HAVE DONE?</div>
+      <div style="font-size:0.92rem;font-weight:600;color:var(--text-muted);letter-spacing:1px;margin-bottom:10px">WHAT WOULD THE OTHER CHOICES HAVE DONE?</div>
       ${sc.choices.filter(c => c.type !== type).map(c => {
         const o = sc.outcomes[c.type];
         const rating = o.rating;
         const colors = { good:'#7ee787', neutral:'#e3b341', bad:'#ff6b7a' };
         return `<div style="margin-bottom:10px;padding:10px 12px;border-radius:6px;border:1px solid ${colors[rating]}22;background:${colors[rating]}08">
-          <div style="font-size:0.78rem;font-weight:600;color:${colors[rating]};margin-bottom:4px">${ratingIcon[rating]} ${c.text}</div>
-          <div style="font-size:0.82rem;color:var(--text-muted);line-height:1.5">${o.body}</div>
+          <div style="font-size:0.95rem;font-weight:600;color:${colors[rating]};margin-bottom:4px">${ratingIcon[rating]} ${c.text}</div>
+          <div style="font-size:1.0rem;color:var(--text-muted);line-height:1.5">${o.body}</div>
         </div>`;
       }).join('')}
     </div>

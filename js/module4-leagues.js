@@ -149,8 +149,8 @@ function buildLogoFallback(abbr, color, size) {
 function buildTeamTile(t) {
   const logoEl = t.logo
     ? `<img src="${t.logo}" alt="${t.name}" width="40" height="40" style="object-fit:contain;display:block;margin:0 auto 6px"
-        onerror="this.outerHTML='<div style=\\'font-size:0.85rem;font-weight:800;color:${t.color};letter-spacing:1px\\'>${t.abbr}</div>'">`
-    : `<div style="font-size:0.85rem;font-weight:800;color:${t.color};letter-spacing:1px;margin-bottom:6px">${t.abbr}</div>`;
+        onerror="this.outerHTML='<div style=\\'font-size:1.04rem;font-weight:800;color:${t.color};letter-spacing:1px\\'>${t.abbr}</div>'">`
+    : `<div style="font-size:1.04rem;font-weight:800;color:${t.color};letter-spacing:1px;margin-bottom:6px">${t.abbr}</div>`;
   return `<div class="team-tile" style="border-color:${t.color}44;background:${t.color}18;text-align:center">
     ${logoEl}
     <div class="t-name">${t.name}</div>
@@ -182,21 +182,21 @@ function buildTournamentCard(t) {
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
       <div>
         <div class="tournament-name" style="color:${t.color}">${t.name}</div>
-        <div style="font-size:0.78rem;color:var(--text-muted);margin-top:2px">${t.teams} teams · Founded ${t.founded}</div>
+        <div style="font-size:0.95rem;color:var(--text-muted);margin-top:2px">${t.teams} teams · Founded ${t.founded}</div>
       </div>
       <div style="text-align:right">
         <div class="tournament-freq">${t.freq}</div>
-        <div style="font-size:0.78rem;color:var(--text-muted);margin-top:2px">Next: ${t.nextYear}</div>
+        <div style="font-size:0.95rem;color:var(--text-muted);margin-top:2px">Next: ${t.nextYear}</div>
       </div>
     </div>
-    <p style="font-size:0.9rem;color:var(--text);line-height:1.65;margin-bottom:10px">${t.desc}</p>
-    <div style="font-size:0.82rem;padding:8px 10px;background:var(--surface2);border-radius:6px;margin-bottom:8px;color:var(--text-muted)">
+    <p style="font-size:1.1rem;color:var(--text);line-height:1.65;margin-bottom:10px">${t.desc}</p>
+    <div style="font-size:1.0rem;padding:8px 10px;background:var(--surface2);border-radius:6px;margin-bottom:8px;color:var(--text-muted)">
       <strong style="color:var(--text)">Format:</strong> ${t.format}
     </div>
-    <div style="font-size:0.82rem;padding:8px 10px;background:var(--surface2);border-radius:6px;margin-bottom:8px;color:var(--text-muted)">
+    <div style="font-size:1.0rem;padding:8px 10px;background:var(--surface2);border-radius:6px;margin-bottom:8px;color:var(--text-muted)">
       <strong style="color:var(--text)">Champions:</strong> ${t.winners}
     </div>
-    <div style="font-size:0.82rem;padding:8px 10px;background:rgba(206,17,38,0.1);border:1px solid rgba(206,17,38,0.25);border-radius:6px;color:var(--text)">
+    <div style="font-size:1.0rem;padding:8px 10px;background:rgba(206,17,38,0.1);border:1px solid rgba(206,17,38,0.25);border-radius:6px;color:var(--text)">
       🇹🇼 ${t.taiwanNote}
     </div>
   </div>`;
@@ -225,11 +225,11 @@ function buildLeagueCard(league) {
           </div>
         </div>
       </div>
-      <p style="margin-top:12px;font-size:0.9rem;color:var(--text-muted)">${league.description}</p>
-      <div style="margin-top:8px;padding:8px 12px;background:var(--surface2);border-radius:6px;font-size:0.82rem;color:var(--text-dim)">
+      <p style="margin-top:12px;font-size:1.1rem;color:var(--text-muted)">${league.description}</p>
+      <div style="margin-top:8px;padding:8px 12px;background:var(--surface2);border-radius:6px;font-size:1.0rem;color:var(--text-dim)">
         📊 ${league.notable}
       </div>
-      <div style="margin-top:8px;padding:8px 12px;background:var(--surface2);border-radius:6px;font-size:0.82rem;color:var(--text-muted)">
+      <div style="margin-top:8px;padding:8px 12px;background:var(--surface2);border-radius:6px;font-size:1.0rem;color:var(--text-muted)">
         📅 <strong style="color:var(--text)">Season:</strong> ${league.season}
       </div>
     </div>
@@ -279,10 +279,10 @@ function buildPlayoffFormat(leagueKey) {
   return `<div style="margin-top:12px">
     ${f.steps.map((s, i) => `
       <div style="display:flex;gap:12px;margin-bottom:10px;align-items:flex-start">
-        <div style="flex-shrink:0;width:24px;height:24px;border-radius:50%;background:${f.color};display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:#000;margin-top:1px">${i+1}</div>
+        <div style="flex-shrink:0;width:24px;height:24px;border-radius:50%;background:${f.color};display:flex;align-items:center;justify-content:center;font-size:0.88rem;font-weight:700;color:#000;margin-top:1px">${i+1}</div>
         <div>
-          <div style="font-size:0.85rem;font-weight:600;color:var(--text)">${s.label}</div>
-          <div style="font-size:0.82rem;color:var(--text-muted);line-height:1.5">${s.desc}</div>
+          <div style="font-size:1.04rem;font-weight:600;color:var(--text)">${s.label}</div>
+          <div style="font-size:1.0rem;color:var(--text-muted);line-height:1.5">${s.desc}</div>
         </div>
       </div>
     `).join('')}
@@ -318,7 +318,7 @@ function initLeaguesModule() {
         </div>
         ${MLB_DIVISIONS.map(d => `
           <div style="margin-bottom:20px">
-            <div style="font-size:0.78rem;letter-spacing:1.5px;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px">${d.div}</div>
+            <div style="font-size:0.95rem;letter-spacing:1.5px;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px">${d.div}</div>
             <div class="team-grid">
               ${d.teams.map(t => buildTeamTile(t)).join('')}
             </div>
@@ -334,7 +334,7 @@ function initLeaguesModule() {
         </div>
         ${NPB_LEAGUES.map(l => `
           <div style="margin-bottom:20px">
-            <div style="font-size:0.78rem;letter-spacing:1.5px;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px">${l.league}</div>
+            <div style="font-size:0.95rem;letter-spacing:1.5px;font-weight:600;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px">${l.league}</div>
             <div class="team-grid">
               ${l.teams.map(t => buildTeamTile(t)).join('')}
             </div>
@@ -387,15 +387,15 @@ function initLeaguesModule() {
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
               <span style="font-size:1.1rem">${l.flag}</span>
               <span style="font-weight:700;color:${l.color};font-family:'Oswald',sans-serif">${l.name}</span>
-              <span style="font-size:0.8rem;color:var(--text-muted)">${l.full}</span>
-              <span style="font-size:0.72rem;color:var(--text-muted);padding:2px 7px;border-radius:4px;background:rgba(255,255,255,0.06)">${l.meta}</span>
+              <span style="font-size:0.98rem;color:var(--text-muted)">${l.full}</span>
+              <span style="font-size:0.88rem;color:var(--text-muted);padding:2px 7px;border-radius:4px;background:rgba(255,255,255,0.06)">${l.meta}</span>
             </div>
             <ul style="margin:0;padding-left:16px">
-              ${l.notes.map(n => `<li style="font-size:0.83rem;color:var(--text-muted);line-height:1.6;margin-bottom:2px">${n}</li>`).join('')}
+              ${l.notes.map(n => `<li style="font-size:1.01rem;color:var(--text-muted);line-height:1.6;margin-bottom:2px">${n}</li>`).join('')}
             </ul>
           </div>
         `).join('')}
-        <p style="font-size:0.82rem;color:var(--text-muted);padding:12px 16px;background:var(--surface2);border-radius:8px;line-height:1.65;margin-top:2px"><strong style="color:var(--text)">Also notable:</strong> Semi-professional leagues operate in the Netherlands (Hoofdklasse), Italy, and Spain. China's CBL (中国棒球联赛) is developing. Puerto Rico, Panama, and Colombia each operate winter leagues connected to the Caribbean Series.</p>
+        <p style="font-size:1.0rem;color:var(--text-muted);padding:12px 16px;background:var(--surface2);border-radius:8px;line-height:1.65;margin-top:2px"><strong style="color:var(--text)">Also notable:</strong> Semi-professional leagues operate in the Netherlands (Hoofdklasse), Italy, and Spain. China's CBL (中国棒球联赛) is developing. Puerto Rico, Panama, and Colombia each operate winter leagues connected to the Caribbean Series.</p>
       </div>
 
       <!-- Playoff Formats -->
@@ -433,7 +433,7 @@ function initLeaguesModule() {
       <div class="section-label">Comparison</div>
       <h2>How the Leagues Stack Up</h2>
       <div style="overflow-x:auto;margin-top:16px">
-        <table style="width:100%;border-collapse:collapse;font-size:0.88rem">
+        <table style="width:100%;border-collapse:collapse;font-size:1.07rem">
           <thead>
             <tr style="border-bottom:2px solid var(--border)">
               <th style="text-align:left;padding:10px;color:var(--text-muted);font-weight:600">League</th>
@@ -455,7 +455,7 @@ function initLeaguesModule() {
                 <td style="padding:10px;text-align:center;color:var(--text-muted)">${l.teams}</td>
                 <td style="padding:10px;text-align:center;color:var(--text-muted)">${l.games}</td>
                 <td style="padding:10px;text-align:center;color:var(--text-muted)">${l.founded}</td>
-                <td style="padding:10px;text-align:center;color:var(--text-muted);font-size:0.82rem">${l.salary}</td>
+                <td style="padding:10px;text-align:center;color:var(--text-muted);font-size:1.0rem">${l.salary}</td>
               </tr>
             `).join('')}
           </tbody>

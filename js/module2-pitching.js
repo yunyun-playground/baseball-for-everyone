@@ -151,7 +151,7 @@ function initPitchingModule() {
           <button class="toggle-btn active" data-hand="righty" onclick="setHandedness('righty',this)">⚾ Right-handed (RHP)</button>
           <button class="toggle-btn" data-hand="lefty"  onclick="setHandedness('lefty',this)">⚾ Left-handed (LHP)</button>
         </div>
-        <span style="font-size:0.8rem;color:var(--text-dim);margin-left:10px" id="handHint"></span>
+        <span style="font-size:0.98rem;color:var(--text-dim);margin-left:10px" id="handHint"></span>
       </div>
 
       <!-- THREE-VIEW DEMO + DETAIL SIDE BY SIDE -->
@@ -175,7 +175,7 @@ function initPitchingModule() {
               </div>
             </div>
             <div style="margin-top:8px">
-              <button class="btn btn-outline" onclick="rerenderDemo()" style="padding:6px 16px;font-size:0.85rem">↺ Replay All</button>
+              <button class="btn btn-outline" onclick="rerenderDemo()" style="padding:6px 16px;font-size:1.04rem">↺ Replay All</button>
             </div>
           </div>
           <!-- PITCH DETAIL TEXT — beside the canvas -->
@@ -183,7 +183,7 @@ function initPitchingModule() {
         </div>
         <!-- GRIP ILLUSTRATION -->
         <div id="gripArea" style="display:none;margin-top:20px">
-          <div class="section-label" style="font-size:0.65rem;margin-bottom:8px">GRIP ILLUSTRATION</div>
+          <div class="section-label" style="font-size:0.79rem;margin-bottom:8px">GRIP ILLUSTRATION</div>
           <div id="gripSVGContainer"></div>
         </div>
       </div>
@@ -192,7 +192,7 @@ function initPitchingModule() {
       <div class="divider"></div>
       <div class="section-label game-tag">🎮 Level 1 — Identify the Pitch</div>
       <p class="mt-8">Watch from all three angles simultaneously — an RHP throwing to a right-handed batter. Identify which pitch it is based on the trajectory, speed, and break.</p>
-      <p style="font-size:0.85rem;color:var(--text-muted);margin-top:6px">Tip: Use the catcher's view for the break direction, the overhead for horizontal path, and the side view to see rise or drop.</p>
+      <p style="font-size:1.04rem;color:var(--text-muted);margin-top:6px">Tip: Use the catcher's view for the break direction, the overhead for horizontal path, and the side view to see rise or drop.</p>
 
       <div class="pitch-arena mt-16" id="gameArena">
         <div class="game-header">
@@ -228,7 +228,7 @@ function initPitchingModule() {
             </div>
           </div>
         </div>
-        <button class="btn btn-outline" onclick="replayPitch()" style="padding:6px 16px;font-size:0.85rem;margin-top:8px">↺ Replay</button>
+        <button class="btn btn-outline" onclick="replayPitch()" style="padding:6px 16px;font-size:1.04rem;margin-top:8px">↺ Replay</button>
         <div class="pitch-choices" id="pitchChoices"></div>
         <div class="pitch-feedback" id="pitchFeedback"></div>
         <button class="btn btn-green" id="nextBtn" onclick="nextPitch()" style="display:none">Next Pitch →</button>
@@ -244,19 +244,19 @@ function initPitchingModule() {
         <div style="display:grid;gap:14px;margin-top:20px">
           <div class="info-box" style="border-left:3px solid #388bfd;padding:14px 18px">
             <h3 style="color:#388bfd;font-size:1rem">1. Attack the Weakness</h3>
-            <p class="mt-6" style="font-size:0.88rem">Every batter has a hole in their swing. Power hitters often struggle with breaking balls low and away — they're designed to attack the inner half. Contact hitters get jammed inside by cutters. Know the scouting report.</p>
+            <p class="mt-6" style="font-size:1.07rem">Every batter has a hole in their swing. Power hitters often struggle with breaking balls low and away — they're designed to attack the inner half. Contact hitters get jammed inside by cutters. Know the scouting report.</p>
           </div>
           <div class="info-box" style="border-left:3px solid #a371f7;padding:14px 18px">
             <h3 style="color:#a371f7;font-size:1rem">2. Count Dictates the Pitch</h3>
-            <p class="mt-6" style="font-size:0.88rem">Ahead in the count (0-2, 1-2)? You can throw "waste pitches" — balls just off the edge — to get the batter to chase. Behind (2-0, 3-1)? You MUST throw a strike. Batters sit on fastballs when you're behind. Vary your pitch differently by count.</p>
+            <p class="mt-6" style="font-size:1.07rem">Ahead in the count (0-2, 1-2)? You can throw "waste pitches" — balls just off the edge — to get the batter to chase. Behind (2-0, 3-1)? You MUST throw a strike. Batters sit on fastballs when you're behind. Vary your pitch differently by count.</p>
           </div>
           <div class="info-box" style="border-left:3px solid #2ea043;padding:14px 18px">
             <h3 style="color:#7ee787;font-size:1rem">3. Change Eye Levels</h3>
-            <p class="mt-6" style="font-size:0.88rem">After throwing low pitches, go high to disrupt timing. After high fastballs, a splitter diving to the knees is devastating. Pitching is about changing what the batter expects — not just throwing hard.</p>
+            <p class="mt-6" style="font-size:1.07rem">After throwing low pitches, go high to disrupt timing. After high fastballs, a splitter diving to the knees is devastating. Pitching is about changing what the batter expects — not just throwing hard.</p>
           </div>
           <div class="info-box" style="border-left:3px solid #f0883e;padding:14px 18px">
             <h3 style="color:#f0883e;font-size:1rem">4. Don't Repeat Zone + Pitch</h3>
-            <p class="mt-6" style="font-size:0.88rem">Throwing the same pitch to the same location twice in a row is dangerous. Elite batters adjust within the at-bat. After one pitch, the pitcher must sequence — same zone/different pitch, or same pitch/different zone. Never be predictable.</p>
+            <p class="mt-6" style="font-size:1.07rem">Throwing the same pitch to the same location twice in a row is dangerous. Elite batters adjust within the at-bat. After one pitch, the pitcher must sequence — same zone/different pitch, or same pitch/different zone. Never be predictable.</p>
           </div>
         </div>
 
@@ -344,15 +344,15 @@ function renderPitchDetail(key) {
   const familyLabel = { fastball:'Fastball Family', breaking:'Breaking Ball Family', offspeed:'Offspeed / Specialty', specialty:'Specialty' };
   detail.innerHTML = `
     <div class="info-box" style="border-left:3px solid ${p.color};height:100%">
-      ${p.family ? `<div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;color:${p.color};margin-bottom:6px;text-transform:uppercase">${familyLabel[p.family]||''}</div>` : ''}
+      ${p.family ? `<div style="font-size:0.83rem;font-weight:700;letter-spacing:0.1em;color:${p.color};margin-bottom:6px;text-transform:uppercase">${familyLabel[p.family]||''}</div>` : ''}
       <h3 style="color:${p.color}">${p.name}
-        <span style="font-size:0.8rem;font-weight:400;color:#b1bac4"> ${p.speed}</span>
+        <span style="font-size:0.98rem;font-weight:400;color:#b1bac4"> ${p.speed}</span>
       </h3>
-      <p class="mt-8" style="font-size:0.88rem">${p.explain}</p>
-      <ul class="mt-8" style="padding-left:16px;color:#b1bac4;font-size:0.85rem;line-height:1.9">
+      <p class="mt-8" style="font-size:1.07rem">${p.explain}</p>
+      <ul class="mt-8" style="padding-left:16px;color:#b1bac4;font-size:1.04rem;line-height:1.9">
         ${p.keys.map(k=>`<li>${k}</li>`).join('')}
       </ul>
-      <p class="mt-8" style="font-size:0.82rem;color:var(--text-dim)">⭐ ${p.famous}</p>
+      <p class="mt-8" style="font-size:1.0rem;color:var(--text-dim)">⭐ ${p.famous}</p>
     </div>
   `;
   const gripArea = document.getElementById('gripArea');
@@ -467,7 +467,7 @@ function buildGripSVG(key, p) {
       </svg>
     </div>
     <div style="flex:1;min-width:180px">
-      <p style="font-size:0.82rem;color:#b1bac4;line-height:1.6">${g.desc}</p>
+      <p style="font-size:1.0rem;color:#b1bac4;line-height:1.6">${g.desc}</p>
     </div>
   </div>`;
 }
@@ -927,7 +927,7 @@ function resetPitchGame() {
         </div>
       </div>
     </div>
-    <button class="btn btn-outline" onclick="replayPitch()" style="padding:6px 16px;font-size:0.85rem;margin-top:8px">↺ Replay</button>
+    <button class="btn btn-outline" onclick="replayPitch()" style="padding:6px 16px;font-size:1.04rem;margin-top:8px">↺ Replay</button>
     <div class="pitch-choices" id="pitchChoices"></div>
     <div class="pitch-feedback" id="pitchFeedback"></div>
     <button class="btn btn-green" id="nextBtn" onclick="nextPitch()" style="display:none">Next Pitch →</button>
@@ -1009,11 +1009,11 @@ function renderSeq(){
     <div class="scenario-box mt-16">
       <div class="scoreboard">
         <div class="scoreboard-item"><div class="label">COUNT</div><div class="value">${sc.count}</div></div>
-        <div class="scoreboard-item"><div class="label">SITUATION</div><div class="value" style="font-size:0.9rem;color:var(--text-muted);line-height:1.3">${sc.situation}</div></div>
+        <div class="scoreboard-item"><div class="label">SITUATION</div><div class="value" style="font-size:1.1rem;color:var(--text-muted);line-height:1.3">${sc.situation}</div></div>
       </div>
       <div class="info-box blue" style="padding:12px 16px">
-        <strong style="color:#79c0ff;font-size:0.85rem">SCOUTING:</strong>
-        <p style="margin-top:4px;font-size:0.9rem">${sc.batter}</p>
+        <strong style="color:#79c0ff;font-size:1.04rem">SCOUTING:</strong>
+        <p style="margin-top:4px;font-size:1.1rem">${sc.batter}</p>
       </div>
       <div class="tactic-choices" style="margin-top:16px">
         ${sc.options.map((o,i)=>`<button class="tactic-btn" data-idx="${i}" onclick="handleSeqChoice(${i})">

@@ -13,7 +13,7 @@ function initFieldModule() {
       <div class="field-wrapper mt-24">
         ${buildFieldSVG()}
         <div class="position-info" id="posInfo">
-          <div style="color:var(--text-dim);font-size:0.9rem">👆 Click a position on the field above</div>
+          <div style="color:var(--text-dim);font-size:1.1rem">👆 Click a position on the field above</div>
         </div>
       </div>
 
@@ -73,14 +73,14 @@ function initFieldModule() {
       <!-- Collapsible: how the simulator works -->
       <div style="margin-top:20px">
         <button onclick="(function(btn){const body=document.getElementById('simGuideBody');const arrow=document.getElementById('simGuideArrow');const open=body.style.display==='block';body.style.display=open?'none':'block';arrow.textContent=open?'▸':'▾';})(this)"
-          style="width:100%;text-align:left;background:#0d1117;border:1px solid #1e293b;border-radius:8px;padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;color:#94a3b8;font-family:Oswald,sans-serif;font-size:0.85rem;letter-spacing:1px"
+          style="width:100%;text-align:left;background:#0d1117;border:1px solid #1e293b;border-radius:8px;padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;color:#94a3b8;font-family:Oswald,sans-serif;font-size:1.04rem;letter-spacing:1px"
           onmouseover="this.style.borderColor='#334155'" onmouseout="this.style.borderColor='#1e293b'">
-          <span id="simGuideArrow" style="font-size:0.9rem;color:#475569">▸</span>
+          <span id="simGuideArrow" style="font-size:1.1rem;color:#475569">▸</span>
           HOW THE SIMULATOR DECIDES WHAT HAPPENS
         </button>
         <div id="simGuideBody" style="display:none;background:#0d1117;border:1px solid #1e293b;border-top:none;border-radius:0 0 8px 8px;padding:16px 18px">
 
-          <p style="font-size:0.82rem;color:#64748b;margin-bottom:16px;line-height:1.6">Most buttons have a fixed outcome. But several plays use <strong style="color:#94a3b8">game context</strong> (base situation, outs) or <strong style="color:#94a3b8">randomness</strong> to produce different results — just like real baseball.</p>
+          <p style="font-size:1.0rem;color:#64748b;margin-bottom:16px;line-height:1.6">Most buttons have a fixed outcome. But several plays use <strong style="color:#94a3b8">game context</strong> (base situation, outs) or <strong style="color:#94a3b8">randomness</strong> to produce different results — just like real baseball.</p>
 
           ${[
             {
@@ -142,16 +142,16 @@ function initFieldModule() {
           ].map(section => `
             <div style="margin-bottom:18px">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-                <span style="background:${section.color}18;border:1px solid ${section.color}44;color:${section.color};font-family:Oswald,sans-serif;font-size:0.72rem;font-weight:600;padding:2px 10px;border-radius:4px">${section.btn}</span>
+                <span style="background:${section.color}18;border:1px solid ${section.color}44;color:${section.color};font-family:Oswald,sans-serif;font-size:0.88rem;font-weight:600;padding:2px 10px;border-radius:4px">${section.btn}</span>
               </div>
               <div style="display:flex;flex-direction:column;gap:4px">
                 ${section.rows.map(r => `
                   <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;padding:8px 12px;background:${r.bc === '#238636' ? 'rgba(35,134,54,0.08)' : '#0a0e17'};border-radius:6px;border:1px solid ${r.bc === '#238636' ? 'rgba(35,134,54,0.22)' : '#1e293b'}">
                     <div>
-                      <div style="font-size:0.72rem;color:#7aa2d4;margin-bottom:3px">${r.cond}</div>
-                      <div style="font-size:0.81rem;color:${r.bc === '#238636' ? '#7ee787' : '#c9d1d9'};font-weight:${r.bc === '#238636' ? '500' : '400'}">${r.result}</div>
+                      <div style="font-size:0.88rem;color:#7aa2d4;margin-bottom:3px">${r.cond}</div>
+                      <div style="font-size:0.99rem;color:${r.bc === '#238636' ? '#7ee787' : '#c9d1d9'};font-weight:${r.bc === '#238636' ? '500' : '400'}">${r.result}</div>
                     </div>
-                    <span style="background:${r.bc === '#238636' ? 'rgba(35,134,54,0.18)' : r.bc + '22'};border:1px solid ${r.bc === '#238636' ? 'rgba(35,134,54,0.45)' : r.bc + '55'};color:${r.bc === '#238636' ? '#7ee787' : r.bc === '#9e6a03' ? '#e3b341' : '#388bfd'};font-family:Oswald,sans-serif;font-size:0.68rem;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:1px">${r.bc === '#238636' ? 'FIXED' : r.badge}</span>
+                    <span style="background:${r.bc === '#238636' ? 'rgba(35,134,54,0.18)' : r.bc + '22'};border:1px solid ${r.bc === '#238636' ? 'rgba(35,134,54,0.45)' : r.bc + '55'};color:${r.bc === '#238636' ? '#7ee787' : r.bc === '#9e6a03' ? '#e3b341' : '#388bfd'};font-family:Oswald,sans-serif;font-size:0.83rem;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:1px">${r.bc === '#238636' ? 'FIXED' : r.badge}</span>
                   </div>
                 `).join('')}
               </div>
@@ -159,7 +159,7 @@ function initFieldModule() {
           `).join('')}
 
           <div style="margin-top:8px;padding:10px 12px;background:#0a0e17;border-radius:6px;border-left:3px solid #388bfd33">
-            <p style="font-size:0.76rem;color:#64748b;line-height:1.55">All other buttons — Triple, Home Run, Walk, HBP, Intentional Walk, Stolen Base, Caught Stealing, Sac Bunt — produce <strong style="color:#94a3b8">fixed outcomes</strong> based only on the current base situation (shown with a green <strong style="color:#7ee787">FIXED</strong> badge above).</p>
+            <p style="font-size:0.93rem;color:#64748b;line-height:1.55">All other buttons — Triple, Home Run, Walk, HBP, Intentional Walk, Stolen Base, Caught Stealing, Sac Bunt — produce <strong style="color:#94a3b8">fixed outcomes</strong> based only on the current base situation (shown with a green <strong style="color:#7ee787">FIXED</strong> badge above).</p>
           </div>
         </div>
       </div>
@@ -202,29 +202,40 @@ function initFieldModule() {
 
 
 function buildFieldSVG() {
+  // Home (300,450), foul poles (0,150) and (600,150) → exact 90° angle at home plate
+  // Diamond square: 1B(383,367), 2B(300,284), 3B(217,367)
   return `
-  <svg viewBox="0 -25 400 425" xmlns="http://www.w3.org/2000/svg">
-    <path d="M200,340 L20,80 A220,220 0 0,1 380,80 Z" fill="#1a5c30"/>
-    <path d="M200,340 L90,230 L200,120 L310,230 Z" fill="#8B6914" opacity="0.7"/>
-    <path d="M200,330 L95,228 L200,126 L305,228 Z" fill="#1a5c30"/>
-    <line x1="200" y1="340" x2="20" y2="80" stroke="white" stroke-width="1.5" opacity="0.6"/>
-    <line x1="200" y1="340" x2="380" y2="80" stroke="white" stroke-width="1.5" opacity="0.6"/>
-    <rect x="187" y="113" width="26" height="26" fill="white" rx="3" transform="rotate(45,200,126)"/>
-    <rect x="82" y="217" width="26" height="26" fill="white" rx="3" transform="rotate(45,95,230)"/>
-    <rect x="292" y="217" width="26" height="26" fill="white" rx="3" transform="rotate(45,305,230)"/>
-    <polygon points="200,356 188,344 188,332 212,332 212,344" fill="white"/>
-    <circle cx="200" cy="228" r="12" fill="#8B6914" stroke="white" stroke-width="1"/>
-    <line x1="20" y1="80" x2="20" y2="60" stroke="#f0883e" stroke-width="3"/>
-    <line x1="380" y1="80" x2="380" y2="60" stroke="#f0883e" stroke-width="3"/>
-    ${posMarker(200, 228, 'pitcher', '1', 'P')}
-    ${posMarker(200, 348, 'catcher', '2', 'C')}
-    ${posMarker(305, 225, 'first',   '3', '1B')}
-    ${posMarker(245, 172, 'second',  '4', '2B')}
-    ${posMarker( 95, 225, 'third',   '5', '3B')}
-    ${posMarker(155, 172, 'short',   '6', 'SS')}
-    ${posMarker( 82,  88, 'left',   '7', 'LF')}
-    ${posMarker(200,  68, 'center', '8', 'CF')}
-    ${posMarker(318,  88, 'right',  '9', 'RF')}
+  <svg viewBox="0 -30 600 510" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+    <!-- outfield grass -->
+    <path d="M300,450 L0,150 A345,345 0 0,1 600,150 Z" fill="#1a5c30"/>
+    <!-- infield dirt -->
+    <path d="M300,450 L217,367 L300,284 L383,367 Z" fill="#8B6914" opacity="0.75"/>
+    <!-- infield grass overlay (diamond cutout) -->
+    <path d="M300,440 L222,367 L300,294 L378,367 Z" fill="#1a5c30"/>
+    <!-- foul lines -->
+    <line x1="300" y1="450" x2="0"   y2="150" stroke="white" stroke-width="2" opacity="0.6"/>
+    <line x1="300" y1="450" x2="600" y2="150" stroke="white" stroke-width="2" opacity="0.6"/>
+    <!-- foul poles -->
+    <line x1="0"   y1="150" x2="0"   y2="120" stroke="#f0883e" stroke-width="4"/>
+    <line x1="600" y1="150" x2="600" y2="120" stroke="#f0883e" stroke-width="4"/>
+    <!-- base bags -->
+    <rect x="288" y="272" width="24" height="24" fill="white" rx="3" transform="rotate(45,300,284)"/>
+    <rect x="205" y="355" width="24" height="24" fill="white" rx="3" transform="rotate(45,217,367)"/>
+    <rect x="371" y="355" width="24" height="24" fill="white" rx="3" transform="rotate(45,383,367)"/>
+    <!-- home plate -->
+    <polygon points="300,466 288,454 288,440 312,440 312,454" fill="white"/>
+    <!-- pitcher's mound -->
+    <circle cx="300" cy="366" r="14" fill="#8B6914" stroke="white" stroke-width="1.2"/>
+    <!-- position markers -->
+    ${posMarker(300, 366, 'pitcher', '1', 'P')}
+    ${posMarker(300, 455, 'catcher', '2', 'C')}
+    ${posMarker(383, 360, 'first',   '3', '1B')}
+    ${posMarker(355, 310, 'second',  '4', '2B')}
+    ${posMarker(217, 360, 'third',   '5', '3B')}
+    ${posMarker(245, 310, 'short',   '6', 'SS')}
+    ${posMarker(120, 215, 'left',    '7', 'LF')}
+    ${posMarker(300, 168, 'center',  '8', 'CF')}
+    ${posMarker(480, 215, 'right',   '9', 'RF')}
   </svg>`;
 }
 
@@ -390,7 +401,7 @@ function showPosition(key) {
     <h3>${pos.emoji} ${pos.name}</h3>
     <p class="mt-8">${pos.role}</p>
     <div class="info-box green mt-8" style="padding:10px 14px">
-      <p style="font-size:0.82rem;margin:0"><strong>📊 Did you know?</strong> ${pos.fact}</p>
+      <p style="font-size:1.0rem;margin:0"><strong>📊 Did you know?</strong> ${pos.fact}</p>
     </div>
   `;
 }

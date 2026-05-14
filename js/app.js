@@ -1,3 +1,26 @@
+// ── THEME TOGGLE ──
+
+function initTheme() {
+  const saved = localStorage.getItem('baseball-theme');
+  if (saved === 'dark') document.body.classList.add('dark-mode');
+  updateToggleButtons();
+}
+
+function toggleTheme() {
+  const isDark = document.body.classList.toggle('dark-mode');
+  localStorage.setItem('baseball-theme', isDark ? 'dark' : 'light');
+  updateToggleButtons();
+  const simEl = document.getElementById('baseballSim');
+  if (simEl && simEl.innerHTML.trim()) renderSim();
+}
+
+function updateToggleButtons() {
+  const isDark = document.body.classList.contains('dark-mode');
+  document.querySelectorAll('.theme-toggle').forEach(btn => {
+    btn.textContent = isDark ? '☀️ Light' : '🌙 Dark';
+  });
+}
+
 // ── NAVIGATION ──
 
 function showScreen(id) {
@@ -52,10 +75,13 @@ function makeNav(titleText, subtitleText) {
   nav.className = 'module-nav';
   nav.innerHTML = `
     <button class="back-btn" onclick="goHome()">← Back</button>
-    <div>
+    <div style="flex:1">
       <div class="module-nav-title">${titleText}</div>
       ${subtitleText ? `<div class="module-nav-subtitle">${subtitleText}</div>` : ''}
     </div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
   `;
   return nav;
 }
+
+initTheme();

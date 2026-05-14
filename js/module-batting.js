@@ -98,16 +98,16 @@ function initBattingModule() {
         <div>
           <div class="info-box" style="margin-bottom:12px">
             <h3>By the Rules</h3>
-            <p class="mt-8" style="font-size:0.88rem">The zone extends from the <strong>midpoint between the batter's shoulders and waist</strong> (roughly the chest) down to the <strong>hollow below the knee</strong>. The width equals the 17-inch width of home plate.</p>
-            <p class="mt-8" style="font-size:0.88rem">The zone technically changes for every batter — a taller batter has a larger zone, a crouching batter has a smaller one.</p>
+            <p class="mt-8" style="font-size:1.07rem">The zone extends from the <strong>midpoint between the batter's shoulders and waist</strong> (roughly the chest) down to the <strong>hollow below the knee</strong>. The width equals the 17-inch width of home plate.</p>
+            <p class="mt-8" style="font-size:1.07rem">The zone technically changes for every batter — a taller batter has a larger zone, a crouching batter has a smaller one.</p>
           </div>
           <div class="info-box" style="margin-bottom:12px">
             <h3>In Practice</h3>
-            <p class="mt-8" style="font-size:0.88rem">Since 2015, MLB uses <strong>Statcast</strong> to grade umpires' ball/strike calls with sub-inch precision. The real-world zone is slightly shorter than the rulebook zone top-to-bottom, and pitchers target the corners aggressively because edge calls are hardest to get right.</p>
+            <p class="mt-8" style="font-size:1.07rem">Since 2015, MLB uses <strong>Statcast</strong> to grade umpires' ball/strike calls with sub-inch precision. The real-world zone is slightly shorter than the rulebook zone top-to-bottom, and pitchers target the corners aggressively because edge calls are hardest to get right.</p>
           </div>
           <div class="info-box">
             <h3>The Chase Rate Problem</h3>
-            <p class="mt-8" style="font-size:0.88rem">Pitchers don't just throw strikes — they throw <em>chase pitches</em>: balls that look like strikes until the last moment. A batter's ability to lay off these pitches is called <strong>plate discipline</strong>, and it separates good hitters from great ones.</p>
+            <p class="mt-8" style="font-size:1.07rem">Pitchers don't just throw strikes — they throw <em>chase pitches</em>: balls that look like strikes until the last moment. A batter's ability to lay off these pitches is called <strong>plate discipline</strong>, and it separates good hitters from great ones.</p>
           </div>
         </div>
       </div>
@@ -154,8 +154,8 @@ function initBattingModule() {
       <h2>Swing or Take?</h2>
       <p class="mt-8">A pitch is on its way. Watch where it's crossing the plate — if it's in the strike zone, swing. If it's outside the zone, let it go. Eight pitches, each in a different situation.</p>
       <div class="info-box mt-12" style="padding:12px 16px">
-        <p style="font-size:0.85rem"><strong>Basic rule:</strong> ✅ Pitch in the zone → Swing &nbsp;|&nbsp; ❌ Pitch outside the zone → Take<br>
-        <span style="color:var(--text-muted);font-size:0.82rem">Advanced note: in real games, the count and situation sometimes change this — a 3-0 hitter's count or a 0-2 danger count both affect the decision. We'll explain each case after you answer.</span></p>
+        <p style="font-size:1.04rem"><strong>Basic rule:</strong> ✅ Pitch in the zone → Swing &nbsp;|&nbsp; ❌ Pitch outside the zone → Take<br>
+        <span style="color:var(--text-muted);font-size:1.0rem">Advanced note: in real games, the count and situation sometimes change this — a 3-0 hitter's count or a 0-2 danger count both affect the decision. We'll explain each case after you answer.</span></p>
       </div>
 
       <div id="pdGameArea" class="mt-20"></div>
@@ -174,17 +174,22 @@ function initBattingModule() {
 }
 
 function buildBatterHandednessSVG() {
+  return `<img src="img/batters-box-diagram.png" alt="Overhead view of batter's box layout with measurements"
+    style="width:100%;max-width:520px;display:block;margin-top:20px;border-radius:10px;background:#fff">`;
+}
+
+function buildBatterHandednessSVG_unused() {
   return `
-  <svg viewBox="0 0 420 348" xmlns="http://www.w3.org/2000/svg"
+  <svg viewBox="0 0 420 345" xmlns="http://www.w3.org/2000/svg"
     style="width:100%;max-width:520px;display:block;margin-top:20px;background:#0d1117;border-radius:10px">
 
     <text x="210" y="18" text-anchor="middle" fill="#94a3b8" font-size="10"
       font-family="Oswald,sans-serif" font-weight="600" letter-spacing="1.5">OVERHEAD VIEW — BATTER'S BOX LAYOUT</text>
 
-    <!-- Foul lines from home plate (top = pitcher direction) -->
+    <!-- Foul lines from home plate tip (top = pitcher direction) -->
     <line x1="210" y1="163" x2="72" y2="38" stroke="#334155" stroke-width="1.5"/>
     <line x1="210" y1="163" x2="348" y2="38" stroke="#334155" stroke-width="1.5"/>
-    <!-- 90° angle arc near home plate -->
+    <!-- 90° arc at home plate tip -->
     <path d="M 188,141 A 27,27 0 0,1 232,141" stroke="#64748b" stroke-width="1" fill="none"/>
     <text x="210" y="135" text-anchor="middle" fill="#64748b" font-size="8" font-family="Inter,sans-serif">90°</text>
     <text x="210" y="50" text-anchor="middle" fill="#475569" font-size="8" font-family="Inter,sans-serif">↑ toward pitcher</text>
@@ -194,22 +199,20 @@ function buildBatterHandednessSVG() {
     <text x="210" y="197" text-anchor="middle" fill="#0d1117" font-size="7" font-family="Oswald,sans-serif" font-weight="700">HOME</text>
     <text x="210" y="209" text-anchor="middle" fill="#0d1117" font-size="7" font-family="Oswald,sans-serif" font-weight="700">PLATE</text>
 
-    <!-- Left batter's box  (right-handed batters) -->
-    <!-- right edge = 187 − 12 (6" gap) = 175 ; width = 108 ; left edge = 67 -->
-    <rect x="67" y="143" width="108" height="170" fill="#388bfd" fill-opacity="0.06"
+    <!-- Left batter's box (right-handed batters): box top at y=111 so 90° arc sits inside -->
+    <rect x="67" y="111" width="108" height="162" fill="#388bfd" fill-opacity="0.06"
       stroke="#388bfd" stroke-width="1.5" stroke-dasharray="6,4" rx="2"/>
-    <text x="121" y="137" text-anchor="middle" fill="#388bfd" font-size="9"
+    <text x="78" y="126" fill="#388bfd" font-size="9"
       font-family="Oswald,sans-serif" font-weight="600">BATTER'S BOX</text>
-    <text x="121" y="236" text-anchor="middle" fill="#388bfd" font-size="8.5"
+    <text x="121" y="205" text-anchor="middle" fill="#388bfd" font-size="8.5"
       font-family="Inter,sans-serif">RHB stands here</text>
 
     <!-- Right batter's box (left-handed batters) -->
-    <!-- left edge = 233 + 12 (6" gap) = 245 ; width = 108 ; right edge = 353 -->
-    <rect x="245" y="143" width="108" height="170" fill="#f0883e" fill-opacity="0.06"
+    <rect x="245" y="111" width="108" height="162" fill="#f0883e" fill-opacity="0.06"
       stroke="#f0883e" stroke-width="1.5" stroke-dasharray="6,4" rx="2"/>
-    <text x="299" y="137" text-anchor="middle" fill="#f0883e" font-size="9"
+    <text x="256" y="126" fill="#f0883e" font-size="9"
       font-family="Oswald,sans-serif" font-weight="600">BATTER'S BOX</text>
-    <text x="299" y="236" text-anchor="middle" fill="#f0883e" font-size="8.5"
+    <text x="299" y="205" text-anchor="middle" fill="#f0883e" font-size="8.5"
       font-family="Inter,sans-serif">LHB stands here</text>
 
     <!-- Catcher's box (43" wide, centered under plate) -->
@@ -225,28 +228,28 @@ function buildBatterHandednessSVG() {
     <text x="210" y="237" text-anchor="middle" fill="#64748b" font-size="7.5"
       font-family="Inter,sans-serif">17" [0.43m]</text>
 
-    <!-- Dimension: 6" gap between left box and plate -->
+    <!-- Dimension: 6" gap between left box inner edge and home plate -->
     <line x1="175" y1="178" x2="187" y2="178" stroke="#64748b" stroke-width="0.8"/>
     <line x1="175" y1="175" x2="175" y2="181" stroke="#64748b" stroke-width="0.8"/>
     <line x1="187" y1="175" x2="187" y2="181" stroke="#64748b" stroke-width="0.8"/>
     <text x="181" y="172" text-anchor="middle" fill="#64748b" font-size="7"
       font-family="Inter,sans-serif">6"</text>
 
-    <!-- Dimension: 4' box width (below left box) -->
-    <line x1="67" y1="320" x2="175" y2="320" stroke="#64748b" stroke-width="0.8"/>
-    <line x1="67" y1="317" x2="67" y2="323" stroke="#64748b" stroke-width="0.8"/>
-    <line x1="175" y1="317" x2="175" y2="323" stroke="#64748b" stroke-width="0.8"/>
-    <text x="121" y="332" text-anchor="middle" fill="#64748b" font-size="7.5"
+    <!-- Dimension: 4' box width (below left box, box bottom = y=273) -->
+    <line x1="67" y1="282" x2="175" y2="282" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="67" y1="279" x2="67" y2="285" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="175" y1="279" x2="175" y2="285" stroke="#64748b" stroke-width="0.8"/>
+    <text x="121" y="294" text-anchor="middle" fill="#64748b" font-size="7.5"
       font-family="Inter,sans-serif">4' [1.22m]</text>
 
-    <!-- Dimension: 6' box height (left side) -->
-    <line x1="53" y1="143" x2="53" y2="313" stroke="#64748b" stroke-width="0.8"/>
-    <line x1="50" y1="143" x2="56" y2="143" stroke="#64748b" stroke-width="0.8"/>
-    <line x1="50" y1="313" x2="56" y2="313" stroke="#64748b" stroke-width="0.8"/>
-    <text x="40" y="228" text-anchor="middle" fill="#64748b" font-size="7.5"
-      font-family="Inter,sans-serif" transform="rotate(-90,40,228)">6' [1.83m]</text>
+    <!-- Dimension: 6' box height (left side, spans y=111 to y=273) -->
+    <line x1="53" y1="111" x2="53" y2="273" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="50" y1="111" x2="56" y2="111" stroke="#64748b" stroke-width="0.8"/>
+    <line x1="50" y1="273" x2="56" y2="273" stroke="#64748b" stroke-width="0.8"/>
+    <text x="40" y="192" text-anchor="middle" fill="#64748b" font-size="7.5"
+      font-family="Inter,sans-serif" transform="rotate(-90,40,192)">6' [1.83m]</text>
 
-    <!-- Dimension: 43" catcher's box width -->
+    <!-- Dimension: 43" catcher's box width (catcher's box bottom = y=290) -->
     <line x1="151" y1="298" x2="269" y2="298" stroke="#64748b" stroke-width="0.8"/>
     <line x1="151" y1="295" x2="151" y2="301" stroke="#64748b" stroke-width="0.8"/>
     <line x1="269" y1="295" x2="269" y2="301" stroke="#64748b" stroke-width="0.8"/>
@@ -254,11 +257,11 @@ function buildBatterHandednessSVG() {
       font-family="Inter,sans-serif">43" [1.09m]</text>
 
     <!-- Legend -->
-    <rect x="55" y="336" width="310" height="8" rx="3" fill="#1e293b"/>
-    <text x="68" y="344" fill="#388bfd" font-size="8.5" font-family="Oswald,sans-serif">■ RHB</text>
-    <text x="93" y="344" fill="#64748b" font-size="8" font-family="Inter,sans-serif">Right-handed batter (left box)</text>
-    <text x="233" y="344" fill="#f0883e" font-size="8.5" font-family="Oswald,sans-serif">■ LHB</text>
-    <text x="258" y="344" fill="#64748b" font-size="8" font-family="Inter,sans-serif">Left-handed (right box)</text>
+    <rect x="55" y="322" width="310" height="16" rx="3" fill="#1e293b"/>
+    <text x="68" y="334" fill="#388bfd" font-size="8.5" font-family="Oswald,sans-serif">■ RHB</text>
+    <text x="93" y="334" fill="#64748b" font-size="8" font-family="Inter,sans-serif">Right-handed batter (left box)</text>
+    <text x="233" y="334" fill="#f0883e" font-size="8.5" font-family="Oswald,sans-serif">■ LHB</text>
+    <text x="258" y="334" fill="#64748b" font-size="8" font-family="Inter,sans-serif">Left-handed (right box)</text>
   </svg>`;
 }
 
@@ -315,8 +318,8 @@ function countCard(count, type, title, desc) {
   return `
   <div style="background:${bg[type]};border:1px solid ${colors[type]}30;border-radius:8px;padding:14px">
     <div style="font-family:Oswald,sans-serif;font-size:1.5rem;font-weight:700;color:${colors[type]};text-align:center;margin-bottom:4px">${count}</div>
-    <div style="font-size:0.75rem;font-weight:600;color:${colors[type]};text-align:center;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">${title}</div>
-    <p style="font-size:0.8rem;color:var(--text-dim);line-height:1.5">${desc}</p>
+    <div style="font-size:0.92rem;font-weight:600;color:${colors[type]};text-align:center;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">${title}</div>
+    <p style="font-size:0.98rem;color:var(--text-dim);line-height:1.5">${desc}</p>
   </div>`;
 }
 
@@ -388,10 +391,10 @@ function renderPDScenario() {
           ${buildPDScenarioSVG(sc.px, sc.py, false, sc.correct, null)}
         </div>
         <div style="flex:1;min-width:200px">
-          <div style="font-family:Oswald,sans-serif;font-size:0.75rem;color:var(--text-dim);margin-bottom:4px;letter-spacing:1px">CURRENT COUNT</div>
+          <div style="font-family:Oswald,sans-serif;font-size:0.92rem;color:var(--text-dim);margin-bottom:4px;letter-spacing:1px">CURRENT COUNT</div>
           <div style="font-family:Oswald,sans-serif;font-size:2.2rem;font-weight:700;color:white;margin-bottom:2px">${sc.count.b} — ${sc.count.s}</div>
-          <div style="font-size:0.8rem;color:var(--text-dim);margin-bottom:20px">Balls &nbsp;·&nbsp; Strikes</div>
-          <div style="font-size:0.88rem;color:var(--text);margin-bottom:16px">The pitch is on its way. What do you do?</div>
+          <div style="font-size:0.98rem;color:var(--text-dim);margin-bottom:20px">Balls &nbsp;·&nbsp; Strikes</div>
+          <div style="font-size:1.07rem;color:var(--text);margin-bottom:16px">The pitch is on its way. What do you do?</div>
           <div style="display:flex;gap:10px">
             <button class="tactic-btn" style="flex:1;background:rgba(35,134,54,0.12);border-color:#238636;color:#7ee787" onclick="handlePDChoice('swing')">⚡ Swing</button>
             <button class="tactic-btn" style="flex:1" onclick="handlePDChoice('take')">🛑 Take</button>

@@ -83,7 +83,7 @@ function handleQuizAnswer(chosen) {
   explain.style.display = 'block';
   explain.innerHTML = `
     <div class="info-box ${isRight ? 'green' : 'red'}" style="padding:12px 16px">
-      <p style="font-size:0.9rem">${isRight ? '✓ Correct! ' : '✗ Not quite. '}${q.explain}</p>
+      <p style="font-size:1.1rem">${isRight ? '✓ Correct! ' : '✗ Not quite. '}${q.explain}</p>
     </div>
   `;
 
@@ -115,7 +115,7 @@ function showQuizResult() {
 
       <div style="margin:24px 0;display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
         ${quizState.results.map((r, i) => `
-          <span style="font-size:0.85rem;padding:4px 10px;border-radius:4px;background:${r ? 'rgba(35,134,54,0.2)' : 'rgba(206,17,38,0.2)'};color:${r ? 'var(--green-light)' : '#ff6b7a'}">
+          <span style="font-size:1.04rem;padding:4px 10px;border-radius:4px;background:${r ? 'rgba(35,134,54,0.2)' : 'rgba(206,17,38,0.2)'};color:${r ? 'var(--green-light)' : '#ff6b7a'}">
             Q${i+1} ${r ? '✓' : '✗'}
           </span>
         `).join('')}
@@ -123,7 +123,7 @@ function showQuizResult() {
 
       <div class="info-box mt-16" style="text-align:left">
         <h3>Share This</h3>
-        <p class="mt-8" style="font-size:0.9rem">Know someone who's curious about baseball but doesn't know where to start? Send them here. The best way to fall in love with baseball is to understand it first.</p>
+        <p class="mt-8" style="font-size:1.1rem">Know someone who's curious about baseball but doesn't know where to start? Send them here. The best way to fall in love with baseball is to understand it first.</p>
       </div>
 
       <div style="display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap">
