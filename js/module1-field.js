@@ -43,71 +43,6 @@ function initFieldModule() {
 
       <div class="divider"></div>
 
-      <div class="section-label">Ways to Get Out</div>
-      <h2>The 5 Ways to Record an Out</h2>
-      <p class="mt-8">Baseball has exactly three outs per half-inning. Here are the five distinct ways an out can be recorded — each with its own rule.</p>
-
-      <div class="out-grid mt-16">
-        <div class="out-card">
-          <div style="max-width:180px;margin:0 auto 6px">${buildOutSVG_strikeout()}</div>
-          <h3 style="color:#388bfd;font-size:0.95rem">1. Strikeout</h3>
-          <p style="font-size:0.82rem">Three strikes — you're out. A strike is any pitch the batter swings at and misses, or any pitch in the zone that the batter doesn't swing at.</p>
-        </div>
-        <div class="out-card">
-          <div style="max-width:180px;margin:0 auto 6px">${buildOutSVG_flyout()}</div>
-          <h3 style="color:#7ee787;font-size:0.95rem">2. Fly Out</h3>
-          <p style="font-size:0.82rem">The batter hits the ball into the air and a fielder catches it before it touches the ground. Distance doesn't matter — if caught in the air, the batter is out.</p>
-        </div>
-        <div class="out-card">
-          <div style="max-width:180px;margin:0 auto 6px">${buildOutSVG_groundout()}</div>
-          <h3 style="color:#f0883e;font-size:0.95rem">3. Ground Out at First</h3>
-          <p style="font-size:0.82rem">The batter hits a ground ball. A fielder picks it up and throws to first base before the batter arrives. 1st base is always a force situation.</p>
-        </div>
-        <div class="out-card">
-          <div style="max-width:180px;margin:0 auto 6px">${buildOutSVG_forceout()}</div>
-          <h3 style="color:#e3b341;font-size:0.95rem">4. Force Out</h3>
-          <p style="font-size:0.82rem">A runner forced to advance because the batter needs their base. The fielder just steps on the next base — no tag required.</p>
-        </div>
-        <div class="out-card">
-          <div style="max-width:180px;margin:0 auto 6px">${buildOutSVG_tagout()}</div>
-          <h3 style="color:#ff6b7a;font-size:0.95rem">5. Tag Out</h3>
-          <p style="font-size:0.82rem">A fielder touches the runner with the ball while they're not safely on a base. Used when a runner isn't forced — like when stealing or caught between bases.</p>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="section-label">A Critical Rule</div>
-      <h2>Force Out vs. Tag Out — What's the Difference?</h2>
-      <p class="mt-8">This confuses almost every new fan. The rule is simple once you see it in action.</p>
-
-      <div class="info-box orange mt-16">
-        <p><strong>The core rule:</strong> If a runner is <em>forced</em> to advance (someone else needs their base), the fielder only has to hold the ball and <strong>touch the base</strong>. If the runner chose to advance on their own, the fielder must physically <strong>tag the runner</strong> with the ball.</p>
-      </div>
-
-      <div class="two-col mt-24">
-        <div>
-          <div class="section-label" style="color:var(--green-light)">Force Out</div>
-          <h3 style="margin-bottom:12px">Step on the base is enough</h3>
-          ${buildForceOutSVG()}
-          <div class="info-box green mt-12" style="padding:12px 14px">
-            <p style="font-size:0.85rem">Runner on 1st is <strong>forced to run</strong> because the batter is heading to 1st. So the shortstop throws to 2nd base — the fielder just steps on the bag. No tag needed.</p>
-            <p style="font-size:0.85rem;margin-top:8px">1st base is <em>always</em> a force out. 2nd base is a force out if there's a runner on 1st. And so on.</p>
-          </div>
-        </div>
-        <div>
-          <div class="section-label" style="color:#f0883e">Tag Out</div>
-          <h3 style="margin-bottom:12px">Must touch the runner with the ball</h3>
-          ${buildTagOutSVG()}
-          <div class="info-box orange mt-12" style="padding:12px 14px">
-            <p style="font-size:0.85rem">Runner on 2nd, nobody on 1st. This runner <strong>chose to steal 3rd</strong> — they weren't forced. So the catcher throws to 3rd, but the fielder must <em>tag</em> the runner with the ball or glove to record the out.</p>
-            <p style="font-size:0.85rem;margin-top:8px">Steals, rundowns, and runners stranded between bases all require a tag.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
       <div class="section-label">The Scoreboard</div>
       <h2>How to Read a Baseball Scoreboard</h2>
       <p class="mt-8">A baseball scoreboard carries more information than most sports. Here's what every number means — and you'll be reading it fluently within one inning.</p>
@@ -135,6 +70,122 @@ function initFieldModule() {
       <p class="mt-8">Step up to the plate. Press any play to see what happens on the field — and learn the rule behind it.</p>
       <div id="baseballSim" style="margin-top:20px"></div>
 
+      <!-- Collapsible: how the simulator works -->
+      <div style="margin-top:20px">
+        <button onclick="(function(btn){const body=document.getElementById('simGuideBody');const arrow=document.getElementById('simGuideArrow');const open=body.style.display==='block';body.style.display=open?'none':'block';arrow.textContent=open?'▸':'▾';})(this)"
+          style="width:100%;text-align:left;background:#0d1117;border:1px solid #1e293b;border-radius:8px;padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;color:#94a3b8;font-family:Oswald,sans-serif;font-size:0.85rem;letter-spacing:1px"
+          onmouseover="this.style.borderColor='#334155'" onmouseout="this.style.borderColor='#1e293b'">
+          <span id="simGuideArrow" style="font-size:0.9rem;color:#475569">▸</span>
+          HOW THE SIMULATOR DECIDES WHAT HAPPENS
+        </button>
+        <div id="simGuideBody" style="display:none;background:#0d1117;border:1px solid #1e293b;border-top:none;border-radius:0 0 8px 8px;padding:16px 18px">
+
+          <p style="font-size:0.82rem;color:#64748b;margin-bottom:16px;line-height:1.6">Most buttons have a fixed outcome. But several plays use <strong style="color:#94a3b8">game context</strong> (base situation, outs) or <strong style="color:#94a3b8">randomness</strong> to produce different results — just like real baseball.</p>
+
+          ${[
+            {
+              btn: 'Fly Out', color: '#ff6b7a',
+              rows: [
+                { cond: 'Runner on 3rd, < 2 outs', result: 'Sacrifice Fly — 1 out, run scores', badge: 'ALWAYS', bc: '#238636' },
+                { cond: 'All other situations',     result: 'Regular fly out',                  badge: 'ALWAYS', bc: '#238636' },
+              ]
+            },
+            {
+              btn: 'Line Out', color: '#ff6b7a',
+              rows: [
+                { cond: 'Runner on 1st, < 2 outs', result: 'Runner doubled off — 2 outs',       badge: '35%', bc: '#9e6a03' },
+                { cond: 'Runner on 1st, < 2 outs', result: 'Runner holds safely — 1 out',        badge: '65%', bc: '#1f6feb' },
+                { cond: 'No runner on 1st',         result: 'Regular line out',                   badge: 'ALWAYS', bc: '#238636' },
+              ]
+            },
+            {
+              btn: 'Ground Out', color: '#ff6b7a',
+              rows: [
+                { cond: 'Runner on 3rd, < 2 outs (priority)',       result: 'RBI Ground Out — 1 out, run scores',          badge: 'ALWAYS', bc: '#238636' },
+                { cond: 'Runner on 1st, < 2 outs',                  result: 'Double Play — 2 outs',                        badge: '35%', bc: '#9e6a03' },
+                { cond: 'Runner on 1st, < 2 outs',                  result: "Fielder's Choice — 1 out (runner), batter safe at 1st", badge: '15%', bc: '#9e6a03' },
+                { cond: 'Runner on 1st, < 2 outs',                  result: 'Regular out — 1 out, runner to 2nd (30% of these show an H&R note)', badge: '50%', bc: '#1f6feb' },
+                { cond: 'No runner on 1st (or runner on 3rd only)', result: 'Regular ground out, forced runners advance',   badge: 'ALWAYS', bc: '#238636' },
+              ]
+            },
+            {
+              btn: 'Pop-Up Out', color: '#ff6b7a',
+              rows: [
+                { cond: 'Runners on 1st + 2nd (or bases loaded), < 2 outs', result: 'Infield Fly Rule explained in description', badge: 'ALWAYS', bc: '#238636' },
+                { cond: 'All other situations',                               result: 'Regular pop-up out',                       badge: 'ALWAYS', bc: '#238636' },
+              ]
+            },
+            {
+              btn: 'Single', color: '#7ee787',
+              rows: [
+                { cond: 'Runner on 2nd (any)',              result: 'Scoring position — runner scores from 2nd',        badge: '75%', bc: '#9e6a03' },
+                { cond: 'Runner on 2nd (any)',              result: 'Scoring position — runner holds at 3rd',           badge: '25%', bc: '#1f6feb' },
+                { cond: 'Runner on 1st, no runner on 2nd', result: 'Hit and Run — runner reaches 3rd instead of 2nd',  badge: '25%', bc: '#9e6a03' },
+                { cond: 'Runner on 1st, no runner on 2nd', result: 'Standard single',                                   badge: '75%', bc: '#1f6feb' },
+                { cond: 'No runner on 1st or 2nd',         result: 'Standard advancement',                              badge: 'ALWAYS', bc: '#238636' },
+              ]
+            },
+            {
+              btn: 'Double', color: '#7ee787',
+              rows: [
+                { cond: 'Runner on 1st, no runner on 2nd', result: 'Hit and Run — runner scores from 1st (instead of stopping at 3rd)', badge: '20%', bc: '#9e6a03' },
+                { cond: 'All other situations',            result: 'Standard advancement',                                              badge: '80%', bc: '#1f6feb' },
+              ]
+            },
+            {
+              btn: 'Strikeout', color: '#ff6b7a',
+              rows: [
+                { cond: 'Runner on 1st, < 2 outs', result: 'H&R backfire — 2 outs ("strike \'em out, throw \'em out")', badge: '15%', bc: '#9e6a03' },
+                { cond: 'All other situations',    result: 'Regular strikeout — 1 out',                                badge: '85%', bc: '#1f6feb' },
+              ]
+            },
+          ].map(section => `
+            <div style="margin-bottom:18px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                <span style="background:${section.color}18;border:1px solid ${section.color}44;color:${section.color};font-family:Oswald,sans-serif;font-size:0.72rem;font-weight:600;padding:2px 10px;border-radius:4px">${section.btn}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:4px">
+                ${section.rows.map(r => `
+                  <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;padding:8px 12px;background:${r.bc === '#238636' ? 'rgba(35,134,54,0.08)' : '#0a0e17'};border-radius:6px;border:1px solid ${r.bc === '#238636' ? 'rgba(35,134,54,0.22)' : '#1e293b'}">
+                    <div>
+                      <div style="font-size:0.72rem;color:#7aa2d4;margin-bottom:3px">${r.cond}</div>
+                      <div style="font-size:0.81rem;color:${r.bc === '#238636' ? '#7ee787' : '#c9d1d9'};font-weight:${r.bc === '#238636' ? '500' : '400'}">${r.result}</div>
+                    </div>
+                    <span style="background:${r.bc === '#238636' ? 'rgba(35,134,54,0.18)' : r.bc + '22'};border:1px solid ${r.bc === '#238636' ? 'rgba(35,134,54,0.45)' : r.bc + '55'};color:${r.bc === '#238636' ? '#7ee787' : r.bc === '#9e6a03' ? '#e3b341' : '#388bfd'};font-family:Oswald,sans-serif;font-size:0.68rem;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:1px">${r.bc === '#238636' ? 'FIXED' : r.badge}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `).join('')}
+
+          <div style="margin-top:8px;padding:10px 12px;background:#0a0e17;border-radius:6px;border-left:3px solid #388bfd33">
+            <p style="font-size:0.76rem;color:#64748b;line-height:1.55">All other buttons — Triple, Home Run, Walk, HBP, Intentional Walk, Stolen Base, Caught Stealing, Sac Bunt — produce <strong style="color:#94a3b8">fixed outcomes</strong> based only on the current base situation (shown with a green <strong style="color:#7ee787">FIXED</strong> badge above).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-label">A Critical Rule</div>
+      <h2>Force Out vs. Tag Out</h2>
+
+      <div class="info-box orange mt-16">
+        <p><strong>The core rule:</strong> If a runner is <em>forced</em> to advance (someone else needs their base), the fielder only has to hold the ball and <strong>touch the base</strong>. If the runner chose to advance on their own, the fielder must physically <strong>tag the runner</strong> with the ball.</p>
+      </div>
+
+      <div class="two-col mt-24">
+        <div>
+          <div class="section-label" style="color:var(--green-light)">Force Out</div>
+          <h3 style="margin-bottom:12px">Step on the base is enough</h3>
+          ${buildForceOutSVG()}
+        </div>
+        <div>
+          <div class="section-label" style="color:#f0883e">Tag Out</div>
+          <h3 style="margin-bottom:12px">Must touch the runner with the ball</h3>
+          ${buildTagOutSVG()}
+        </div>
+      </div>
+
       <div class="divider"></div>
       <div class="section-label">Ready?</div>
       <h2>Now for the fun part</h2>
@@ -147,166 +198,12 @@ function initFieldModule() {
   initSimulator();
 }
 
-// ── 5 OUT TYPE SVGs ──
+// ── FIELD SVG + FORCE/TAG SVGs ──
 
-function buildOutSVG_strikeout() {
-  return `
-  <svg viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;border-radius:6px;margin-bottom:4px">
-    <rect width="180" height="100" fill="#060c18" rx="6"/>
-    <!-- Strike zone outline -->
-    <rect x="70" y="18" width="44" height="55" fill="rgba(56,139,253,0.07)" stroke="rgba(56,139,253,0.4)" stroke-width="1.5" rx="2"/>
-    <!-- 3x3 grid -->
-    <line x1="70" y1="36" x2="114" y2="36" stroke="rgba(56,139,253,0.2)" stroke-width="0.5"/>
-    <line x1="70" y1="54" x2="114" y2="54" stroke="rgba(56,139,253,0.2)" stroke-width="0.5"/>
-    <line x1="85" y1="18" x2="85" y2="73" stroke="rgba(56,139,253,0.2)" stroke-width="0.5"/>
-    <line x1="100" y1="18" x2="100" y2="73" stroke="rgba(56,139,253,0.2)" stroke-width="0.5"/>
-    <!-- Ball in zone -->
-    <circle cx="92" cy="45" r="7" fill="white" stroke="#ddd" stroke-width="0.5"/>
-    <path d="M88,45 A6,6 0 0,0 96,45" stroke="#cc2020" stroke-width="0.8" fill="none"/>
-    <!-- K mark -->
-    <text x="28" y="62" fill="#388bfd" font-size="38" font-family="Oswald,sans-serif" font-weight="700" opacity="0.9">K</text>
-    <!-- Strike dots -->
-    <circle cx="138" cy="30" r="5" fill="#f0883e"/>
-    <circle cx="150" cy="30" r="5" fill="#f0883e"/>
-    <circle cx="162" cy="30" r="5" fill="#f0883e"/>
-    <text x="150" y="52" text-anchor="middle" fill="#64748b" font-size="8" font-family="Inter,sans-serif">3 strikes</text>
-    <!-- Home plate -->
-    <polygon points="92,83 86,78 86,73 98,73 98,78" fill="white" opacity="0.7"/>
-  </svg>`;
-}
-
-function buildOutSVG_flyout() {
-  return `
-  <svg viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;border-radius:6px;margin-bottom:4px">
-    <defs>
-      <marker id="fo-arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-        <path d="M0,0 L5,3 L0,6 Z" fill="#7ee787"/>
-      </marker>
-    </defs>
-    <rect width="180" height="100" fill="#060c18" rx="6"/>
-    <!-- Ground -->
-    <line x1="0" y1="88" x2="180" y2="88" stroke="rgba(100,150,80,0.3)" stroke-width="1.5"/>
-    <!-- Ball arc -->
-    <path d="M30,82 Q90,12 155,35" stroke="#7ee787" stroke-width="2" fill="none" marker-end="url(#fo-arr)" stroke-linecap="round"/>
-    <!-- Ball dot at peak -->
-    <circle cx="90" cy="22" r="5" fill="white"/>
-    <!-- Fielder glove at end -->
-    <circle cx="155" cy="35" r="10" fill="rgba(35,134,54,0.2)" stroke="#7ee787" stroke-width="1.5"/>
-    <text x="155" y="39" text-anchor="middle" fill="#7ee787" font-size="9" font-family="Oswald,sans-serif">G</text>
-    <!-- Batter at start -->
-    <circle cx="30" cy="72" r="8" fill="rgba(56,139,253,0.2)" stroke="#388bfd" stroke-width="1.5"/>
-    <text x="30" y="76" text-anchor="middle" fill="#388bfd" font-size="8" font-family="Oswald,sans-serif">B</text>
-    <!-- CAUGHT label -->
-    <text x="155" y="56" text-anchor="middle" fill="#7ee787" font-size="8" font-family="Oswald,sans-serif" font-weight="600">CAUGHT!</text>
-    <text x="90" y="10" text-anchor="middle" fill="#64748b" font-size="8" font-family="Inter,sans-serif">any height — if caught, out</text>
-  </svg>`;
-}
-
-function buildOutSVG_groundout() {
-  return `
-  <svg viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;border-radius:6px;margin-bottom:4px">
-    <defs>
-      <marker id="go-arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-        <path d="M0,0 L5,3 L0,6 Z" fill="#f0883e"/>
-      </marker>
-      <marker id="go-arr2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-        <path d="M0,0 L5,3 L0,6 Z" fill="#ff6b7a"/>
-      </marker>
-    </defs>
-    <rect width="180" height="100" fill="#060c18" rx="6"/>
-    <!-- Ground -->
-    <line x1="0" y1="85" x2="180" y2="85" stroke="rgba(139,105,20,0.3)" stroke-width="1.5"/>
-    <!-- Ball rolling on ground -->
-    <circle cx="45" cy="80" r="5" fill="white"/>
-    <path d="M45,80 Q80,75 110,55" stroke="#f0883e" stroke-width="2" fill="none" stroke-dasharray="4,3" marker-end="url(#go-arr)"/>
-    <!-- Fielder picks up -->
-    <circle cx="110" cy="55" r="8" fill="rgba(100,116,139,0.3)" stroke="#94a3b8" stroke-width="1.5"/>
-    <text x="110" y="59" text-anchor="middle" fill="#94a3b8" font-size="7" font-family="Oswald,sans-serif">F</text>
-    <!-- Throw to 1st -->
-    <path d="M118,52 L152,38" stroke="#ff6b7a" stroke-width="2" fill="none" stroke-dasharray="4,3" marker-end="url(#go-arr2)"/>
-    <!-- 1st base -->
-    <rect x="148" y="30" width="14" height="14" fill="#f0883e" rx="2" transform="rotate(45,155,37)"/>
-    <text x="155" y="22" text-anchor="middle" fill="#f0883e" font-size="8" font-family="Oswald,sans-serif">1B</text>
-    <!-- Batter running -->
-    <circle cx="28" cy="78" r="6" fill="rgba(56,139,253,0.2)" stroke="#388bfd" stroke-width="1.5"/>
-    <text x="28" y="82" text-anchor="middle" fill="#388bfd" font-size="7" font-family="Oswald,sans-serif">B</text>
-    <line x1="34" y1="75" x2="148" y2="35" stroke="#388bfd" stroke-width="1" stroke-dasharray="3,3" opacity="0.35"/>
-    <text x="90" y="10" text-anchor="middle" fill="#64748b" font-size="8" font-family="Inter,sans-serif">fielder throws to 1st before batter arrives</text>
-  </svg>`;
-}
-
-function buildOutSVG_forceout() {
-  return `
-  <svg viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;border-radius:6px;margin-bottom:4px">
-    <defs>
-      <marker id="frc-arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-        <path d="M0,0 L5,3 L0,6 Z" fill="#e3b341"/>
-      </marker>
-    </defs>
-    <rect width="180" height="100" fill="#060c18" rx="6"/>
-    <!-- Mini diamond -->
-    <polyline points="90,82 140,55 90,28 40,55 90,82" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-    <!-- Home plate -->
-    <polygon points="90,88 85,82 85,78 95,78 95,82" fill="white" opacity="0.6"/>
-    <!-- Bases -->
-    <rect x="35" y="50" width="10" height="10" fill="white" rx="1" transform="rotate(45,40,55)"/>
-    <rect x="86" y="24" width="10" height="10" fill="#e3b341" rx="1" transform="rotate(45,91,29)"/>
-    <!-- 2nd base highlight -->
-    <circle cx="91" cy="29" r="12" fill="none" stroke="#e3b341" stroke-width="1.5" stroke-dasharray="3,2"/>
-    <rect x="136" y="50" width="10" height="10" fill="white" rx="1" transform="rotate(45,141,55)"/>
-    <!-- Runner on 1st (orange) -->
-    <circle cx="141" cy="55" r="7" fill="#f0883e" stroke="#fff" stroke-width="1"/>
-    <text x="141" y="59" text-anchor="middle" fill="white" font-size="7" font-family="Oswald">R</text>
-    <!-- Runner moving to 2nd -->
-    <path d="M141,48 Q118,36 98,31" stroke="#f0883e" stroke-width="1.5" fill="none" stroke-dasharray="3,2" marker-end="url(#frc-arr)"/>
-    <!-- Batter at home (blue) -->
-    <circle cx="90" cy="82" r="6" fill="#388bfd" stroke="#fff" stroke-width="1" opacity="0.8"/>
-    <text x="90" y="86" text-anchor="middle" fill="white" font-size="7" font-family="Oswald">B</text>
-    <!-- Fielder at 2nd stepping on base -->
-    <circle cx="91" cy="29" r="7" fill="rgba(100,116,139,0.4)" stroke="#e3b341" stroke-width="1.5"/>
-    <text x="91" y="33" text-anchor="middle" fill="#e3b341" font-size="6" font-family="Oswald">F</text>
-    <!-- NO TAG label -->
-    <text x="28" y="18" fill="#e3b341" font-size="7" font-family="Oswald,sans-serif" font-weight="600">step on base</text>
-    <text x="28" y="27" fill="#64748b" font-size="6.5" font-family="Inter,sans-serif">no tag needed</text>
-  </svg>`;
-}
-
-function buildOutSVG_tagout() {
-  return `
-  <svg viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;border-radius:6px;margin-bottom:4px">
-    <rect width="180" height="100" fill="#060c18" rx="6"/>
-    <!-- Ground line -->
-    <line x1="0" y1="85" x2="180" y2="85" stroke="rgba(139,105,20,0.25)" stroke-width="1"/>
-    <!-- 1st base (far left) -->
-    <rect x="22" y="45" width="10" height="10" fill="rgba(255,255,255,0.3)" rx="1" transform="rotate(45,27,50)"/>
-    <text x="27" y="38" text-anchor="middle" fill="#64748b" font-size="7" font-family="Oswald">1B</text>
-    <!-- 2nd base (far right) -->
-    <rect x="148" y="45" width="10" height="10" fill="rgba(255,255,255,0.3)" rx="1" transform="rotate(45,153,50)"/>
-    <text x="153" y="38" text-anchor="middle" fill="#64748b" font-size="Oswald">2B</text>
-    <!-- Runner caught in middle -->
-    <circle cx="90" cy="62" r="9" fill="#ff6b7a" stroke="#fff" stroke-width="1.5"/>
-    <text x="90" y="66" text-anchor="middle" fill="white" font-size="8" font-family="Oswald">R</text>
-    <!-- Fielder tagging -->
-    <circle cx="118" cy="55" r="8" fill="rgba(100,116,139,0.4)" stroke="#94a3b8" stroke-width="1.5"/>
-    <text x="118" y="59" text-anchor="middle" fill="#94a3b8" font-size="7" font-family="Oswald">F</text>
-    <!-- Tag gesture -->
-    <line x1="110" y1="58" x2="100" y2="63" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- Ball -->
-    <circle cx="100" cy="63" r="4" fill="white"/>
-    <!-- TAG label -->
-    <text x="90" y="18" text-anchor="middle" fill="#ff6b7a" font-size="10" font-family="Oswald,sans-serif" font-weight="700">TAG!</text>
-    <text x="90" y="30" text-anchor="middle" fill="#64748b" font-size="7.5" font-family="Inter,sans-serif">not forced — must be touched</text>
-    <!-- "open field" lines -->
-    <line x1="27" y1="55" x2="81" y2="62" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-    <line x1="99" y1="62" x2="153" y2="52" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-  </svg>`;
-}
-
-// ── EXISTING FIELD SVG + FORCE/TAG SVGs ──
 
 function buildFieldSVG() {
   return `
-  <svg viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 -25 400 425" xmlns="http://www.w3.org/2000/svg">
     <path d="M200,340 L20,80 A220,220 0 0,1 380,80 Z" fill="#1a5c30"/>
     <path d="M200,340 L90,230 L200,120 L310,230 Z" fill="#8B6914" opacity="0.7"/>
     <path d="M200,330 L95,228 L200,126 L305,228 Z" fill="#1a5c30"/>
@@ -325,9 +222,9 @@ function buildFieldSVG() {
     ${posMarker(245, 172, 'second',  '4', '2B')}
     ${posMarker( 95, 225, 'third',   '5', '3B')}
     ${posMarker(155, 172, 'short',   '6', 'SS')}
-    ${posMarker(100, 140, 'left',   '7', 'LF')}
-    ${posMarker(200, 100, 'center', '8', 'CF')}
-    ${posMarker(300, 140, 'right',  '9', 'RF')}
+    ${posMarker( 82,  88, 'left',   '7', 'LF')}
+    ${posMarker(200,  68, 'center', '8', 'CF')}
+    ${posMarker(318,  88, 'right',  '9', 'RF')}
   </svg>`;
 }
 
