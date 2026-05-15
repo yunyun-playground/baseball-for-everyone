@@ -1,12 +1,53 @@
 // ── BASEBALL SITUATION SIMULATOR ──
 
+const SIM_AWAY_ROSTER = [
+  { name: 'Chen',  num: 1, color: '#7ee787' },
+  { name: 'Wang',  num: 2, color: '#f0883e' },
+  { name: 'Lin',   num: 3, color: '#388bfd' },
+  { name: 'Lee',   num: 4, color: '#e3b341' },
+  { name: 'Wu',    num: 5, color: '#a371f7' },
+  { name: 'Yang',  num: 6, color: '#79c0ff' },
+  { name: 'Huang', num: 7, color: '#ffa657' },
+  { name: 'Chang', num: 8, color: '#56d364' },
+  { name: 'Hsu',   num: 9, color: '#ff6b7a' },
+];
+
+const SIM_HOME_ROSTER = [
+  { name: 'Ohtani',    num: 1, color: '#ff6b7a' },
+  { name: 'Suzuki',    num: 2, color: '#79c0ff' },
+  { name: 'Kim',       num: 3, color: '#ffa657' },
+  { name: 'Park',      num: 4, color: '#56d364' },
+  { name: 'Rodriguez', num: 5, color: '#e3b341' },
+  { name: 'Williams',  num: 6, color: '#a371f7' },
+  { name: 'Johnson',   num: 7, color: '#388bfd' },
+  { name: 'Garcia',    num: 8, color: '#f0883e' },
+  { name: 'Lopez',     num: 9, color: '#7ee787' },
+];
+
+// Each team has its own batting order that advances independently
+function getBatter(state) {
+  const roster = state.halfInning === 'top' ? SIM_AWAY_ROSTER : SIM_HOME_ROSTER;
+  const idx = state.halfInning === 'top' ? state.awayBatterIndex : state.homeBatterIndex;
+  return roster[idx % 9];
+}
+
+// Returns a partial state patch — spread it into the return object
+function nextBatterIndex(state) {
+  if (state.halfInning === 'top') {
+    return { awayBatterIndex: (state.awayBatterIndex + 1) % 9 };
+  }
+  return { homeBatterIndex: (state.homeBatterIndex + 1) % 9 };
+}
+
 function createSimState() {
   return {
     inning: 1, halfInning: 'top', outs: 0,
     score: { away: 0, home: 0 },
-    runners: { first: false, second: false, third: false },
+    runners: { first: null, second: null, third: null },
     inningScores: { away: [], home: [] },
-    eventLog: [], lastPlay: null, gameOver: false
+    eventLog: [], lastPlay: null, gameOver: false,
+    awayBatterIndex: 0,
+    homeBatterIndex: 0
   };
 }
 
@@ -24,48 +65,47 @@ function applyRuns(state, runs) {
   return { ...state.score, [side]: state.score[side] + runs };
 }
 
-function advanceOnHit(runners, bases) {
-  const r = { first: false, second: false, third: false };
+function advanceOnHit(runners, bases, batter) {
+  const r = { first: null, second: null, third: null };
   let runs = 0;
-  if (runners.third) { if (bases >= 1) runs++; else r.third = true; }
+  if (runners.third) { if (bases >= 1) runs++; else r.third = runners.third; }
   if (runners.second) {
     const d = 2 + bases;
-    if (d >= 4) runs++; else if (d === 3) r.third = true; else r.second = true;
+    if (d >= 4) runs++; else if (d === 3) r.third = runners.second; else r.second = runners.second;
   }
   if (runners.first) {
     const d = 1 + bases;
-    if (d >= 4) runs++; else if (d === 3) r.third = true; else if (d === 2) r.second = true; else r.first = true;
+    if (d >= 4) runs++; else if (d === 3) r.third = runners.first; else if (d === 2) r.second = runners.first; else r.first = runners.first;
   }
-  if (bases >= 4) runs++; else if (bases === 3) r.third = true; else if (bases === 2) r.second = true; else r.first = true;
+  if (bases >= 4) runs++; else if (bases === 3) r.third = batter; else if (bases === 2) r.second = batter; else r.first = batter;
   return { runners: r, runs };
 }
 
-function advanceOnWalk(runners) {
-  const r = { first: true, second: runners.second, third: runners.third };
+function advanceOnWalk(runners, batter) {
+  const r = { first: batter, second: runners.second, third: runners.third };
   let runs = 0;
   if (runners.first) {
-    r.second = true;
-    if (runners.second) { r.third = true; if (runners.third) runs = 1; }
+    r.second = runners.first;
+    if (runners.second) { r.third = runners.second; if (runners.third) runs = 1; }
   }
   return { runners: r, runs };
 }
 
 function advanceOnGroundOut(runners) {
-  const r = { first: false, second: false, third: false };
-  if (runners.first) r.second = true;
-  if (runners.second && runners.first) r.third = true;
-  else if (runners.second) r.second = true;
-  if (runners.third) r.third = true;
+  const r = { first: null, second: null, third: null };
+  if (runners.first) r.second = runners.first;
+  if (runners.second && runners.first) r.third = runners.second;
+  else if (runners.second) r.second = runners.second;
+  if (runners.third) r.third = runners.third;
   return { runners: r, runs: 0 };
 }
 
 // ── INDIVIDUAL PLAYS ──
 
 function strikeout(state) {
-  // H&R backfire: runner on 1st + fewer than 2 outs, ~15% chance
   if (state.runners.first && state.outs < 2 && Math.random() < 0.15) {
-    const newRunners = { ...state.runners, first: false };
-    return { ...state, outs: state.outs + 2, runners: newRunners,
+    const newRunners = { ...state.runners, first: null };
+    return { ...state, outs: state.outs + 2, runners: newRunners, ...nextBatterIndex(state),
       lastPlay: mkPlay("Strike 'Em Out, Throw 'Em Out", '2 OUTS',
         "Hit-and-run backfires! The runner broke on the pitch, but the batter struck out. The catcher fires to second — runner hung out to dry. Two outs on one pitch.",
         "The nightmare hit-and-run outcome: the batter whiffs while the runner is fully committed. The catcher easily throws to second before the runner arrives. This 'strike 'em out, throw 'em out' double play can end an inning in an instant and kills momentum.",
@@ -73,7 +113,7 @@ function strikeout(state) {
       )
     };
   }
-  return { ...state, outs: state.outs + 1,
+  return { ...state, outs: state.outs + 1, ...nextBatterIndex(state),
     lastPlay: mkPlay('Strikeout', 'OUT',
       'The batter gets strike three — either swinging and missing, or watching a called strike in the zone.',
       'Three strikes and you\'re out. A swinging strike is any swing that misses. A called strike is any pitch inside the strike zone that the batter doesn\'t swing at.',
@@ -83,12 +123,12 @@ function strikeout(state) {
 }
 
 function flyOut(state) {
-  // Context-smart: if runner on 3rd with fewer than 2 outs, this becomes a sacrifice fly
   if (state.runners.third && state.outs < 2) {
     return {
       ...state, outs: state.outs + 1,
-      runners: { ...state.runners, third: false },
+      runners: { ...state.runners, third: null },
       score: applyRuns(state, 1),
+      ...nextBatterIndex(state),
       lastPlay: mkPlay('Sacrifice Fly', 'OUT + RUN SCORES',
         'The batter hits a deep fly ball that\'s caught — but the runner on third tags up and scores after the catch. The batter is out, but a run scores and the batter isn\'t penalized in their batting average.',
         'A sacrifice fly (SF) is not counted as an at-bat — so it doesn\'t hurt the batter\'s average. The runner on third must "tag up": stay on the base until the moment of the catch, then sprint home. Requires fewer than 2 outs.',
@@ -96,7 +136,7 @@ function flyOut(state) {
       )
     };
   }
-  return { ...state, outs: state.outs + 1,
+  return { ...state, outs: state.outs + 1, ...nextBatterIndex(state),
     lastPlay: mkPlay('Fly Out', 'OUT',
       'The batter hits the ball into the air and a fielder catches it before it touches the ground. Runners must "tag up" — touch their original base at the moment of the catch — before they can advance.',
       'Any ball caught in the air is an out, fair or foul. After the catch, runners may advance at their own risk. With a runner on third and fewer than 2 outs, a deep enough fly ball becomes a sacrifice fly.',
@@ -106,15 +146,14 @@ function flyOut(state) {
 }
 
 function lineOut(state) {
-  // Runner on 1st with fewer than 2 outs → ~35% doubled off, ~65% runner holds
   if (state.runners.first && state.outs < 2) {
     if (Math.random() < 0.35) {
       const doubledDesc = [
         'The runner broke early on the pitch — the fielder snags the line drive and fires back to first before the runner can scramble back. Doubled off!',
         'Hit-and-run gone wrong: the runner was moving, the fielder makes a tremendous catch, and the relay back to first completes the double play.',
       ][Math.floor(Math.random() * 2)];
-      const newRunners = { ...state.runners, first: false };
-      return { ...state, outs: state.outs + 2, runners: newRunners,
+      const newRunners = { ...state.runners, first: null };
+      return { ...state, outs: state.outs + 2, runners: newRunners, ...nextBatterIndex(state),
         lastPlay: mkPlay('Line Drive — Doubled Off', '2 OUTS',
           doubledDesc,
           'A "doubled off" play: the runner left first base expecting the ball to drop in for a hit. When it\'s caught instead, they can\'t get back to the base before the throw arrives. The fielder steps on first — no tag needed, just like a force out. This happens roughly 35% of the time when a runner is moving on the pitch.',
@@ -127,7 +166,7 @@ function lineOut(state) {
         'Screaming liner caught on the run — the runner read it perfectly and held. 1 out, runner stays.',
         'Line drive caught by the second baseman — runner hit the brakes just in time. No second out.',
       ][Math.floor(Math.random() * 3)];
-      return { ...state, outs: state.outs + 1,
+      return { ...state, outs: state.outs + 1, ...nextBatterIndex(state),
         lastPlay: mkPlay('Line Drive Out', 'OUT',
           holdDesc,
           'Smart baserunning: on a line drive, good runners hold until they\'re sure the ball won\'t be caught. It costs them a potential advance, but saves them from being doubled off. The defense converted only one out this time.',
@@ -136,7 +175,7 @@ function lineOut(state) {
       };
     }
   }
-  return { ...state, outs: state.outs + 1,
+  return { ...state, outs: state.outs + 1, ...nextBatterIndex(state),
     lastPlay: mkPlay('Line Drive Out', 'OUT',
       'The batter rips a hard line drive that\'s caught by a fielder before it bounces. Spectacular — hit hard, but the fielder was in exactly the right place.',
       'A line drive caught in the air is the same as any fly out. Caught so quickly that runners often can\'t react — leaving early can get them "doubled off" their base before they can return.',
@@ -147,7 +186,7 @@ function lineOut(state) {
 
 function popOut(state) {
   const ifr = state.outs < 2 && state.runners.first && state.runners.second;
-  return { ...state, outs: state.outs + 1,
+  return { ...state, outs: state.outs + 1, ...nextBatterIndex(state),
     lastPlay: mkPlay('Pop-Up Out', 'OUT',
       'The batter hits a soft popup into the infield. ' + (ifr
         ? 'Infield Fly Rule in effect — automatic out called by the umpire to protect the runners.'
@@ -159,12 +198,11 @@ function popOut(state) {
 }
 
 function groundOut(state) {
-  // Context 1: runner on 3rd with fewer than 2 outs → RBI ground out (takes priority)
   if (state.runners.third && state.outs < 2) {
-    const newRunners = { first: false, second: false, third: false };
-    if (state.runners.second) newRunners.third = true;
-    if (state.runners.first) newRunners.second = true;
-    return { ...state, outs: state.outs + 1, runners: newRunners, score: applyRuns(state, 1),
+    const newRunners = { first: null, second: null, third: null };
+    if (state.runners.second) newRunners.third = state.runners.second;
+    if (state.runners.first) newRunners.second = state.runners.first;
+    return { ...state, outs: state.outs + 1, runners: newRunners, score: applyRuns(state, 1), ...nextBatterIndex(state),
       lastPlay: mkPlay('RBI Ground Out', 'OUT + RUN SCORES',
         'The batter grounds out to first — but the runner on third scores on the play. A "productive out": the batter goes down, but a run crosses home plate.',
         'With fewer than 2 outs and a runner on third, the defense usually takes the sure out at first rather than risk an unlikely throw home. The runner times the ground ball and sprints in. This counts as an RBI for the batter despite making an out.',
@@ -172,18 +210,17 @@ function groundOut(state) {
       )
     };
   }
-  // Context 2: runner on 1st with fewer than 2 outs → 50% regular out / 35% DP / 15% FC
   if (state.runners.first && state.outs < 2) {
+    const batter = getBatter(state);
     const roll = Math.random();
     if (roll < 0.35) {
-      // Double play
       const dpDesc = [
         'Sharply hit to short — a textbook 6-4-3. SS fires to second, relay to first in time. The runner from first never had a chance.',
         'Right at the second baseman — quick 4-6-3 double play. Ball to second, flip to short, relay to first.',
         'Hard grounder to third — 5-4-3 twin killing. Fast throw across the diamond to second, then on to first.',
       ][Math.floor(Math.random() * 3)];
-      const newRunners = { first: false, second: state.runners.second, third: state.runners.third };
-      return { ...state, outs: state.outs + 2, runners: newRunners,
+      const newRunners = { first: null, second: state.runners.second, third: state.runners.third };
+      return { ...state, outs: state.outs + 2, runners: newRunners, ...nextBatterIndex(state),
         lastPlay: mkPlay('Double Play (6-4-3)', '2 OUTS',
           dpDesc,
           'The double play works because of the force: with a runner on first, the fielder steps on second before the runner arrives — no tag needed — then relays to first. Whether it converts depends on where the ball is hit, fielder positioning, and the batter\'s speed. A GIDP (grounded into double play) is a negative stat for the batter.',
@@ -191,13 +228,12 @@ function groundOut(state) {
         )
       };
     } else if (roll < 0.50) {
-      // Fielder's Choice: runner out at 2nd, batter safe at 1st
       const fcDesc = [
         'Fielder charges, grabs the slow roller, and fires to second for the force on the runner. No time for the relay — batter reaches first safely.',
         'Ground ball to short — the SS fires to second to get the lead runner. The defense takes the sure out, batter on first.',
       ][Math.floor(Math.random() * 2)];
-      const newRunners = { first: true, second: state.runners.second, third: state.runners.third };
-      return { ...state, outs: state.outs + 1, runners: newRunners,
+      const newRunners = { first: batter, second: state.runners.second, third: state.runners.third };
+      return { ...state, outs: state.outs + 1, runners: newRunners, ...nextBatterIndex(state),
         lastPlay: mkPlay("Fielder's Choice", 'OUT (RUNNER)',
           fcDesc,
           "A fielder's choice (FC): the fielder chose to retire the baserunner at second instead of the batter. The batter reaches first safely but gets no hit credit — the scorer rules they'd have been out with a throw to first. FC doesn't hurt the batter's batting average.",
@@ -205,7 +241,6 @@ function groundOut(state) {
         )
       };
     } else {
-      // Regular ground out (50%) — runner advances to 2nd
       const result = advanceOnGroundOut(state.runners);
       const isHR = Math.random() < 0.30;
       const regularDesc = isHR
@@ -218,7 +253,7 @@ function groundOut(state) {
           'Slow roller up the middle — defense gets one out at first. Not fast enough to turn two. Runner moves to second.',
           'Ball hit in the hole at short — just enough time to retire the batter at first. Runner on first safely reaches second.',
           ][Math.floor(Math.random() * 3)];
-      return { ...state, outs: state.outs + 1, runners: result.runners,
+      return { ...state, outs: state.outs + 1, runners: result.runners, ...nextBatterIndex(state),
         lastPlay: mkPlay('Ground Out', 'OUT',
           regularDesc,
           isHR
@@ -230,7 +265,7 @@ function groundOut(state) {
     }
   }
   const result = advanceOnGroundOut(state.runners);
-  return { ...state, outs: state.outs + 1, runners: result.runners,
+  return { ...state, outs: state.outs + 1, runners: result.runners, ...nextBatterIndex(state),
     lastPlay: mkPlay('Ground Out', 'OUT',
       'The batter hits the ball on the ground and is thrown out at first base. Forced runners — those who had to move because the batter needed their base — advance one base.',
       'When the batter is put out at first, the force is removed. A runner on third who was "forced" is no longer forced — a play at home now requires a tag, not just stepping on the plate.',
@@ -240,8 +275,9 @@ function groundOut(state) {
 }
 
 function walk(state) {
-  const result = advanceOnWalk(state.runners);
-  return { ...state, runners: result.runners, score: applyRuns(state, result.runs),
+  const batter = getBatter(state);
+  const result = advanceOnWalk(state.runners, batter);
+  return { ...state, runners: result.runners, score: applyRuns(state, result.runs), ...nextBatterIndex(state),
     lastPlay: mkPlay('Walk (BB)', 'ON BASE',
       'The pitcher throws four balls outside the strike zone. The batter takes first base free. Only "forced" runners advance — those who can\'t stay because the batter needs their base.',
       'A runner on second with nobody on first is NOT forced on a walk — they stay put. Only the chain from first base backward is forced. A bases-loaded walk forces everyone, including the runner on third who scores.',
@@ -251,11 +287,11 @@ function walk(state) {
 }
 
 function single(state) {
-  // H&R: runner on 1st (no runner on 2nd), ~25% chance
+  const batter = getBatter(state);
   if (state.runners.first && !state.runners.second && Math.random() < 0.25) {
     const runs = state.runners.third ? 1 : 0;
-    const newRunners = { first: true, second: false, third: true };
-    return { ...state, runners: newRunners, score: applyRuns(state, runs),
+    const newRunners = { first: batter, second: null, third: state.runners.first };
+    return { ...state, runners: newRunners, score: applyRuns(state, runs), ...nextBatterIndex(state),
       lastPlay: mkPlay('Single — Hit and Run', 'HIT',
         'Hit and run was on — the runner broke the moment the pitcher started their delivery. The batter made contact and the head start puts the runner all the way at third instead of second.',
         'The hit and run payoff: instead of 1st and 2nd, you now have 1st and 3rd. The runner\'s early jump gains a full extra base. The risk is if the batter misses or pops up — the runner is fully exposed with no protection.',
@@ -263,17 +299,16 @@ function single(state) {
       )
     };
   }
-  // Scoring position: runner on 2nd → 75% scores on a single, 25% holds at 3rd
   if (state.runners.second) {
     const scoresFromSecond = Math.random() < 0.75;
     let runs = state.runners.third ? 1 : 0;
     if (scoresFromSecond) runs++;
     const newRunners = {
-      first: true,
-      second: state.runners.first ? true : false,
-      third: scoresFromSecond ? false : true
+      first: batter,
+      second: state.runners.first ? state.runners.first : null,
+      third: scoresFromSecond ? null : state.runners.second
     };
-    return { ...state, runners: newRunners, score: applyRuns(state, runs),
+    return { ...state, runners: newRunners, score: applyRuns(state, runs), ...nextBatterIndex(state),
       lastPlay: mkPlay(
         scoresFromSecond ? 'Single — Scores from 2nd' : 'Single',
         scoresFromSecond ? 'HIT + RUN SCORES' : 'HIT',
@@ -287,8 +322,8 @@ function single(state) {
       )
     };
   }
-  const result = advanceOnHit(state.runners, 1);
-  return { ...state, runners: result.runners, score: applyRuns(state, result.runs),
+  const result = advanceOnHit(state.runners, 1, batter);
+  return { ...state, runners: result.runners, score: applyRuns(state, result.runs), ...nextBatterIndex(state),
     lastPlay: mkPlay('Single', 'HIT',
       'The batter hits the ball and reaches first base safely. All runners advance at least one base.',
       'A single is the most common hit. Runners on second and third typically score. A runner on first usually reaches third on a ball hit into the outfield gap.',
@@ -298,11 +333,11 @@ function single(state) {
 }
 
 function double_(state) {
-  // H&R: runner on 1st (no runner on 2nd), ~20% chance — runner scores instead of stopping at 3rd
+  const batter = getBatter(state);
   if (state.runners.first && !state.runners.second && Math.random() < 0.2) {
     const runs = (state.runners.third ? 1 : 0) + 1;
-    const newRunners = { first: false, second: true, third: false };
-    return { ...state, runners: newRunners, score: applyRuns(state, runs),
+    const newRunners = { first: null, second: batter, third: null };
+    return { ...state, runners: newRunners, score: applyRuns(state, runs), ...nextBatterIndex(state),
       lastPlay: mkPlay('Double — Hit and Run', 'HIT',
         'Hit and run was on — the runner from first was already in full sprint. The double scores them easily; without the head start they would have stopped at third.',
         'The H&R turns a normal double into a run scored. A stationary runner on first reaches third on a double; a running runner scores. This is why managers call H&R with a fast runner: the extra base can mean the difference between a runner in scoring position and a run on the board.',
@@ -310,8 +345,8 @@ function double_(state) {
       )
     };
   }
-  const result = advanceOnHit(state.runners, 2);
-  return { ...state, runners: result.runners, score: applyRuns(state, result.runs),
+  const result = advanceOnHit(state.runners, 2, batter);
+  return { ...state, runners: result.runners, score: applyRuns(state, result.runs), ...nextBatterIndex(state),
     lastPlay: mkPlay('Double', 'HIT',
       'The batter hits the ball into the gap and reaches second base. A leadoff double immediately puts a runner in scoring position.',
       'The gap between outfielders is the classic target for a double. Analytically, doubles are the highest-value non-homer hit because they combine base advancement with RBI potential.',
@@ -321,8 +356,9 @@ function double_(state) {
 }
 
 function triple(state) {
-  const result = advanceOnHit(state.runners, 3);
-  return { ...state, runners: result.runners, score: applyRuns(state, result.runs),
+  const batter = getBatter(state);
+  const result = advanceOnHit(state.runners, 3, batter);
+  return { ...state, runners: result.runners, score: applyRuns(state, result.runs), ...nextBatterIndex(state),
     lastPlay: mkPlay('Triple', 'HIT',
       'The rarest hit in baseball — the batter reaches third base. Requires the ball to land in the deepest part of the outfield and the batter to have exceptional speed. Almost everyone on base scores.',
       'Triples are so rare that some ballparks almost never see them. Speed matters enormously: the same ball is a double for a slow runner and a triple for a fast one.',
@@ -332,9 +368,10 @@ function triple(state) {
 }
 
 function homeRun(state) {
-  const result = advanceOnHit(state.runners, 4);
+  const batter = getBatter(state);
+  const result = advanceOnHit(state.runners, 4, batter);
   const onBase = [state.runners.first, state.runners.second, state.runners.third].filter(Boolean).length;
-  return { ...state, runners: result.runners, score: applyRuns(state, result.runs),
+  return { ...state, runners: result.runners, score: applyRuns(state, result.runs), ...nextBatterIndex(state),
     lastPlay: mkPlay(
       onBase === 3 ? 'Grand Slam!' : onBase > 0 ? `${result.runs}-Run Home Run!` : 'Solo Home Run!',
       'HOME RUN',
@@ -348,8 +385,9 @@ function homeRun(state) {
 }
 
 function hitByPitch(state) {
-  const result = advanceOnWalk(state.runners);
-  return { ...state, runners: result.runners, score: applyRuns(state, result.runs),
+  const batter = getBatter(state);
+  const result = advanceOnWalk(state.runners, batter);
+  return { ...state, runners: result.runners, score: applyRuns(state, result.runs), ...nextBatterIndex(state),
     lastPlay: mkPlay('Hit by Pitch (HBP)', 'ON BASE',
       'The pitcher hits the batter with the ball. The batter automatically takes first base — same result as a walk. Forced runners advance exactly as on a walk.',
       'A hit-by-pitch advances runners the same way as a walk: only forced runners move. If the umpire suspects it was intentional (retaliation), warnings are issued — next offense means ejection.',
@@ -359,8 +397,9 @@ function hitByPitch(state) {
 }
 
 function infieldHit(state) {
-  const result = advanceOnHit(state.runners, 1);
-  return { ...state, runners: result.runners, score: applyRuns(state, result.runs),
+  const batter = getBatter(state);
+  const result = advanceOnHit(state.runners, 1, batter);
+  return { ...state, runners: result.runners, score: applyRuns(state, result.runs), ...nextBatterIndex(state),
     lastPlay: mkPlay('Infield Hit', 'HIT',
       'The batter beats the throw to first on a slow roller or a ball that just eludes the infielder. Pure speed — often called a "leg hit." Counts as a single.',
       'An infield hit advances runners exactly like any single. The only difference is how it looked. Not a fielding error — the scorer rules the batter would have beaten any throw.',
@@ -381,8 +420,17 @@ function steal(state) {
   }
   const newRunners = { ...state.runners };
   let description;
-  if (newRunners.second) { newRunners.second = false; newRunners.third = true; description = 'Runner on second steals third!'; }
-  else { newRunners.first = false; newRunners.second = true; description = 'Runner on first steals second!'; }
+  if (newRunners.second) {
+    const runner = newRunners.second;
+    newRunners.third = runner;
+    newRunners.second = null;
+    description = `${runner.name} on second steals third!`;
+  } else {
+    const runner = newRunners.first;
+    newRunners.second = runner;
+    newRunners.first = null;
+    description = `${runner.name} on first steals second!`;
+  }
   return { ...state, runners: newRunners,
     lastPlay: mkPlay('Stolen Base', 'ADVANCE',
       `${description} The runner read the pitcher's motion and broke before the pitch. Requires a TAG — the fielder must touch the runner with the ball, not just stand on the base.`,
@@ -400,8 +448,15 @@ function caughtStealing(state) {
   }
   const newRunners = { ...state.runners };
   let description;
-  if (newRunners.second) { newRunners.second = false; description = 'Runner caught trying to steal third.'; }
-  else { newRunners.first = false; description = 'Runner caught trying to steal second.'; }
+  if (newRunners.second) {
+    const runner = newRunners.second;
+    newRunners.second = null;
+    description = `${runner.name} caught trying to steal third.`;
+  } else {
+    const runner = newRunners.first;
+    newRunners.first = null;
+    description = `${runner.name} caught trying to steal second.`;
+  }
   return { ...state, outs: state.outs + 1, runners: newRunners,
     lastPlay: mkPlay('Caught Stealing', 'OUT',
       `${description} The catcher's throw beat the runner to the bag. A bad jump, slow read, or simply a perfect throw — one of the most momentum-killing plays for an offense.`,
@@ -426,12 +481,12 @@ function sacrificeBunt(state) {
       )
     };
   }
-  const newRunners = { first: false, second: false, third: false };
+  const newRunners = { first: null, second: null, third: null };
   let runs = 0;
   if (state.runners.third) runs++;
-  if (state.runners.second) newRunners.third = true;
-  if (state.runners.first) newRunners.second = true;
-  return { ...state, outs: state.outs + 1, runners: newRunners, score: applyRuns(state, runs),
+  if (state.runners.second) newRunners.third = state.runners.second;
+  if (state.runners.first) newRunners.second = state.runners.first;
+  return { ...state, outs: state.outs + 1, runners: newRunners, score: applyRuns(state, runs), ...nextBatterIndex(state),
     lastPlay: mkPlay('Sacrifice Bunt', 'OUT',
       'The batter deliberately taps the ball softly near home plate, letting the defense throw them out at first — but all runners advance one base. A tactical trade of an out for position.',
       'Modern analytics have made sacrifice bunts controversial: you\'re giving up an out (scarce) for one base advance (less valuable). MLB managers now bunt far less than they used to. Still used in specific late-game situations.',
@@ -441,8 +496,9 @@ function sacrificeBunt(state) {
 }
 
 function intentionalWalk(state) {
-  const result = advanceOnWalk(state.runners);
-  return { ...state, runners: result.runners, score: applyRuns(state, result.runs),
+  const batter = getBatter(state);
+  const result = advanceOnWalk(state.runners, batter);
+  return { ...state, runners: result.runners, score: applyRuns(state, result.runs), ...nextBatterIndex(state),
     lastPlay: mkPlay('Intentional Walk (IBB)', 'ON BASE',
       'The manager signals to walk the batter intentionally — no pitches thrown, batter goes straight to first. Usually to avoid a dangerous hitter, set up a force play, or get a better matchup.',
       'Intentional walks are now automatic in MLB — the manager signals, no pitches thrown. Common strategy: with runner on 2nd and 1 out, walk the dangerous hitter to set up a force at any base and face a weaker batter.',
@@ -457,19 +513,20 @@ function fieldersChoice(state) {
       lastPlay: mkPlay("Fielder's Choice", 'NO EFFECT', 'Requires runners on base — the fielder chooses to retire a runner instead of throwing to first.', '', '')
     };
   }
+  const batter = getBatter(state);
   const newRunners = { ...state.runners };
   let description;
   if (state.runners.third) {
-    newRunners.first = true; newRunners.third = false;
+    newRunners.first = batter; newRunners.third = null;
     description = 'Fielder throws home trying to get the runner — out! Batter reaches first safely.';
   } else if (state.runners.second) {
-    newRunners.first = true; newRunners.second = false;
+    newRunners.first = batter; newRunners.second = null;
     description = 'Fielder throws to third to retire the advancing runner — out! Batter reaches first.';
   } else {
-    newRunners.first = true; newRunners.second = false;
+    newRunners.first = batter; newRunners.second = null;
     description = 'Fielder throws to second to get the forced runner — out! Batter reaches first on the play.';
   }
-  return { ...state, outs: state.outs + 1, runners: newRunners,
+  return { ...state, outs: state.outs + 1, runners: newRunners, ...nextBatterIndex(state),
     lastPlay: mkPlay("Fielder's Choice", 'OUT (RUNNER)',
       `${description} The batter reaches base, but a different runner is retired. Not a hit — the fielder chose to make a different play.`,
       "A fielder's choice is NOT a hit. The scorer rules the batter would have been out if the fielder had thrown to first. It doesn't affect the batter's batting average. The batter simply reached because the defense prioritized retiring another runner.",
@@ -484,8 +541,9 @@ function hitAndRun(state) {
       lastPlay: mkPlay('Hit and Run', 'NO RUNNER ON FIRST', 'The hit and run play requires a runner on first base.', '', '')
     };
   }
-  const result = advanceOnHit(state.runners, 2);
-  return { ...state, runners: result.runners, score: applyRuns(state, result.runs),
+  const batter = getBatter(state);
+  const result = advanceOnHit(state.runners, 2, batter);
+  return { ...state, runners: result.runners, score: applyRuns(state, result.runs), ...nextBatterIndex(state),
     lastPlay: mkPlay('Hit and Run', 'HIT',
       'The runner on first breaks for second the instant the pitcher starts their windup. The batter must swing at any pitch. The runner\'s head start turns a single into a two-base advance.',
       'The gamble: if the batter misses or pops up, the runner is almost certainly caught stealing. If it works, the middle infielder breaks to cover second — opening a hole in the infield for the batted ball to go through.',
@@ -515,11 +573,11 @@ function checkInningEnd(state) {
   }
   if (state.halfInning === 'top') {
     return { ...state, inningScores: newInningScores, halfInning: 'bottom', outs: 0,
-      runners: { first: false, second: false, third: false } };
+      runners: { first: null, second: null, third: null } };
   }
   if (state.inning >= 9) return { ...state, inningScores: newInningScores, gameOver: true };
   return { ...state, inningScores: newInningScores, inning: state.inning + 1, halfInning: 'top',
-    outs: 0, runners: { first: false, second: false, third: false } };
+    outs: 0, runners: { first: null, second: null, third: null } };
 }
 
 function executePlay(key) {
@@ -554,10 +612,9 @@ function triggerCelebration(runs) {
   const msg = runs >= 4 ? '⚡ GRAND SLAM!' : runs === 3 ? '🏠 3 RUNS SCORE!' : runs === 2 ? '🏠 2 RUNS SCORE!' : '🏠 RUN SCORES!';
   el.textContent = msg;
   el.style.animation = 'none';
-  void el.offsetWidth; // force reflow
+  void el.offsetWidth;
   el.style.animation = 'simCelebrate 2s ease-out forwards';
 
-  // Also pulse the score column
   ['simScoreAway', 'simScoreHome'].forEach(id => {
     const s = document.getElementById(id);
     if (!s) return;
@@ -622,7 +679,7 @@ function renderScoreboard(s) {
         ${innings.map(i => `<div style="text-align:center;font-size:0.76rem;color:#475569;letter-spacing:1px">${i}</div>`).join('')}
         <div style="text-align:center;font-size:0.76rem;color:#64748b;letter-spacing:1px">R</div>
       </div>
-      <div style="display:grid;grid-template-columns:${cols};padding:7px 14px;border-bottom:1px solid var(--surface);align-items:center">
+      <div style="display:grid;grid-template-columns:${cols};padding:5px 14px;border-bottom:1px solid var(--surface);align-items:center">
         <div style="font-size:0.85rem;color:var(--text-muted);letter-spacing:1px">AWAY</div>
         ${innings.map(i => cell(i, 'away')).join('')}
         <div id="simScoreAway" style="text-align:center;font-size:1.15rem;font-weight:700;color:#f0883e">${s.score.away}</div>
@@ -632,7 +689,7 @@ function renderScoreboard(s) {
         ${innings.map(i => cell(i, 'home')).join('')}
         <div id="simScoreHome" style="text-align:center;font-size:1.15rem;font-weight:700;color:#7ee787">${s.score.home}</div>
       </div>
-      <div style="display:flex;align-items:center;gap:14px;padding:7px 14px;background:var(--surface2);flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:14px;padding:4px 14px;background:var(--surface2);flex-wrap:wrap">
         <div style="font-size:0.95rem;color:#7aa2d4;letter-spacing:1px">${s.halfInning === 'top' ? 'TOP' : 'BOT'} ${innLabel(s.inning)}</div>
         <div style="display:flex;gap:5px;align-items:center">
           ${outDots}
@@ -645,98 +702,142 @@ function renderScoreboard(s) {
 
 function renderDiamond(s) {
   const r = s.runners;
-  const occupied = [r.first, r.second, r.third].filter(Boolean).length;
+  const currentBatter = getBatter(s);
 
-  const base = (cx, cy, key) => {
-    const on = r[key];
+  // Vertical stripes clipped to outfield
+  const stripes = [];
+  for (let x = 0; x < 600; x += 26) {
+    stripes.push(`<rect x="${x}" y="0" width="13" height="480" fill="rgba(0,0,0,0.13)"/>`);
+  }
+
+  // Base bag + runner badge — infield-focused (same SVG coords as main field)
+  function base(cx, cy, runner) {
+    const w = 24;
     return `
-      <rect x="${cx-8}" y="${cy-8}" width="16" height="16" rx="2"
-        fill="${on ? '#f0883e' : 'rgba(255,255,255,0.85)'}"
-        stroke="${on ? '#f5a040' : 'rgba(255,255,255,0.3)'}"
-        stroke-width="${on ? 2.5 : 1.5}"
+      <rect x="${cx-w/2}" y="${cy-w/2}" width="${w}" height="${w}" rx="2"
+        fill="${runner ? runner.color + '55' : 'white'}"
+        stroke="${runner ? runner.color : 'rgba(255,255,255,0.6)'}"
+        stroke-width="${runner ? 3 : 1.2}"
         transform="rotate(45,${cx},${cy})"/>
-      ${on ? `<text x="${cx}" y="${cy+4}" text-anchor="middle" dominant-baseline="middle"
-        fill="white" font-size="9" font-family="Oswald,sans-serif" font-weight="700">R</text>` : ''}`;
-  };
+      ${runner ? `
+        <circle cx="${cx}" cy="${cy}" r="20" fill="${runner.color}" stroke="white" stroke-width="2.5" opacity="0.96"/>
+        <text x="${cx}" y="${cy+6}" text-anchor="middle" fill="#000" font-size="15" font-family="Oswald,sans-serif" font-weight="700">${runner.num}</text>
+      ` : ''}`;
+  }
+
+  const occupiedParts = [];
+  if (r.third)  occupiedParts.push(`<span style="color:${r.third.color}">${r.third.name} (3B)</span>`);
+  if (r.second) occupiedParts.push(`<span style="color:${r.second.color}">${r.second.name} (2B)</span>`);
+  if (r.first)  occupiedParts.push(`<span style="color:${r.first.color}">${r.first.name} (1B)</span>`);
+  const occupiedText = occupiedParts.length === 0 ? 'Bases empty' : occupiedParts.join(' &nbsp;·&nbsp; ');
 
   return `
-    <div style="position:relative;width:100%">
-      <svg viewBox="0 0 240 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+    <div style="position:relative">
+      <svg viewBox="0 185 600 345" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;border-radius:8px;overflow:hidden">
         <defs>
-          <radialGradient id="gGrad" cx="50%" cy="60%" r="65%">
-            <stop offset="0%" stop-color="#122a18"/>
-            <stop offset="100%" stop-color="#0b1c10"/>
-          </radialGradient>
-          <radialGradient id="dGrad" cx="50%" cy="45%" r="58%">
-            <stop offset="0%" stop-color="#241606"/>
-            <stop offset="100%" stop-color="#160d04"/>
-          </radialGradient>
+          <clipPath id="simFieldClip">
+            <path d="M300,470 L19,189 A398,398 0 0,1 581,189 Z"/>
+          </clipPath>
         </defs>
 
-        <!-- Background -->
-        <rect width="240" height="260" fill="#0b1018" rx="12"/>
+        <!-- Brown warning track -->
+        <path d="M300,470 L0,170 A424,424 0 0,1 600,170 Z" fill="#b07438"/>
 
-        <!-- Outfield grass sector: home→left-foul-pole→fence-arc→right-foul-pole→home -->
-        <!-- Foul poles at (0,100) and (240,100); fence arc peaks near y=10 at center -->
-        <path d="M120,220 L0,100 A125,125 0 0,1 240,100 Z" fill="url(#gGrad)"/>
-        <!-- Outfield fence arc -->
-        <path d="M0,100 A125,125 0 0,1 240,100" fill="none" stroke="#1e3d28" stroke-width="3" stroke-linecap="round"/>
+        <!-- Outfield grass with stripes -->
+        <path d="M300,470 L19,189 A398,398 0 0,1 581,189 Z" fill="#2e8b2e"/>
+        <g clip-path="url(#simFieldClip)">
+          ${stripes.join('')}
+        </g>
 
-        <!-- Infield dirt ellipse -->
-        <ellipse cx="120" cy="150" rx="74" ry="70" fill="url(#dGrad)"/>
+        <!-- Infield dirt -->
+        <ellipse cx="300" cy="380" rx="140" ry="102" fill="#a87040"/>
 
-        <!-- Infield grass diamond (between the four bases) -->
-        <!-- 2B(120,80) → 1B(190,150) → Home(120,220) → 3B(50,150) -->
-        <polygon points="120,80 190,150 120,220 50,150" fill="url(#gGrad)"/>
+        <!-- Infield grass diamond -->
+        <polygon points="300,290 390,380 300,470 210,380" fill="#2e8b2e" opacity="0.9"/>
 
-        <!-- Foul lines (white markings on top of the fill) -->
-        <line x1="120" y1="220" x2="0" y2="100" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/>
-        <line x1="120" y1="220" x2="240" y2="100" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/>
+        <!-- Base path lines (SS side) -->
+        <line x1="210" y1="380" x2="300" y2="290" stroke="white" stroke-width="2.2"/>
+        <line x1="300" y1="290" x2="390" y2="380" stroke="white" stroke-width="2.2"/>
 
-        <!-- Pitcher's mound (60.5/127.3 ≈ 47.5% from home toward 2B) -->
-        <circle cx="120" cy="153" r="13" fill="#1e1208" stroke="#2a1a08" stroke-width="1.5"/>
-        <rect x="113" y="151" width="14" height="4" rx="1" fill="#2e2010"/>
+        <!-- Foul lines -->
+        <line x1="300" y1="470" x2="0"   y2="170" stroke="white" stroke-width="2.5"/>
+        <line x1="300" y1="470" x2="600" y2="170" stroke="white" stroke-width="2.5"/>
 
-        <!-- Bases -->
-        ${base(120, 80, 'second')}
-        ${base(50, 150, 'third')}
-        ${base(190, 150, 'first')}
+        <!-- Pitcher's mound -->
+        <circle cx="300" cy="384" r="20" fill="#a87040" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+        <rect x="289" y="381" width="22" height="7" rx="2" fill="#7a5025"/>
 
-        <!-- Home plate pentagon (flat top toward pitcher, point toward catcher) -->
-        <polygon points="109,216 131,216 131,227 120,236 109,227" fill="rgba(255,255,255,0.92)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+        <!-- Bases + runner badges -->
+        ${base(300, 290, r.second)}
+        ${base(390, 380, r.first)}
+        ${base(210, 380, r.third)}
 
-        <!-- Base labels -->
-        <text x="120" y="63" text-anchor="middle" fill="#5a6880" font-size="10" font-family="Inter,sans-serif" letter-spacing="0.5">2B</text>
-        <text x="28"  y="154" text-anchor="middle" fill="#5a6880" font-size="10" font-family="Inter,sans-serif" letter-spacing="0.5">3B</text>
-        <text x="212" y="154" text-anchor="middle" fill="#5a6880" font-size="10" font-family="Inter,sans-serif" letter-spacing="0.5">1B</text>
-        <text x="120" y="252" text-anchor="middle" fill="#5a6880" font-size="10" font-family="Inter,sans-serif" letter-spacing="0.5">HOME</text>
+        <!-- Home plate -->
+        <polygon points="300,484 286,471 286,457 314,457 314,471" fill="white"/>
+
+        <!-- Batter's boxes -->
+        <rect x="234" y="453" width="50" height="34" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+        <rect x="316" y="453" width="50" height="34" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+
+        <!-- Current batter badge at home plate -->
+        <circle cx="300" cy="497" r="20" fill="${currentBatter.color}" stroke="white" stroke-width="2.5" opacity="0.96"/>
+        <text x="300" y="503" text-anchor="middle" fill="#000" font-size="15" font-family="Oswald,sans-serif" font-weight="700">${currentBatter.num}</text>
       </svg>
 
-      <!-- Celebration overlay -->
       <div id="simCelebration" style="
-        position:absolute;top:42%;left:50%;
+        position:absolute;top:40%;left:50%;
         transform:translate(-50%,-50%) scale(0.8);opacity:0;
         background:linear-gradient(135deg,#0b1f12,#0f2a1a);
-        border:2px solid #238636;border-radius:10px;
-        padding:10px 22px;
+        border:2px solid #238636;border-radius:10px;padding:10px 22px;
         font-family:Oswald,sans-serif;font-size:1.1rem;font-weight:700;color:#7ee787;
-        white-space:nowrap;pointer-events:none;z-index:10;
-        text-align:center;letter-spacing:1.5px;
+        white-space:nowrap;pointer-events:none;z-index:10;text-align:center;letter-spacing:1.5px;
       "></div>
-      <!-- Inning change banner -->
       <div id="simInningBanner" style="
-        position:absolute;top:50%;left:50%;
+        position:absolute;top:48%;left:50%;
         transform:translate(-50%,-50%) scale(0.8);opacity:0;
         background:linear-gradient(135deg,#0a1929,#0f2342);
-        border:2px solid #2d5fa855;border-radius:10px;
-        padding:10px 24px;
+        border:2px solid #2d5fa855;border-radius:10px;padding:10px 24px;
         font-family:Oswald,sans-serif;font-size:1.1rem;font-weight:700;color:#7aa2d4;
-        white-space:nowrap;pointer-events:none;z-index:11;
-        text-align:center;letter-spacing:2px;
+        white-space:nowrap;pointer-events:none;z-index:11;text-align:center;letter-spacing:2px;
       "></div>
     </div>
-    <div style="text-align:center;font-size:0.95rem;color:#64748b;margin-top:8px;letter-spacing:0.5px">
-      ${occupied === 0 ? 'Bases empty' : [r.third?'3rd':'',r.second?'2nd':'',r.first?'1st':''].filter(Boolean).join(' · ') + ' occupied'}
+    <div style="text-align:center;font-size:0.83rem;color:#64748b;margin-top:5px;line-height:1.6">
+      ${occupiedText}
+    </div>`;
+}
+
+function renderLineup(s) {
+  const isTop = s.halfInning === 'top';
+  const roster = isTop ? SIM_AWAY_ROSTER : SIM_HOME_ROSTER;
+  const currentIdx = (isTop ? s.awayBatterIndex : s.homeBatterIndex) % 9;
+  const teamLabel = isTop ? 'AWAY' : 'HOME';
+  const teamColor = isTop ? '#f0883e' : '#7ee787';
+
+  const runnerBases = {};
+  if (s.runners.first)  runnerBases[s.runners.first.num]  = '1B';
+  if (s.runners.second) runnerBases[s.runners.second.num] = '2B';
+  if (s.runners.third)  runnerBases[s.runners.third.num]  = '3B';
+
+  const rows = roster.map((p, i) => {
+    const isCurrent = i === currentIdx;
+    const base = runnerBases[p.num];
+    return `
+      <div style="display:flex;align-items:center;gap:5px;padding:3px 6px;
+        background:${isCurrent ? p.color + '18' : 'transparent'};
+        border-radius:4px;border-left:2px solid ${isCurrent ? p.color : 'transparent'}">
+        <span style="font-size:0.75rem;color:${isCurrent ? p.color : '#475569'};font-family:Oswald,sans-serif;min-width:20px;flex-shrink:0">#${p.num}</span>
+        <span style="font-size:0.8rem;color:${isCurrent ? p.color : '#64748b'};flex:1">${p.name}</span>
+        ${base ? `<span style="font-size:0.73rem;font-family:Oswald,sans-serif;color:${p.color};background:${p.color}22;border:1px solid ${p.color}44;padding:1px 6px;border-radius:3px;flex-shrink:0">${base}</span>` : ''}
+        ${isCurrent && !base ? `<span style="font-size:0.73rem;font-family:Oswald,sans-serif;color:${p.color};opacity:0.85;flex-shrink:0">AT BAT</span>` : ''}
+      </div>`;
+  }).join('');
+
+  return `
+    <div style="background:var(--surface2);border-radius:8px;border:1px solid var(--border);padding:8px 5px;height:100%;box-sizing:border-box">
+      <div style="font-size:0.75rem;color:${teamColor};font-family:Oswald,sans-serif;letter-spacing:1.5px;padding:0 7px;margin-bottom:6px">
+        ${teamLabel} BATTING ORDER
+      </div>
+      ${rows}
     </div>`;
 }
 
@@ -745,52 +846,40 @@ function renderSim() {
   if (!el) return;
   const s = _sim;
 
-  const btns = [
-    { key: 'strikeout',       label: 'Strikeout',        color: '#ff6b7a', cat: 'out' },
-    { key: 'flyOut',          label: 'Fly Out',           color: '#ff6b7a', cat: 'out' },
-    { key: 'lineOut',         label: 'Line Out',          color: '#ff6b7a', cat: 'out' },
-    { key: 'popOut',          label: 'Pop-Up Out',        color: '#ff6b7a', cat: 'out' },
-    { key: 'groundOut',       label: 'Ground Out',        color: '#ff6b7a', cat: 'out' },
-    { key: 'single',          label: 'Single',            color: '#7ee787', cat: 'hit' },
-    { key: 'double',          label: 'Double',            color: '#7ee787', cat: 'hit' },
-    { key: 'triple',          label: 'Triple',            color: '#7ee787', cat: 'hit' },
-    { key: 'homeRun',         label: 'Home Run',          color: '#e3b341', cat: 'hit' },
-    { key: 'infieldHit',      label: 'Infield Hit',       color: '#7ee787', cat: 'hit' },
-    { key: 'walk',            label: 'Walk (BB)',          color: '#388bfd', cat: 'special' },
-    { key: 'hitByPitch',      label: 'Hit By Pitch',       color: '#388bfd', cat: 'special' },
-    { key: 'intentionalWalk', label: 'Int. Walk (IBB)',    color: '#388bfd', cat: 'special' },
-    { key: 'steal',           label: 'Stolen Base',        color: '#f0883e', cat: 'baserunning' },
-    { key: 'caughtStealing',  label: 'Caught Stealing',    color: '#ff6b7a', cat: 'baserunning' },
-    { key: 'sacrificeBunt',   label: 'Sac Bunt',           color: '#a371f7', cat: 'tactical' },
-  ];
+  function vBtn(key, label, color) {
+    return `<button onclick="simPlay('${key}')" style="display:block;width:100%;text-align:left;padding:5px 10px;border:none;border-top:1px solid ${color}18;background:transparent;color:${color};font-size:0.82rem;font-family:Inter,sans-serif;cursor:pointer;line-height:1.3" onmouseover="this.style.background='${color}14'" onmouseout="this.style.background='transparent'">${label}</button>`;
+  }
 
-  const catMeta = {
-    out:         { label: '⭕ Outs',       order: 0 },
-    hit:         { label: '✅ Hits',        order: 1 },
-    special:     { label: '🔵 On Base',     order: 2 },
-    baserunning: { label: '🏃 Baserunning', order: 3 },
-    tactical:    { label: '🧠 Tactical',    order: 4 }
-  };
-
-  const grouped = {};
-  btns.forEach(b => { if (!grouped[b.cat]) grouped[b.cat] = []; grouped[b.cat].push(b); });
-
-  const btnHTML = Object.keys(catMeta)
-    .sort((a, b) => catMeta[a].order - catMeta[b].order)
-    .map(cat => `
-      <div style="margin-bottom:10px">
-        <div style="font-size:0.89rem;font-weight:600;color:var(--text-muted);letter-spacing:1px;margin-bottom:6px;font-family:Oswald,sans-serif">${catMeta[cat].label}</div>
-        <div style="display:flex;flex-wrap:wrap;gap:5px">
-          ${(grouped[cat]||[]).map(b => `
-            <button onclick="simPlay('${b.key}')"
-              style="padding:6px 12px;border:1px solid ${b.color}33;border-radius:6px;background:${b.color}0f;color:${b.color};font-size:1.02rem;font-family:Inter,sans-serif;cursor:pointer;transition:background 0.12s,border-color 0.12s;line-height:1.2"
-              onmouseover="this.style.background='${b.color}22';this.style.borderColor='${b.color}77'"
-              onmouseout="this.style.background='${b.color}0f';this.style.borderColor='${b.color}33'"
-            >${b.label}</button>
-          `).join('')}
-        </div>
+  const btnHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+      <div style="background:rgba(255,107,122,0.05);border:1px solid rgba(255,107,122,0.22);border-radius:8px;overflow:hidden">
+        <div style="padding:5px 10px;background:rgba(255,107,122,0.12);font-size:0.78rem;font-weight:700;color:#ff6b7a;letter-spacing:0.5px;font-family:Oswald,sans-serif">⭕ OUTS</div>
+        ${vBtn('strikeout','Strikeout','#ff6b7a')}
+        ${vBtn('flyOut','Fly Out','#ff6b7a')}
+        ${vBtn('lineOut','Line Out','#ff6b7a')}
+        ${vBtn('popOut','Pop-Up Out','#ff6b7a')}
+        ${vBtn('groundOut','Ground Out','#ff6b7a')}
       </div>
-    `).join('');
+      <div style="background:rgba(126,231,135,0.05);border:1px solid rgba(126,231,135,0.22);border-radius:8px;overflow:hidden">
+        <div style="padding:5px 10px;background:rgba(126,231,135,0.12);font-size:0.78rem;font-weight:700;color:#7ee787;letter-spacing:0.5px;font-family:Oswald,sans-serif">✅ HITS</div>
+        ${vBtn('single','Single','#7ee787')}
+        ${vBtn('double','Double','#7ee787')}
+        ${vBtn('triple','Triple','#7ee787')}
+        ${vBtn('homeRun','Home Run','#e3b341')}
+        ${vBtn('infieldHit','Infield Hit','#7ee787')}
+      </div>
+      <div style="background:rgba(56,139,253,0.05);border:1px solid rgba(56,139,253,0.22);border-radius:8px;overflow:hidden">
+        <div style="padding:5px 10px;background:rgba(56,139,253,0.12);font-size:0.78rem;font-weight:700;color:#388bfd;letter-spacing:0.5px;font-family:Oswald,sans-serif">🔵 ON BASE</div>
+        ${vBtn('walk','Walk (BB)','#388bfd')}
+        ${vBtn('hitByPitch','Hit By Pitch','#388bfd')}
+        ${vBtn('intentionalWalk','Int. Walk (IBB)','#388bfd')}
+        <div style="padding:3px 10px;font-size:0.7rem;color:#64748b;border-top:1px solid var(--border);background:var(--surface2);font-family:Oswald,sans-serif;letter-spacing:0.5px">🏃 BASERUNNING</div>
+        ${vBtn('steal','Stolen Base','#f0883e')}
+        ${vBtn('caughtStealing','Caught Stealing','#ff6b7a')}
+        <div style="padding:3px 10px;font-size:0.7rem;color:#64748b;border-top:1px solid var(--border);background:var(--surface2);font-family:Oswald,sans-serif;letter-spacing:0.5px">🧠 TACTICAL</div>
+        ${vBtn('sacrificeBunt','Sac Bunt','#a371f7')}
+      </div>
+    </div>`;
 
   const lastPlayHTML = s.lastPlay ? `
     <div style="background:var(--surface2);border-radius:10px;padding:14px 16px;border:1px solid var(--border);margin-top:14px">
@@ -838,25 +927,29 @@ function renderSim() {
 
   el.innerHTML = `
     <div style="background:var(--surface);border-radius:12px;border:1px solid var(--border);overflow:hidden">
-      <!-- Scoreboard full width -->
-      <div style="padding:14px 14px 0">${renderScoreboard(s)}</div>
 
-      <!-- Main body: diamond left, buttons right -->
-      <div style="display:flex;gap:0;padding:14px">
-        <!-- Diamond column -->
-        <div style="flex:0 0 280px;min-width:0;padding-right:16px">
+      <!-- Scoreboard: full width -->
+      <div style="padding:10px 12px 0">${renderScoreboard(s)}</div>
+
+      <!-- Diamond + Batting Order: side by side -->
+      <div style="display:flex;gap:10px;padding:10px 12px 0;align-items:flex-start">
+        <div style="flex:1;min-width:0">
           ${renderDiamond(s)}
         </div>
-        <!-- Buttons column -->
-        <div style="flex:1;min-width:0;overflow:hidden">
-          ${s.gameOver
-            ? '<div style="color:#475569;font-size:1.07rem;padding:8px 0">Game over — press New Game to play again.</div>'
-            : btnHTML}
+        <div style="flex:0 0 155px;align-self:stretch">
+          ${renderLineup(s)}
         </div>
       </div>
 
-      <!-- Explanation + log full width -->
-      <div style="padding:0 14px 14px">
+      <!-- Play buttons: full width below -->
+      <div style="padding:8px 12px 0">
+        ${s.gameOver
+          ? '<div style="color:#475569;font-size:1.07rem;padding:8px 0">Game over — press New Game to play again.</div>'
+          : btnHTML}
+      </div>
+
+      <!-- Explanation + log: full width -->
+      <div style="padding:0 12px 10px">
         ${lastPlayHTML}
         ${gameOverHTML}
         ${logHTML}
@@ -871,7 +964,6 @@ window.simPlay = key => executePlay(key);
 window.simReset = () => { _sim = createSimState(); renderSim(); };
 window.initSimulator = function() {
   _sim = createSimState();
-  // Inject animation keyframes once
   if (!document.getElementById('simStyles')) {
     const style = document.createElement('style');
     style.id = 'simStyles';

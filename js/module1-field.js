@@ -43,6 +43,31 @@ function initFieldModule() {
 
       <div class="divider"></div>
 
+      <div class="section-label">Key Concept</div>
+      <h2>The Strike Zone</h2>
+      <p class="mt-8">The umpire judges every pitch against an invisible rectangle called the <strong>strike zone</strong>. It's the engine that drives every at-bat.</p>
+
+      <div class="two-col mt-24" style="align-items:center">
+        <div style="display:flex;justify-content:center">
+          ${buildStrikeZoneSVG()}
+        </div>
+        <div>
+          <div class="info-box green" style="margin-bottom:12px">
+            <h3>✅ Strike</h3>
+            <p class="mt-8">Any pitch that passes through the zone (roughly <strong>knees to letters</strong>, over home plate's 17-inch width). Also counts if the batter <em>swings and misses</em>, or fouls it off.</p>
+            <p class="mt-8"><strong>3 strikes = out.</strong></p>
+          </div>
+          <div class="info-box orange" style="margin-bottom:12px">
+            <h3>❌ Ball</h3>
+            <p class="mt-8">Any pitch outside the zone that the batter doesn't swing at.</p>
+            <p class="mt-8"><strong>4 balls = walk</strong> — batter goes to 1st base free.</p>
+          </div>
+          <p style="font-size:0.93rem;color:var(--text-dim)">See pitch types in depth in <button onclick="showScreen('batting');initModule('batting')" style="background:none;border:none;color:#7aa2d4;cursor:pointer;font-size:inherit;padding:0;text-decoration:underline;font-family:inherit">Module 3: The Art of Batting →</button></p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
       <div class="section-label">The Scoreboard</div>
       <h2>How to Read a Baseball Scoreboard</h2>
       <p class="mt-8">A baseball scoreboard carries more information than most sports. Here's what every number means — and you'll be reading it fluently within one inning.</p>
@@ -65,9 +90,154 @@ function initFieldModule() {
 
       <div class="divider"></div>
 
+      <div class="section-label">At-Bat Outcomes</div>
+      <h2>What Can Happen When a Batter Steps Up</h2>
+      <p class="mt-8">When a batter comes to the plate, the play ends with one of these outcomes — learn them once and you can follow any game.</p>
+
+      <div class="three-col mt-24">
+        <div class="info-box" style="border-color:rgba(255,107,122,0.3);background:rgba(255,107,122,0.05)">
+          <h3 style="color:#ff6b7a">⭕ Outs</h3>
+          <p class="mt-8" style="font-size:0.93rem;color:var(--text-dim)">Batter fails to reach base. Three outs end the half-inning.</p>
+          <div class="mt-12" style="display:flex;flex-direction:column;gap:7px">
+            <div style="padding:7px 10px;background:rgba(255,107,122,0.07);border-radius:6px;border-left:3px solid rgba(255,107,122,0.4)">
+              <div style="font-weight:600;font-size:0.92rem;color:#ff6b7a;font-family:Oswald,sans-serif">Strikeout (K)</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:2px">3 strikes — swinging or called</div>
+            </div>
+            <div style="padding:7px 10px;background:rgba(255,107,122,0.07);border-radius:6px;border-left:3px solid rgba(255,107,122,0.4)">
+              <div style="font-weight:600;font-size:0.92rem;color:#ff6b7a;font-family:Oswald,sans-serif">Ground Out</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:2px">Ball hit on the ground, thrown to 1st</div>
+            </div>
+            <div style="padding:7px 10px;background:rgba(255,107,122,0.07);border-radius:6px;border-left:3px solid rgba(255,107,122,0.4)">
+              <div style="font-weight:600;font-size:0.92rem;color:#ff6b7a;font-family:Oswald,sans-serif">Fly Out</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:2px">Ball caught in the air by outfielder</div>
+            </div>
+            <div style="padding:7px 10px;background:rgba(255,107,122,0.07);border-radius:6px;border-left:3px solid rgba(255,107,122,0.4)">
+              <div style="font-weight:600;font-size:0.92rem;color:#ff6b7a;font-family:Oswald,sans-serif">Line Out / Pop-Up</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:2px">Hard liner or soft popup caught</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box" style="border-color:rgba(126,231,135,0.3);background:rgba(126,231,135,0.05)">
+          <h3 style="color:#7ee787">✅ Hits</h3>
+          <p class="mt-8" style="font-size:0.93rem;color:var(--text-dim)">Batter reaches base safely from their own skill. Counts in batting average.</p>
+          <div class="mt-12" style="display:flex;flex-direction:column;gap:7px">
+            <div style="padding:7px 10px;background:rgba(126,231,135,0.07);border-radius:6px;border-left:3px solid rgba(126,231,135,0.4)">
+              <div style="font-weight:600;font-size:0.92rem;color:#7ee787;font-family:Oswald,sans-serif">Single (1B)</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:2px">Reaches 1st base safely</div>
+            </div>
+            <div style="padding:7px 10px;background:rgba(126,231,135,0.07);border-radius:6px;border-left:3px solid rgba(126,231,135,0.4)">
+              <div style="font-weight:600;font-size:0.92rem;color:#7ee787;font-family:Oswald,sans-serif">Double (2B)</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:2px">Reaches 2nd base (scoring position)</div>
+            </div>
+            <div style="padding:7px 10px;background:rgba(126,231,135,0.07);border-radius:6px;border-left:3px solid rgba(126,231,135,0.4)">
+              <div style="font-weight:600;font-size:0.92rem;color:#7ee787;font-family:Oswald,sans-serif">Triple (3B)</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:2px">Reaches 3rd — very rare, requires speed</div>
+            </div>
+            <div style="padding:7px 10px;background:rgba(126,231,135,0.07);border-radius:6px;border-left:3px solid rgba(126,231,135,0.4)">
+              <div style="font-weight:600;font-size:0.92rem;color:#7ee787;font-family:Oswald,sans-serif">Home Run (HR)</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:2px">Ball clears the fence — everyone scores!</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box" style="border-color:rgba(56,139,253,0.3);background:rgba(56,139,253,0.05)">
+          <h3 style="color:#388bfd">🔵 On Base (No Hit)</h3>
+          <p class="mt-8" style="font-size:0.93rem;color:var(--text-dim)">Batter reaches base, but it doesn't count as a hit in the stats.</p>
+          <div class="mt-12" style="display:flex;flex-direction:column;gap:7px">
+            <div style="padding:7px 10px;background:rgba(56,139,253,0.07);border-radius:6px;border-left:3px solid rgba(56,139,253,0.4)">
+              <div style="font-weight:600;font-size:0.92rem;color:#388bfd;font-family:Oswald,sans-serif">Walk (BB)</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:2px">4 balls — free pass to 1st base</div>
+            </div>
+            <div style="padding:7px 10px;background:rgba(56,139,253,0.07);border-radius:6px;border-left:3px solid rgba(56,139,253,0.4)">
+              <div style="font-weight:600;font-size:0.92rem;color:#388bfd;font-family:Oswald,sans-serif">Hit By Pitch (HBP)</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:2px">Pitcher hits batter → automatic 1st base</div>
+            </div>
+            <div style="padding:7px 10px;background:rgba(56,139,253,0.07);border-radius:6px;border-left:3px solid rgba(56,139,253,0.4)">
+              <div style="font-weight:600;font-size:0.92rem;color:#388bfd;font-family:Oswald,sans-serif">Fielder's Choice</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:2px">Fielder retires another runner; batter safe</div>
+            </div>
+            <div style="padding:7px 10px;background:rgba(56,139,253,0.07);border-radius:6px;border-left:3px solid rgba(56,139,253,0.4)">
+              <div style="font-weight:600;font-size:0.92rem;color:#388bfd;font-family:Oswald,sans-serif">Error (E)</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-top:2px">Fielding mistake — batter reaches safely</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-label">The Batting Order</div>
+      <h2>How the Lineup Works</h2>
+      <p class="mt-8">When the game starts, each attacking player takes a turn coming to the plate — at that moment their role is the <strong>batter</strong>. The batter's one job: turn themselves into a <strong>runner</strong> by getting on base.</p>
+      <p class="mt-8">Nine players bat in a fixed rotation called the <strong>batting order</strong>. The order carries over between half-innings: if an inning ends on the 3rd batter, the next inning picks up from the 4th. By the late innings, your top hitters may cycle around to bat a second or third time.</p>
+      <p class="mt-8">How a manager arranges the lineup reveals their philosophy. Ask yourself: which slot gets the best hitter?</p>
+
+      <div style="overflow-x:auto;margin-top:20px">
+        <table style="width:100%;max-width:600px;border-collapse:collapse;font-size:0.93rem">
+          <thead>
+            <tr>
+              <th style="padding:10px 16px;text-align:center;background:var(--surface2);border-bottom:2px solid var(--border);color:#f0883e;font-family:Oswald,sans-serif;font-size:0.8rem;letter-spacing:1.5px">CLASSIC ORDER</th>
+              <th style="padding:10px 16px;text-align:center;background:var(--surface2);border-bottom:2px solid var(--border);color:var(--text-muted);font-family:Oswald,sans-serif;font-size:0.8rem;letter-spacing:1.5px;width:64px">SLOT</th>
+              <th style="padding:10px 16px;text-align:center;background:var(--surface2);border-bottom:2px solid var(--border);color:#388bfd;font-family:Oswald,sans-serif;font-size:0.8rem;letter-spacing:1.5px">MODERN ORDER</th>
+            </tr>
+          </thead>
+          <tbody style="font-family:Inter,sans-serif">
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">Fastest runner</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-dim);font-family:Oswald,sans-serif;font-weight:700;font-size:1.05rem">1st</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">Best on-base ability</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);background:var(--surface2)">
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">2nd fastest runner</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-dim);font-family:Oswald,sans-serif;font-weight:700;font-size:1.05rem">2nd</td>
+              <td style="padding:8px 16px;text-align:center;color:#388bfd;font-weight:600">★ Best hitter</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">Good contact hitter</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-dim);font-family:Oswald,sans-serif;font-weight:700;font-size:1.05rem">3rd</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">2nd best hitter</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);background:var(--surface2)">
+              <td style="padding:8px 16px;text-align:center;color:#f0883e;font-weight:600">★ Best hitter (cleanup)</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-dim);font-family:Oswald,sans-serif;font-weight:700;font-size:1.05rem">4th</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">Good on-base ability</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">2nd best hitter</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-dim);font-family:Oswald,sans-serif;font-weight:700;font-size:1.05rem">5th</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">Decent on-base</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);background:var(--surface2)">
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">Contact hitter</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-dim);font-family:Oswald,sans-serif;font-weight:700;font-size:1.05rem">6th</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">Still decent OBP</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">Decent hitter</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-dim);font-family:Oswald,sans-serif;font-weight:700;font-size:1.05rem">7th</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">2nd weakest hitter</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);background:var(--surface2)">
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">2nd weakest hitter</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-dim);font-family:Oswald,sans-serif;font-weight:700;font-size:1.05rem">8th</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">Weakest hitter</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">Weakest hitter</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-dim);font-family:Oswald,sans-serif;font-weight:700;font-size:1.05rem">9th</td>
+              <td style="padding:8px 16px;text-align:center;color:var(--text-muted)">Decent contact</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-12" style="font-size:0.92rem;color:var(--text-dim)">Classic managers put the best hitter 4th — the <em>cleanup hitter</em> who drives in the runners ahead. Modern analytics managers prefer 2nd: batting later means fewer plate appearances per game, so put your best bat where he sees the most action.</p>
+
+      <div class="divider"></div>
+
       <div class="section-label">Try It Out</div>
       <h2>Baseball Situation Simulator</h2>
-      <p class="mt-8">Step up to the plate. Press any play to see what happens on the field — and learn the rule behind it.</p>
+      <p class="mt-8">A full 9-inning game — press any play to advance the action. Watch the batting lineup cycle through and track exactly which player is on which base.</p>
       <div id="baseballSim" style="margin-top:20px"></div>
 
       <!-- Collapsible: how the simulator works -->
@@ -202,48 +372,102 @@ function initFieldModule() {
 
 
 function buildFieldSVG() {
-  // Home (300,450), foul poles (0,150) and (600,150) → exact 90° angle at home plate
-  // Diamond square: 1B(383,367), 2B(300,284), 3B(217,367)
+  // Home(300,470), foul poles (0,170)+(600,170). Exact 90° at home. Arc r=424.
+  // Bases: 1B(390,380), 2B(300,290), 3B(210,380). Pitcher(300,384).
+
+  // VERTICAL stripes (alternating, clipped to outfield shape)
+  const stripes = [];
+  for (let x = 0; x < 600; x += 26) {
+    stripes.push(`<rect x="${x}" y="0" width="13" height="480" fill="rgba(0,0,0,0.15)"/>`);
+  }
+
   return `
-  <svg viewBox="0 -30 600 510" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-    <!-- outfield grass -->
-    <path d="M300,450 L0,150 A345,345 0 0,1 600,150 Z" fill="#1a5c30"/>
-    <!-- infield dirt -->
-    <path d="M300,450 L217,367 L300,284 L383,367 Z" fill="#8B6914" opacity="0.75"/>
-    <!-- infield grass overlay (diamond cutout) -->
-    <path d="M300,440 L222,367 L300,294 L378,367 Z" fill="#1a5c30"/>
-    <!-- foul lines -->
-    <line x1="300" y1="450" x2="0"   y2="150" stroke="white" stroke-width="2" opacity="0.6"/>
-    <line x1="300" y1="450" x2="600" y2="150" stroke="white" stroke-width="2" opacity="0.6"/>
-    <!-- foul poles -->
-    <line x1="0"   y1="150" x2="0"   y2="120" stroke="#f0883e" stroke-width="4"/>
-    <line x1="600" y1="150" x2="600" y2="120" stroke="#f0883e" stroke-width="4"/>
-    <!-- base bags -->
-    <rect x="288" y="272" width="24" height="24" fill="white" rx="3" transform="rotate(45,300,284)"/>
-    <rect x="205" y="355" width="24" height="24" fill="white" rx="3" transform="rotate(45,217,367)"/>
-    <rect x="371" y="355" width="24" height="24" fill="white" rx="3" transform="rotate(45,383,367)"/>
-    <!-- home plate -->
-    <polygon points="300,466 288,454 288,440 312,440 312,454" fill="white"/>
-    <!-- pitcher's mound -->
-    <circle cx="300" cy="366" r="14" fill="#8B6914" stroke="white" stroke-width="1.2"/>
-    <!-- position markers -->
-    ${posMarker(300, 366, 'pitcher', '1', 'P')}
-    ${posMarker(300, 455, 'catcher', '2', 'C')}
-    ${posMarker(383, 360, 'first',   '3', '1B')}
-    ${posMarker(355, 310, 'second',  '4', '2B')}
-    ${posMarker(217, 360, 'third',   '5', '3B')}
-    ${posMarker(245, 310, 'short',   '6', 'SS')}
-    ${posMarker(120, 215, 'left',    '7', 'LF')}
-    ${posMarker(300, 168, 'center',  '8', 'CF')}
-    ${posMarker(480, 215, 'right',   '9', 'RF')}
+  <svg viewBox="0 0 600 510" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+    <defs>
+      <clipPath id="grassClip">
+        <path d="M300,470 L19,189 A398,398 0 0,1 581,189 Z"/>
+      </clipPath>
+    </defs>
+
+    <!-- Brown warning track (outer sector r=424) -->
+    <path d="M300,470 L0,170 A424,424 0 0,1 600,170 Z" fill="#b07438"/>
+
+    <!-- Outfield grass (inner sector r=398, ~26px inset) -->
+    <path d="M300,470 L19,189 A398,398 0 0,1 581,189 Z" fill="#2e8b2e"/>
+
+    <!-- Vertical outfield stripes -->
+    <g clip-path="url(#grassClip)">
+      ${stripes.join('')}
+    </g>
+
+    <!-- Infield dirt oval -->
+    <ellipse cx="300" cy="380" rx="140" ry="102" fill="#a87040"/>
+
+    <!-- Infield grass diamond (between the 4 bases) -->
+    <polygon points="300,290 390,380 300,470 210,380" fill="#2e8b2e" opacity="0.9"/>
+
+    <!-- Base path lines (SS side: 3B→2B and 2B→1B) -->
+    <line x1="210" y1="380" x2="300" y2="290" stroke="white" stroke-width="2.2"/>
+    <line x1="300" y1="290" x2="390" y2="380" stroke="white" stroke-width="2.2"/>
+
+    <!-- Foul lines (also home→3B and home→1B base paths) -->
+    <line x1="300" y1="470" x2="0"   y2="170" stroke="white" stroke-width="2.8"/>
+    <line x1="300" y1="470" x2="600" y2="170" stroke="white" stroke-width="2.8"/>
+
+    <!-- Foul line labels (rotated along lines, midpoints ~(150,320) and (450,320)) -->
+    <text transform="rotate(-45,148,322)" x="148" y="322" text-anchor="middle"
+      fill="rgba(255,255,255,0.78)" font-size="11" font-family="Oswald,sans-serif" font-weight="600" letter-spacing="1">FOUL LINE</text>
+    <text transform="rotate(45,452,322)" x="452" y="322" text-anchor="middle"
+      fill="rgba(255,255,255,0.78)" font-size="11" font-family="Oswald,sans-serif" font-weight="600" letter-spacing="1">FOUL LINE</text>
+
+    <!-- Foul poles (yellow) -->
+    <line x1="0"   y1="170" x2="0"   y2="132" stroke="#f5c518" stroke-width="5"/>
+    <line x1="600" y1="170" x2="600" y2="132" stroke="#f5c518" stroke-width="5"/>
+
+    <!-- Pitcher's mound -->
+    <circle cx="300" cy="384" r="18" fill="#a87040" stroke="rgba(255,255,255,0.4)" stroke-width="1.8"/>
+    <rect x="289" y="381" width="22" height="6" rx="2" fill="#7a5025"/>
+
+    <!-- Base bags -->
+    <rect x="289" y="279" width="22" height="22" fill="white" rx="2" transform="rotate(45,300,290)"/>
+    <rect x="379" y="369" width="22" height="22" fill="white" rx="2" transform="rotate(45,390,380)"/>
+    <rect x="199" y="369" width="22" height="22" fill="white" rx="2" transform="rotate(45,210,380)"/>
+
+    <!-- Home plate (pentagon) -->
+    <polygon points="300,484 286,471 286,457 314,457 314,471" fill="white"/>
+
+    <!-- Batter's boxes -->
+    <rect x="234" y="453" width="50" height="34" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+    <rect x="316" y="453" width="50" height="34" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+
+    <!-- BASE LABELS -->
+    <text x="300" y="262" text-anchor="middle"
+      fill="rgba(255,255,255,0.9)" font-size="11" font-family="Oswald,sans-serif" font-weight="700">2ND BASE</text>
+    <text x="428" y="378" text-anchor="start"
+      fill="rgba(255,255,255,0.9)" font-size="11" font-family="Oswald,sans-serif" font-weight="700">1ST BASE</text>
+    <text x="172" y="378" text-anchor="end"
+      fill="rgba(255,255,255,0.9)" font-size="11" font-family="Oswald,sans-serif" font-weight="700">3RD BASE</text>
+    <text x="300" y="504" text-anchor="middle"
+      fill="rgba(255,255,255,0.9)" font-size="11" font-family="Oswald,sans-serif" font-weight="700">HOME PLATE</text>
+
+    <!-- Position markers (r=22) -->
+    ${posMarker(300, 384, 'pitcher', '1', 'P')}
+    ${posMarker(300, 463, 'catcher', '2', 'C')}
+    ${posMarker(394, 372, 'first',   '3', '1B')}
+    ${posMarker(356, 322, 'second',  '4', '2B')}
+    ${posMarker(206, 372, 'third',   '5', '3B')}
+    ${posMarker(248, 322, 'short',   '6', 'SS')}
+    ${posMarker(108, 213, 'left',    '7', 'LF')}
+    ${posMarker(300, 158, 'center',  '8', 'CF')}
+    ${posMarker(492, 213, 'right',   '9', 'RF')}
   </svg>`;
 }
 
 function posMarker(x, y, key, num, label) {
   return `
   <g class="pos-marker" onclick="showPosition('${key}')" style="cursor:pointer">
-    <circle cx="${x}" cy="${y}" r="16" fill="#238636" stroke="#7ee787" stroke-width="1.5" opacity="0.9"/>
-    <text x="${x}" y="${y+5}" text-anchor="middle" fill="white" font-size="10" font-family="Oswald,sans-serif" font-weight="600">${label}</text>
+    <circle cx="${x}" cy="${y}" r="22" fill="#1a7f37" stroke="#7ee787" stroke-width="2.5" opacity="0.95"/>
+    <text x="${x}" y="${y+6}" text-anchor="middle" fill="white" font-size="13" font-family="Oswald,sans-serif" font-weight="700">${label}</text>
   </g>`;
 }
 
@@ -317,6 +541,34 @@ function buildTagOutSVG() {
     <text x="172" y="124" text-anchor="middle" fill="#6e7681" font-size="10">—</text>
     <text x="110" y="18" text-anchor="middle" fill="#f0883e" font-size="9" font-family="Oswald,sans-serif" font-weight="600">TAG REQUIRED</text>
     <text x="110" y="29" text-anchor="middle" fill="#f0883e" font-size="8" font-family="Oswald,sans-serif">runner not forced to move</text>
+  </svg>`;
+}
+
+function buildStrikeZoneSVG() {
+  return `
+  <svg viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:180px;display:block">
+    <!-- Batter silhouette -->
+    <circle cx="128" cy="46" r="16" fill="#334155"/>
+    <rect x="113" y="62" width="30" height="70" rx="5" fill="#334155"/>
+    <rect x="113" y="130" width="13" height="52" rx="4" fill="#334155"/>
+    <rect x="128" y="130" width="13" height="52" rx="4" fill="#334155"/>
+    <!-- Bat -->
+    <line x1="113" y1="96" x2="52" y2="108" stroke="#a87040" stroke-width="5" stroke-linecap="round"/>
+    <line x1="52" y1="108" x2="34" y2="111" stroke="#d4a462" stroke-width="3" stroke-linecap="round"/>
+    <!-- Strike zone rectangle (dashed green) -->
+    <rect x="28" y="76" width="58" height="88" fill="rgba(126,231,135,0.12)" stroke="#7ee787" stroke-width="2" stroke-dasharray="5,3" rx="2"/>
+    <!-- Top boundary: letters -->
+    <line x1="86" y1="76" x2="136" y2="76" stroke="#7ee787" stroke-width="1.2" opacity="0.75"/>
+    <text x="139" y="80" text-anchor="start" fill="#7ee787" font-size="10" font-family="Inter,sans-serif">Letters</text>
+    <!-- Bottom boundary: knees -->
+    <line x1="86" y1="164" x2="136" y2="164" stroke="#f0883e" stroke-width="1.2" opacity="0.75"/>
+    <text x="139" y="168" text-anchor="start" fill="#f0883e" font-size="10" font-family="Inter,sans-serif">Knees</text>
+    <!-- Strike zone label -->
+    <text x="57" y="116" text-anchor="middle" fill="#7ee787" font-size="10" font-family="Oswald,sans-serif" letter-spacing="1" opacity="0.85">STRIKE</text>
+    <text x="57" y="129" text-anchor="middle" fill="#7ee787" font-size="10" font-family="Oswald,sans-serif" letter-spacing="1" opacity="0.85">ZONE</text>
+    <!-- Home plate -->
+    <polygon points="57,228 37,212 37,197 77,197 77,212" fill="rgba(255,255,255,0.88)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+    <text x="57" y="248" text-anchor="middle" fill="#475569" font-size="9" font-family="Inter,sans-serif">17 inches wide</text>
   </svg>`;
 }
 
