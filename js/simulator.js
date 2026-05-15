@@ -562,13 +562,23 @@ const _plays = {
 };
 
 function checkInningEnd(state) {
+  // Walk-off: home takes the lead any time during bottom of 9th+, game ends immediately
+  if (state.halfInning === 'bottom' && state.inning >= 9 && state.score.home > state.score.away) {
+    const committed = state.inningScores.home.reduce((s, r) => s + r, 0);
+    const halfRuns = state.score.home - committed;
+    const newInningScores = { ...state.inningScores, home: [...state.inningScores.home, halfRuns] };
+    return { ...state, inningScores: newInningScores, gameOver: true };
+  }
+
   if (state.outs < 3) return state;
+
   const side = state.halfInning === 'top' ? 'away' : 'home';
   const committed = state.inningScores[side].reduce((s, r) => s + r, 0);
   const halfRuns = state.score[side] - committed;
   const newInningScores = { ...state.inningScores, [side]: [...state.inningScores[side], halfRuns] };
 
-  if (state.inning === 9 && state.halfInning === 'bottom' && state.score.home > state.score.away) {
+  // After top of 9th+: if home still leads, no need for bottom half — game over
+  if (state.halfInning === 'top' && state.inning >= 9 && state.score.home > state.score.away) {
     return { ...state, inningScores: newInningScores, gameOver: true };
   }
   if (state.halfInning === 'top') {
